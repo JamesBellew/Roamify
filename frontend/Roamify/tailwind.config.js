@@ -12,7 +12,7 @@ export default {
       'purple-main': '#8C54FB',
       'pink-main': '#CE4F51',
       'dark-grey': '#17171C',
-
+'grey': '#2b2b33',
       'grey-text': '#4D4A4F',
       'text-secondary': '#5B575E',
       'facebook': '#4267B2',
