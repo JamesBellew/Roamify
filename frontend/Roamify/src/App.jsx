@@ -12,7 +12,7 @@ function App() {
 
   return (
     <>
-     <main class="flex bg-background-main min-h-screen">
+     <main class="">
   <BrowserRouter>
       <Routes>
         <Route path="/" element={<HomePage />}>
