@@ -19,5 +19,7 @@ export default {
       'background-main': '#100F15',
     },
   },
-  plugins: [],
+  plugins: [
+    require('flowbite/plugin')
+]
 }
