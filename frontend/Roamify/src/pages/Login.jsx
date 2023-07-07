@@ -5,7 +5,7 @@ import {FaUserAlt} from "react-icons/fa"
 const Login = () => {
     return (
      <>
-        <div className="rounded-lg shadow-xl  p-20 bg-dark-grey  mx-auto text-text-secondary my-auto">
+        <div className="rounded-lg shadow-xl text-center  sm:p-20 p-5 bg-dark-grey  mx-auto text-text-secondary my-auto">
         <h1 className="text-3xl font-medium text-center text-white">Welcome to Roamify</h1>
    
 <div className="py-4">        <h3 className='text-center text-text-secondary'>Sign in with one of the below</h3>
