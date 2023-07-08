@@ -1,9 +1,12 @@
 /** @type {import('tailwindcss').Config} */
+
 export default {
+
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
+darkMode:'class',
   theme: {
     colors: {
       transparent: 'transparent',
@@ -12,14 +15,16 @@ export default {
       'purple-main': '#8C54FB',
       'pink-main': '#CE4F51',
       'dark-grey': '#17171C',
-'grey': '#2b2b33',
+      'grey': '#2b2b33',
       'grey-text': '#4D4A4F',
       'text-secondary': '#5B575E',
       'facebook': '#4267B2',
       'background-main': '#100F15',
     },
+
   },
   plugins: [
     require('flowbite/plugin')
-]
+],
+
 }

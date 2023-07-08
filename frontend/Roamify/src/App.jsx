@@ -6,16 +6,18 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SideBar from './pages/SideBar'
 import HomePage from './pages/HomePage'
+import Dashbaord from './pages/Dashboard';
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     <>
-     <main class="">
+     <main class="min-h-screen dark:bg-background-main">
   <BrowserRouter>
       <Routes>
-        <Route path="/" element={<HomePage />}>
+        <Route path="/" element={<HomePage />}/>
+        <Route path="/dashboard" element={<Dashbaord />}>
           <Route index element={<HomePage />} />
         </Route>
       </Routes>
