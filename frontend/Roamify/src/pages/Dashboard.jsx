@@ -1,11 +1,39 @@
-import React from 'react';
+import React, { useState } from 'react';
 import SideBar from './SideBar';
 import Login from './Login';
-
+import Cookies from 'js-cookie';
 import { auth } from '../utils/firebase';
 import {useAuthState} from 'react-firebase-hooks/auth';
+import { getFirestore, setDoc ,doc} from 'firebase/firestore'
+
+
 const Dashboard = () => {
         const [user,loading] = useAuthState(auth);
+        const firestore = getFirestore();
+        const [name, setName] = useState("");
+    // console.log(user.uid);
+        const testAddFireData = () =>{
+            event.preventDefault(); 
+            console.log('clicked');
+            console.log(name);
+            const userGroupTest = doc(firestore,'UserData/01');
+            const docData = {
+                        UserName: 'James Bellew',
+                        // UserAge: 25,
+                        Countries: {name},
+                    };
+                    setDoc(userGroupTest,docData);
+        }
+        // const specialOfTheDay = doc(firestore,'dailySpecial/2021-09-14');
+        // function writeDailySpecial(){
+        //     const docData = {
+        //         desciption: 'late',
+        //         price: 2,
+        //         milke: 'whole',
+        //     };
+        //     setDoc(specialOfTheDay,docData);
+        // }
+        // writeDailySpecial();
     return (
         <>
        
@@ -17,12 +45,12 @@ const Dashboard = () => {
                   
 <div class="p-10 sm:ml-64">
    <div class="p-4  min-h-[90vh] bg-white/5  dark:bg rounded-lg  mt-14">
-    {!user &&
+    {!user && Cookies.get('GuestLoginStatus')=='false'   &&
          <Login/> 
     }
     {user && 
     
-
+<>
 <ol class="relative border-l border-gray-200 dark:border-gray-700">                  
     <li class="mb-10 ml-6">            
         <span class="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -left-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
@@ -57,8 +85,43 @@ const Dashboard = () => {
         </div>
     </li>
 </ol>
+<br></br>
+        {/* // const specialOfTheDay = doc(firestore,'dailySpecial/2021-09-14');
+        // function writeDailySpecial(){ */}
+        {/* //     const docData = {
+        //         desciption: 'late',
+        //         price: 2,
+        //         milke: 'whole',
+        //     };
+        //     setDoc(specialOfTheDay,docData);
+        // }
+        // writeDailySpecial(); */}
+{/* <h1>Lets try soem DB action</h1> */}
+{/* <form action="" className='mx-auto text-center mb-5'>
+    <label htmlFor="">Enter Home Location</label>
+<input type="text" name="username"/>
+<br></br>
+<br></br>
 
+<button onClick={testAddFireData} className='bg-pink-main p-4 rounded mx-auto text-center flex'>Add Home</button>
+</form> */}
+
+<form>
+      <label>Enter your name: 
+        <input
+          type="text" 
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+      </label>
+      
+<button onClick={testAddFireData} className='bg-pink-main p-4 rounded mx-auto text-center flex'>Add Home</button>
+    </form>
+</>
+    }
+    {Cookies.get('GuestLoginStatus') =='true' &&
     
+    <h1>Logged in as a guest</h1>
     }
    </div>
 </div>

@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {FcGoogle} from "react-icons/fc";
 import {AiFillFacebook} from "react-icons/ai"
 import {FaUserAlt} from "react-icons/fa"
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { auth } from '../utils/firebase';
 import { useNavigate } from "react-router-dom";
+import { useCookies } from 'react-cookie';
+import Cookies from 'js-cookie';
 const Login = () => {
     const navigate = useNavigate();
     const GoogleProvider = new GoogleAuthProvider();
@@ -17,6 +19,19 @@ const Login = () => {
             // navigate("/dashboard");
 
         }
+    }
+    // const [guestStatus, setGuestStatus] = useState('not logged in');
+
+
+    if(Cookies.get('GuestLoginStatus') ==null){
+    Cookies.set('GuestLoginStatus', false);
+    }
+    //   console.log(Cookies.get('GuestLoginStatus')+'boiiii');
+    const GuestLoginHandler=()=>{
+        Cookies.set('GuestLoginStatus',true);
+        location.reload();
+        navigate("/dashboard");
+        console.log(Cookies.get('GuestLoginStatus'));
     }
     return (
      <>
@@ -36,7 +51,7 @@ const Login = () => {
 
 <hr className='m-10'/>
 {/* <h2 className="text-3xl font-medium mt-6 mx-auto text-center text-white">Continue as Guest</h2> */}
-<button  className="bg-pink-main text-white p-5 flex align-middle rounded-xl m-2 mt-4 gap-5 mx-auto"><FaUserAlt className='text-2xl'/> Continue as Guest</button>
+<button onClick={GuestLoginHandler}  className="bg-pink-main text-white p-5 flex align-middle rounded-xl m-2 mt-4 gap-5 mx-auto"><FaUserAlt className='text-2xl'/> Continue as Guest</button>
 </div>
      </>
     );
