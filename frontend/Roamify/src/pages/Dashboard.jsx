@@ -30,7 +30,23 @@ const Dashboard = () => {
           };
     
 
-
+function testDataWrite(userId, name, email, imageUrl,countries){
+    const db = getDatabase();
+    set(ref(db, 'users/' + userId), {
+        username: name,
+        email: email,
+        profile_picture : imageUrl,
+        countries:  {
+            0: "Ireland",
+            1: "England",
+            2: "Germany",
+            3: "Spain",
+            4: "France",
+            5: "Holland",
+            6: "Italy",
+          }
+      });
+}
 
 const app = initializeApp(firebaseConfig);
 
@@ -47,7 +63,7 @@ function writeUserData(userId,name,email,imageUrl){
 }
 // writeUserData("001","awu","mail@gmail.com","imageurl");
 const db = getDatabase();
-const reference = ref(db,'users/001');
+const reference = ref(db,'users/0123/countries');
 const rec = 
 onValue(reference,(snapshot)=>{
     const records = [];
@@ -154,9 +170,11 @@ onValue(reference,(snapshot)=>{
         />
       </label>
       
-<button onClick={testAddFireData} className='bg-pink-main p-4 rounded mx-auto text-center flex'>Add Home</button>
+
+
 
     </form>
+    <button onClick={()=> testDataWrite(user.uid,"James bellew","james@gmail.com","testURL")} className='bg-pink-main p-4 rounded mx-auto text-center flex'>Add Data</button>
 </>
     }
     {Cookies.get('GuestLoginStatus') =='true' &&
