@@ -1,39 +1,94 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import SideBar from './SideBar';
 import Login from './Login';
 import Cookies from 'js-cookie';
 import { auth } from '../utils/firebase';
+import { initializeApp } from 'firebase/app';
+// import { db } from '../utils/firebase';
+// import { collection } from "firebase/firestore"; 
 import {useAuthState} from 'react-firebase-hooks/auth';
-import { getFirestore, setDoc ,doc} from 'firebase/firestore'
+ import { getDatabase, onValue, ref, set } from "firebase/database";
+// import { getFirestore, setDoc ,doc, updateDoc, addDoc,getDoc, QuerySnapshot} from 'firebase/firestore'
 
 
 const Dashboard = () => {
         const [user,loading] = useAuthState(auth);
-        const firestore = getFirestore();
-        const [name, setName] = useState("");
-    // console.log(user.uid);
-        const testAddFireData = () =>{
+
+
+  const [tableData,setData]= useState([]);
+
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDKL_4B3j2OmIKPppgT0xrLjIQGv2Ru4Jo",
+            authDomain: "roamify-9731d.firebaseapp.com",
+            databaseURL: "https://roamify-9731d-default-rtdb.firebaseio.com",
+            projectId: "roamify-9731d",
+            storageBucket: "roamify-9731d.appspot.com",
+            messagingSenderId: "431369203090",
+            appId: "1:431369203090:web:d380c8bfb258a10640e54b",
+            measurementId: "G-TB8BJ8CGGS"
+          };
+    
+
+
+
+const app = initializeApp(firebaseConfig);
+
+function writeUserData(userId,name,email,imageUrl){
+    const db = getDatabase();
+    const reference = ref(db,'users/'+ userId);
+    set(reference,{
+        username:name,
+        email:email,
+        profile_picture: imageUrl
+    });
+    
+  
+}
+// writeUserData("001","awu","mail@gmail.com","imageurl");
+const db = getDatabase();
+const reference = ref(db,'users/001');
+const rec = 
+onValue(reference,(snapshot)=>{
+    const records = [];
+    snapshot.forEach(childrenSnapshot=>{
+        let keyName = childrenSnapshot.key;
+        let data = childrenSnapshot.val();
+        records.push({"key":keyName,"data":data});
+      
+    });
+
+     console.log(records);
+  })
+
+// writeUserData("002","awu","mail@gmail.com","imageurl");
+// writeUserData("003","awu","mail@gmail.com","imageurl");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+        const testAddFireData = (event) =>{
             event.preventDefault(); 
             console.log('clicked');
-            console.log(name);
-            const userGroupTest = doc(firestore,'UserData/01');
-            const docData = {
-                        UserName: 'James Bellew',
-                        // UserAge: 25,
-                        Countries: {name},
-                    };
-                    setDoc(userGroupTest,docData);
+            
+
         }
-        // const specialOfTheDay = doc(firestore,'dailySpecial/2021-09-14');
-        // function writeDailySpecial(){
-        //     const docData = {
-        //         desciption: 'late',
-        //         price: 2,
-        //         milke: 'whole',
-        //     };
-        //     setDoc(specialOfTheDay,docData);
-        // }
-        // writeDailySpecial();
+      
     return (
         <>
        
@@ -51,6 +106,9 @@ const Dashboard = () => {
     {user && 
     
 <>
+<div >
+    
+    </div>
 <ol class="relative border-l border-gray-200 dark:border-gray-700">                  
     <li class="mb-10 ml-6">            
         <span class="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -left-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
@@ -86,25 +144,6 @@ const Dashboard = () => {
     </li>
 </ol>
 <br></br>
-        {/* // const specialOfTheDay = doc(firestore,'dailySpecial/2021-09-14');
-        // function writeDailySpecial(){ */}
-        {/* //     const docData = {
-        //         desciption: 'late',
-        //         price: 2,
-        //         milke: 'whole',
-        //     };
-        //     setDoc(specialOfTheDay,docData);
-        // }
-        // writeDailySpecial(); */}
-{/* <h1>Lets try soem DB action</h1> */}
-{/* <form action="" className='mx-auto text-center mb-5'>
-    <label htmlFor="">Enter Home Location</label>
-<input type="text" name="username"/>
-<br></br>
-<br></br>
-
-<button onClick={testAddFireData} className='bg-pink-main p-4 rounded mx-auto text-center flex'>Add Home</button>
-</form> */}
 
 <form>
       <label>Enter your name: 
@@ -116,6 +155,7 @@ const Dashboard = () => {
       </label>
       
 <button onClick={testAddFireData} className='bg-pink-main p-4 rounded mx-auto text-center flex'>Add Home</button>
+
     </form>
 </>
     }
