@@ -1,190 +1,197 @@
-import React, { useEffect, useState } from 'react';
-import SideBar from './SideBar';
-import Login from './Login';
-import Cookies from 'js-cookie';
-import { auth } from '../utils/firebase';
-import { initializeApp } from 'firebase/app';
+import React, { useEffect, useState } from "react";
+import SideBar from "./SideBar";
+import Login from "./Login";
+import Cookies from "js-cookie";
+import { auth } from "../utils/firebase";
+import { initializeApp } from "firebase/app";
 // import { db } from '../utils/firebase';
-// import { collection } from "firebase/firestore"; 
-import {useAuthState} from 'react-firebase-hooks/auth';
- import { getDatabase, onValue, ref, set } from "firebase/database";
+// import { collection } from "firebase/firestore";
+import { useAuthState } from "react-firebase-hooks/auth";
+import {
+  getDatabase,
+  onValue,
+  ref,
+  set,
+  push,
+  update,
+} from "firebase/database";
+
 // import { getFirestore, setDoc ,doc, updateDoc, addDoc,getDoc, QuerySnapshot} from 'firebase/firestore'
 
-
 const Dashboard = () => {
-        const [user,loading] = useAuthState(auth);
+  const [user, loading] = useAuthState(auth);
 
+  const [tableData, setData] = useState([]);
 
-  const [tableData,setData]= useState([]);
+  const firebaseConfig = {
+    apiKey: "AIzaSyDKL_4B3j2OmIKPppgT0xrLjIQGv2Ru4Jo",
+    authDomain: "roamify-9731d.firebaseapp.com",
+    databaseURL: "https://roamify-9731d-default-rtdb.firebaseio.com",
+    projectId: "roamify-9731d",
+    storageBucket: "roamify-9731d.appspot.com",
+    messagingSenderId: "431369203090",
+    appId: "1:431369203090:web:d380c8bfb258a10640e54b",
+    measurementId: "G-TB8BJ8CGGS",
+  };
 
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyDKL_4B3j2OmIKPppgT0xrLjIQGv2Ru4Jo",
-            authDomain: "roamify-9731d.firebaseapp.com",
-            databaseURL: "https://roamify-9731d-default-rtdb.firebaseio.com",
-            projectId: "roamify-9731d",
-            storageBucket: "roamify-9731d.appspot.com",
-            messagingSenderId: "431369203090",
-            appId: "1:431369203090:web:d380c8bfb258a10640e54b",
-            measurementId: "G-TB8BJ8CGGS"
-          };
-    
-
-function testDataWrite(userId, name, email, imageUrl,countries){
+  // This function is called on the button clicked, all information will be supplied byt he google auth object besides the countries array
+  function testDataWrite(userId, name, email, imageUrl, countries) {
     const db = getDatabase();
-    set(ref(db, 'users/' + userId), {
-        username: name,
-        email: email,
-        profile_picture : imageUrl,
-        countries:  {
-            0: "Ireland",
-            1: "England",
-            2: "Germany",
-            3: "Spain",
-            4: "France",
-            5: "Holland",
-            6: "Italy",
-          }
+
+    if (countryArray.length === 0) {
+      alert("you need to select a country");
+    } else {
+      const countriesRef = ref(db, "users/" + userId + "/countries");
+      countryArray.forEach((country) => {
+        push(countriesRef, country);
       });
-}
+      // the below commented out is not needed Headers, but will be needed in the signup part to store userts info
+      // update(ref(db, "users/" + userId), {
+      //   username: name,
+      //   email: email,
+      //   profile_picture: imageUrl,
+      // });
+    }
+  }
 
-const app = initializeApp(firebaseConfig);
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase();
+  const reference = ref(db, "users/0123/countries");
 
-function writeUserData(userId,name,email,imageUrl){
-    const db = getDatabase();
-    const reference = ref(db,'users/'+ userId);
-    set(reference,{
-        username:name,
-        email:email,
-        profile_picture: imageUrl
-    });
-    
-  
-}
-// writeUserData("001","awu","mail@gmail.com","imageurl");
-const db = getDatabase();
-const reference = ref(db,'users/0123/countries');
-const rec = 
-onValue(reference,(snapshot)=>{
+  onValue(reference, (snapshot) => {
     const records = [];
-    snapshot.forEach(childrenSnapshot=>{
-        let keyName = childrenSnapshot.key;
-        let data = childrenSnapshot.val();
-        records.push({"key":keyName,"data":data});
-      
+    snapshot.forEach((childrenSnapshot) => {
+      let keyName = childrenSnapshot.key;
+      let data = childrenSnapshot.val();
+      records.push({ key: keyName, data: data });
     });
+    // here is where we need to clear the temp array as the items were pushed to rtdb
+  });
+  // the below array and function is for when the user clicks on a checkbox of a country it will be added to a temp array(useState array countryArray) awaiting for the user to click on the save button and then this will be added to the firabse databse
+  const [countryArray, updateCountryArray] = useState([]);
+  function handleOnChange(name) {
+    updateCountryArray((countryArray) => [...countryArray, name]);
+    // the below code asks the user is they want to reload the page as their changes wont be saved unless they click on the submit button
+    window.addEventListener("beforeunload", function (e) {
+      var confirmationMessage =
+        "It looks like you have been editing something. " +
+        "If you leave before saving, your changes will be lost.";
 
-     console.log(records);
-  })
+      (e || window.event).returnValue = confirmationMessage; //Gecko + IE
+      return confirmationMessage; //Gecko + Webkit, Safari, Chrome etc.
+    });
+  }
+  console.log(countryArray);
+  //  This is the return JSX for this file
+  return (
+    <>
+      <SideBar />
 
-// writeUserData("002","awu","mail@gmail.com","imageurl");
-// writeUserData("003","awu","mail@gmail.com","imageurl");
+      <div class="p-10 sm:ml-64">
+        <div class="p-4  min-h-[90vh] bg-white/5  dark:bg rounded-lg  mt-14">
+          {!user && Cookies.get("GuestLoginStatus") == "false" && <Login />}
+          {user && (
+            <>
+              <div class="grid sm:grid-cols-2  xl:grid-cols-4  gap-4">
+                <div className="bg-background-main/10 rounded p-5 min-h-[20vh]">
+                  <h3 class="mb-4 font-semibold text-gray-900 dark:text-white">
+                    Europe
+                  </h3>
+                  <ul class="w-full mx-auto text-sm font-medium text-gray-900 bg-white   rounded-lg dark:bg-background-main/20   dark:text-white">
+                    <li class="w-full  border-gray-200 rounded-t-lg dark:border-gray-600">
+                      <div class="flex items-center pl-3">
+                        <input
+                          type="checkbox"
+                          onChange={() => handleOnChange("Finland")}
+                          class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                        />
+                        <label
+                          for="vue-checkbox"
+                          class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                          Finland
+                        </label>
+                      </div>
+                    </li>
+                    <li class="w-full  border-gray-200 rounded-t-lg dark:border-gray-600">
+                      <div class="flex items-center pl-3">
+                        <input
+                          id="react-checkbox"
+                          type="checkbox"
+                          value=""
+                          onChange={() => handleOnChange("Austria")}
+                          class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                        />
+                        <label
+                          for="react-checkbox"
+                          class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                          Austria
+                        </label>
+                      </div>
+                    </li>
+                    <li class="w-full  border-gray-200 rounded-t-lg dark:border-gray-600">
+                      <div class="flex items-center pl-3">
+                        <input
+                          id="angular-checkbox"
+                          type="checkbox"
+                          value=""
+                          class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                        />
+                        <label
+                          for="angular-checkbox"
+                          class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                          Croatia
+                        </label>
+                      </div>
+                    </li>
+                    <li class="w-full  border-gray-200 rounded-t-lg dark:border-gray-600">
+                      <div class="flex items-center pl-3">
+                        <input
+                          id="laravel-checkbox"
+                          type="checkbox"
+                          value=""
+                          class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                        />
+                        <label
+                          for="laravel-checkbox"
+                          class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                          Slovenia
+                        </label>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+                <div className="bg-background-main/10 rounded p-3 min-h-[20vh]">
+                  <h1 className="text-white text-lg">Europe</h1>
+                </div>
+                <div className="bg-background-main/10 rounded p-3 min-h-[20vh]">
+                  <h1 className="text-white text-lg">Europe</h1>
+                </div>
+                <div className="bg-background-main/10 rounded p-3 min-h-[20vh]">
+                  <h1 className="text-white text-lg">Europe</h1>
+                </div>
+              </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-        const testAddFireData = (event) =>{
-            event.preventDefault(); 
-            console.log('clicked');
-            
-
-        }
-      
-    return (
-        <>
-       
-    
-
-
-      
-           <SideBar/>
-                  
-<div class="p-10 sm:ml-64">
-   <div class="p-4  min-h-[90vh] bg-white/5  dark:bg rounded-lg  mt-14">
-    {!user && Cookies.get('GuestLoginStatus')=='false'   &&
-         <Login/> 
-    }
-    {user && 
-    
-<>
-<div >
-    
-    </div>
-<ol class="relative border-l border-gray-200 dark:border-gray-700">                  
-    <li class="mb-10 ml-6">            
-        <span class="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -left-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
-            <img class="rounded-full shadow-lg" 
-            src={user.photoURL}
-            alt="Bonnie image"/>
-        </span>
-        <div class="items-center justify-between p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:flex dark:bg-gray-700 dark:border-gray-600">
-            <time class="mb-1 text-xs font-normal text-gray-400 sm:order-last sm:mb-0">just now</time>
-            <div class="text-sm font-normal text-gray-500 dark:text-gray-300">Bonnie moved <a href="#" class="font-semibold text-blue-600 dark:text-blue-500 hover:underline">Jese Leos</a> to <span class="bg-gray-100 text-gray-800 text-xs font-normal mr-2 px-2.5 py-0.5 rounded dark:bg-gray-600 dark:text-gray-300">Funny Group</span></div>
+              <button
+                onClick={() =>
+                  testDataWrite(
+                    user.uid,
+                    user.displayName,
+                    user.email,
+                    user.photoURL
+                  )
+                }
+                className="bg-pink-main p-4 rounded mx-auto text-center flex">
+                Add Data
+              </button>
+            </>
+          )}
+          {Cookies.get("GuestLoginStatus") == "true" && (
+            <h1>Logged in as a guest</h1>
+          )}
         </div>
-    </li>
-    <li class="mb-10 ml-6">
-        <span class="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -left-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
-            <img class="rounded-full shadow-lg" src={user.photoURL} alt="Thomas Lean image"/>
-        </span>
-        <div class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-700 dark:border-gray-600">
-            <div class="items-center justify-between mb-3 sm:flex">
-                <time class="mb-1 text-xs font-normal text-gray-400 sm:order-last sm:mb-0">2 hours ago</time>
-                <div class="text-sm font-normal text-gray-500 lex dark:text-gray-300">Thomas Lean commented on  <a href="#" class="font-semibold text-gray-900 dark:text-white hover:underline">Flowbite Pro</a></div>
-            </div>
-            <div class="p-3 text-xs italic font-normal text-gray-500 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-600 dark:border-gray-500 dark:text-gray-300">Hi ya'll! I wanted to share a webinar zeroheight is having regarding how to best measure your design system! This is the second session of our new webinar series on #DesignSystems discussions where we'll be speaking about Measurement.</div>
-        </div>
-    </li>
-    <li class="ml-6">
-        <span class="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -left-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
-            <img class="rounded-full shadow-lg"  src={user.photoURL} alt="Jese Leos image"/>
-        </span>
-        <div class="items-center justify-between p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:flex dark:bg-gray-700 dark:border-gray-600">
-            <time class="mb-1 text-xs font-normal text-gray-400 sm:order-last sm:mb-0">1 day ago</time>
-            <div class="text-sm font-normal text-gray-500 lex dark:text-gray-300">Jese Leos has changed <a href="#" class="font-semibold text-blue-600 dark:text-blue-500 hover:underline">Pricing page</a> task status to  <span class="font-semibold text-gray-900 dark:text-white">Finished</span></div>
-        </div>
-    </li>
-</ol>
-<br></br>
-
-<form>
-      <label>Enter your name: 
-        <input
-          type="text" 
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-      </label>
-      
-
-
-
-    </form>
-    <button onClick={()=> testDataWrite(user.uid,"James bellew","james@gmail.com","testURL")} className='bg-pink-main p-4 rounded mx-auto text-center flex'>Add Data</button>
-</>
-    }
-    {Cookies.get('GuestLoginStatus') =='true' &&
-    
-    <h1>Logged in as a guest</h1>
-    }
-   </div>
-</div>
-        </>
-    );
+      </div>
+    </>
+  );
 };
 
 export default Dashboard;
