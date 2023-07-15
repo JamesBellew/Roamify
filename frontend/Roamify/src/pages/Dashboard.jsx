@@ -7,10 +7,12 @@ import { initializeApp } from "firebase/app";
 // import { db } from '../utils/firebase';
 // import { collection } from "firebase/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
+import countries from "../utils/countries.json";
 import {
   getDatabase,
   onValue,
   ref,
+  get,
   set,
   push,
   update,
@@ -36,9 +38,11 @@ const Dashboard = () => {
   const app = initializeApp(firebaseConfig);
   const db = getDatabase();
   const reference = ref(db, "users/0123/countries");
-  const userId = user.uid;
+  const userId = "s2fzRx7aPuWaQpWJqncb006Ilw02";
   const countrriesRef = ref(db, "users/" + userId + "/countries");
+
   // const [tableData, setData] = useState([]);
+  console.log("hello below ya cunt ya ");
 
   // this is just an exmaple array used for the FaList, idealy we would want this coming froma  json file but this will do as a proof of consept
   const [countryList, updateCountryList] = useState([
@@ -52,19 +56,44 @@ const Dashboard = () => {
     "England",
     "Holland",
     "France",
-    "Italy",
-    "Croatia",
   ]);
+  {
+    // countries.countries.map((item, i) => countryList.push(item.name));
+  }
   function remove(arr, what) {
     var found = arr.indexOf(what);
-    console.log(arr);
-    console.log(what);
-    console.log("called");
+    // console.log(arr);
+    // console.log(what);
+    // console.log("called");
     while (found !== -1) {
       arr.splice(found, 1);
       found = arr.indexOf(what);
     }
   }
+
+  // this funcrtion is called when the user wants to remove A country from their gvisted countries array
+
+  const removeFromCountryArrayHandler = (countryName) => {
+    const countriesRef = ref(db, "users/" + userId + "/countries");
+    for (let i = 0; i < countriesArray.length; i++) {
+      if (countriesArray[i] === countryName) {
+        remove(countriesArray, countriesArray[i]);
+        set(countriesRef, countriesArray)
+          .then(() => {
+            // console.log("Countries updated successfully in  the database.");
+            // console.log(countryName, "should be removed");
+            // console.log(countryList);
+            window.location.reload(false);
+          })
+          .catch((error) => {
+            console.error("Error updating countries in the database:", error);
+          });
+      }
+      // console.log(countriesArray[i]);
+      // // countryList.filter((v) => v !== countriesArray[i]);
+      // remove(countryList, countriesArray[i]);
+    }
+  };
   // now we want to check has the user been to any of the example array countries
   onValue(countrriesRef, (snapshot) => {
     // Iterate over each child snapshot within the "countries" list
@@ -74,9 +103,9 @@ const Dashboard = () => {
       countriesArray.push(countryData);
     });
   });
-  console.log("User Database countries", countriesArray);
+  // console.log("User Database countries", countriesArray);
   for (let i = 0; i < countriesArray.length; i++) {
-    console.log(countriesArray[i]);
+    // console.log(countriesArray[i]);
     // countryList.filter((v) => v !== countriesArray[i]);
     remove(countryList, countriesArray[i]);
   }
@@ -122,14 +151,14 @@ const Dashboard = () => {
 
     // the below code asks the user is they want to reload the page as their changes wont be saved unless they click on the submit button
 
-    window.addEventListener("beforeunload", function (e) {
-      var confirmationMessage =
-        "It looks like you have been editing something. " +
-        "If you leave before saving, your changes will be lost.";
+    // window.addEventListener("beforeunload", function (e) {
+    //   var confirmationMessage =
+    //     "It looks like you have been editing something. " +
+    //     "If you leave before saving, your changes will be lost.";
 
-      (e || window.event).returnValue = confirmationMessage; //Gecko + IE
-      return confirmationMessage; //Gecko + Webkit, Safari, Chrome etc.
-    });
+    //   (e || window.event).returnValue = confirmationMessage; //Gecko + IE
+    //   return confirmationMessage; //Gecko + Webkit, Safari, Chrome etc.
+    // });
   }
 
   useEffect(() => {
@@ -164,7 +193,7 @@ const Dashboard = () => {
           {user && (
             <>
               <div class="grid sm:grid-cols-2  xl:grid-cols-4  gap-4">
-                <div className="bg-background-main/10 rounded p-5 min-h-[40vh]">
+                <div className="bg-background-main/10 rounded p-5 h-[40vh] overflow-auto">
                   <h3 class="mb-4 font-semibold text-gray-900 dark:text-white">
                     Europe
                   </h3>
@@ -250,7 +279,7 @@ const Dashboard = () => {
                     </li>
                   </ul> */}
                 </div>
-                <div className="bg-background-main/20 shadow rounded p-3 min-h-[20vh]">
+                <div className="bg-background-main/10 shadow rounded p-3 min-h-[20vh]">
                   <h1 className="text-white text-lg">Asia</h1>
                   <div></div>
                 </div>
@@ -276,7 +305,7 @@ const Dashboard = () => {
                 </button>
               )}
               <div class="grid sm:grid-cols-1 over  xl:grid-cols-2 mt-5 gap-4">
-                <div className="bg-background-main/10 overflow-auto rounded p-3 h-[20vh]">
+                <div className="bg-background-main/10 overflow-auto rounded p-3 h-[50vh]">
                   <h1 className="text-white text-lg mb-5">Visited Countries</h1>
 
                   <div class="relative overflow-x-auto">
@@ -311,7 +340,7 @@ const Dashboard = () => {
                                 <input
                                   type="checkbox"
                                   onChange={() =>
-                                    remove(countriesArray, data[key])
+                                    removeFromCountryArrayHandler(data[key])
                                   }
                                   class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                                 />
