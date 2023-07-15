@@ -121,6 +121,7 @@ const Dashboard = () => {
       countryArray.forEach((country) => {
         push(countriesRef, country);
         updateShowBtn(false);
+        updateCountryArray([]);
       });
       // the below is neede to remove the selected from the temp rray since it way added to the visited array
 
@@ -182,6 +183,7 @@ const Dashboard = () => {
     };
   }, []);
 
+  // this function is called when the user adds rthe countries to the visited array and this functions unchecks all the
   //  This is the return JSX for this file
   return (
     <>
