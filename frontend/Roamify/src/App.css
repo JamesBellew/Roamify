@@ -51,7 +51,7 @@ li.active{
 li.active span{
 color:#8C54FB;
 }
-li.active::after{
+/* li.active::after{
   content: '';
   background: #8C54FB;
   height: 100%;
@@ -60,4 +60,19 @@ li.active::after{
   left: 0;
   top: 0;
 
+} */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #8c54fb80;
+  border-radius: 10px;
 }

@@ -38,11 +38,11 @@ const Dashboard = () => {
   const app = initializeApp(firebaseConfig);
   const db = getDatabase();
   const reference = ref(db, "users/0123/countries");
+  // this will need to be changerd to getb the usert that is logged in, this caused a bug, so entering it in manually for the moment
   const userId = "s2fzRx7aPuWaQpWJqncb006Ilw02";
   const countrriesRef = ref(db, "users/" + userId + "/countries");
 
   // const [tableData, setData] = useState([]);
-  console.log("hello below ya cunt ya ");
 
   // this is just an exmaple array used for the FaList, idealy we would want this coming froma  json file but this will do as a proof of consept
   const [countryList, updateCountryList] = useState([
@@ -56,6 +56,44 @@ const Dashboard = () => {
     "England",
     "Holland",
     "France",
+    "Austria",
+    "Belgium",
+    "Bulgaria",
+    "Croatia",
+    "Cyprus",
+    "Czech Republic",
+    "Denmark",
+    "Estonia",
+    "Finland",
+    "France",
+    "Germany",
+    "Greece",
+    "Hungary",
+    "Ireland",
+    "Italy",
+    "Latvia",
+    "Lithuania",
+    "Luxembourg",
+    "Malta",
+    "Netherlands",
+    "Poland",
+    "Portugal",
+    "Romania",
+    "Slovakia",
+    "Slovenia",
+    "Spain",
+    "Sweden",
+    "Åland Islands",
+    "the Azores",
+    "Canary Islands",
+    "French Guiana",
+    "Gibraltar",
+    "Guadeloupe",
+    "Madeira",
+    "Martinique",
+    "Mayotte",
+    "Réunion",
+    "Saint Martin",
   ]);
   {
     // countries.countries.map((item, i) => countryList.push(item.name));
@@ -72,18 +110,15 @@ const Dashboard = () => {
   }
 
   // this funcrtion is called when the user wants to remove A country from their gvisted countries array
-
   const removeFromCountryArrayHandler = (countryName) => {
     const countriesRef = ref(db, "users/" + userId + "/countries");
     for (let i = 0; i < countriesArray.length; i++) {
       if (countriesArray[i] === countryName) {
         remove(countriesArray, countriesArray[i]);
-        set(countriesRef, countriesArray)
+        set(countriesRef, countriesArray);
+        removeVisitedcountries()
           .then(() => {
-            // console.log("Countries updated successfully in  the database.");
-            // console.log(countryName, "should be removed");
-            // console.log(countryList);
-            window.location.reload(false);
+            // window.location.reload(false);
           })
           .catch((error) => {
             console.error("Error updating countries in the database:", error);
@@ -103,12 +138,16 @@ const Dashboard = () => {
       countriesArray.push(countryData);
     });
   });
-  // console.log("User Database countries", countriesArray);
-  for (let i = 0; i < countriesArray.length; i++) {
-    // console.log(countriesArray[i]);
-    // countryList.filter((v) => v !== countriesArray[i]);
-    remove(countryList, countriesArray[i]);
-  }
+
+  const removeVisitedcountries = () => {
+    // console.log("User Database countries", countriesArray);
+    for (let i = 0; i < countriesArray.length; i++) {
+      // console.log(countriesArray[i]);
+      // countryList.filter((v) => v !== countriesArray[i]);
+      remove(countryList, countriesArray[i]);
+    }
+  };
+  removeVisitedcountries();
 
   // This function is called on the button clicked, all information will be supplied byt he google auth object besides the countries array
   function testDataWrite(userId, name, email, imageUrl, countries) {
@@ -122,6 +161,7 @@ const Dashboard = () => {
         push(countriesRef, country);
         updateShowBtn(false);
         updateCountryArray([]);
+        removeCheckboxes();
       });
       // the below is neede to remove the selected from the temp rray since it way added to the visited array
 
@@ -143,6 +183,11 @@ const Dashboard = () => {
     });
     // here is where we need to clear the temp array as the items were pushed to rtdb
   });
+  // this usestate is used to track the statistics of europe visited
+  const [europeProgress, updateEuropeProgress] = useState(
+    countriesArray.length
+  );
+  console.log(europeProgress);
   // the below array and function is for when the user clicks on a checkbox of a country it will be added to a temp array(useState array countryArray) awaiting for the user to click on the save button and then this will be added to the firabse databse
   const [countryArray, updateCountryArray] = useState([]);
 
@@ -183,35 +228,60 @@ const Dashboard = () => {
     };
   }, []);
 
+  const removeCheckboxes = () => {
+    const clist = document.getElementsByClassName("inputCountry");
+    for (let i = 0; i < clist.length; ++i) {
+      clist[i].checked = false;
+    }
+  };
+
   // this function is called when the user adds rthe countries to the visited array and this functions unchecks all the
+
+  // this is where I will gather the percentages of europe visited
+
   //  This is the return JSX for this file
   return (
     <>
       <SideBar />
 
-      <div class="p-10 sm:ml-64">
+      <div class="p-5 sm:ml-64">
         <div class="p-4  min-h-[90vh] bg-white/5  dark:bg rounded-lg  mt-14">
           {!user && Cookies.get("GuestLoginStatus") == "false" && <Login />}
           {user && (
             <>
-              <div class="grid sm:grid-cols-2  xl:grid-cols-4  gap-4">
-                <div className="bg-background-main/10 rounded p-5 h-[40vh] overflow-auto">
-                  <h3 class="mb-4 font-semibold text-gray-900 dark:text-white">
-                    Europe
+              <div class="grid sm:grid-cols-3  xl:grid-cols-7  gap-4">
+                <div className="bg-background-main/50 rounded p-1 h-[56vh] overflow-auto">
+                  <h3 class="mb-1  font-semibold bg-grey-text/20 p-1 rounded text-gray-900  dark:text-white">
+                    Europe{" "}
+                    {countryBtnShow && (
+                      <button
+                        onClick={() =>
+                          testDataWrite(
+                            user.uid,
+                            user.displayName,
+                            user.email,
+                            user.photoURL
+                          )
+                        }
+                        className="bg-purple-main ml-2 p-1 rounded mx-auto text-center">
+                        Add Visited Countries
+                      </button>
+                    )}
                   </h3>
-                  <ul class="w-full mx-auto text-sm font-medium text-gray-900 bg-white   rounded-lg dark:bg-background-main/10 shadow-sm   dark:text-white">
+
+                  <ul class="w-full mt-10 mx-auto text-sm font-medium text-gray-900 bg-white   rounded-lg dark:bg-background-main/10 shadow-sm   dark:text-white">
                     {countryList.map((country) => (
                       // <li key={country.id}>{country}</li>
-                      <li class="w-full  border-gray-200 rounded-t-lg dark:border-gray-600">
+                      <li class="w-[50%] inline-block border-gray-200 rounded-t-lg dark:border-gray-600">
                         <div class="flex items-center pl-3">
                           <input
                             type="checkbox"
                             onChange={() => handleOnChange(country)}
-                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                            class="test inputCountry w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                           />
                           <label
                             for="vue-checkbox"
-                            class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                            class="w-full py-1 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                             {country}
                           </label>
                         </div>
@@ -286,28 +356,24 @@ const Dashboard = () => {
                   <div></div>
                 </div>
                 <div className="bg-background-main/10 rounded p-3 min-h-[20vh]">
+                  <h1 className="text-white text-lg">South America</h1>
+                </div>
+                <div className="bg-background-main/10 rounded p-3 min-h-[20vh]">
+                  <h1 className="text-white text-lg">Antarctica</h1>
+                </div>
+                <div className="bg-background-main/10 rounded p-3 min-h-[20vh]">
+                  <h1 className="text-white text-lg">Australia</h1>
+                </div>
+                <div className="bg-background-main/10 rounded p-3 min-h-[20vh]">
                   <h1 className="text-white text-lg">North America</h1>
                 </div>
                 <div className="bg-background-main/10 rounded p-3 min-h-[20vh]">
                   <h1 className="text-white text-lg">Africa</h1>
                 </div>
               </div>
-              {countryBtnShow && (
-                <button
-                  onClick={() =>
-                    testDataWrite(
-                      user.uid,
-                      user.displayName,
-                      user.email,
-                      user.photoURL
-                    )
-                  }
-                  className="bg-purple-main p-4 rounded mx-auto text-center flex my-10">
-                  Add Data
-                </button>
-              )}
-              <div class="grid sm:grid-cols-1 over  xl:grid-cols-2 mt-5 gap-4">
-                <div className="bg-background-main/10 overflow-auto rounded p-3 h-[50vh]">
+
+              <div class="grid sm:grid-cols-2 over  xl:grid-cols-3 mt-5 gap-4">
+                <div className="bg-background-main/10 overflow-auto rounded p-3 h-[40vh]">
                   <h1 className="text-white text-lg mb-5">Visited Countries</h1>
 
                   <div class="relative overflow-x-auto">
@@ -353,9 +419,28 @@ const Dashboard = () => {
                     </table>
                   </div>
                 </div>
+
                 <div className="bg-background-main/10 rounded p-3 min-h-[20vh]">
                   <h1 className="text-white text-lg">Statistics</h1>
-                  <div></div>
+
+                  <div class="flex justify-between mb-1 my-3">
+                    <span class="text-base font-medium text-blue-700 dark:text-white">
+                      Europe
+                    </span>
+                    <span class="text-sm font-medium text-blue-700 dark:text-white">
+                      {(europeProgress / 10) * 100 + "%"}
+                    </span>
+                  </div>
+                  <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+                    <div
+                      class="bg-purple-main h-2.5 rounded-full"
+                      style={{
+                        width: (europeProgress / 10) * 100 + "%",
+                      }}></div>
+                  </div>
+                </div>
+                <div className="bg-background-main/10 rounded p-3 min-h-[20vh]">
+                  <h1 className="text-white text-lg">Awards</h1>
                 </div>
               </div>
             </>
