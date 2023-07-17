@@ -44,6 +44,38 @@ const Dashboard = () => {
 
   // const [tableData, setData] = useState([]);
 
+// this is for testing of the new array strcuture for sprint 3 
+const [newCountryArray,updateNewCountryArray] = useState([
+    {
+        "countryName":"Irelandmmm",
+        "countryRegion": "Europe"
+},
+{
+    "countryName":"France",
+    "countryRegion": "Europe"
+},
+{
+    "countryName":"Spain",
+    "countryRegion": "Europe"
+}
+])
+
+var removeByAttr = function(arr, attr, value){
+    var i = arr.length;
+    while(i--){
+       if( arr[i] 
+           && arr[i].hasOwnProperty(attr) 
+           && (arguments.length > 2 && arr[i][attr] === value ) ){ 
+
+           arr.splice(i,1);
+
+       }
+    }
+    return arr;
+}
+
+console.log(newCountryArray)
+
   // this is just an exmaple array used for the FaList, idealy we would want this coming froma  json file but this will do as a proof of consept
   const [countryList, updateCountryList] = useState([
     "Finland",
@@ -144,7 +176,8 @@ const Dashboard = () => {
     for (let i = 0; i < countriesArray.length; i++) {
       // console.log(countriesArray[i]);
       // countryList.filter((v) => v !== countriesArray[i]);
-      remove(countryList, countriesArray[i]);
+    //   remove(newCountryArray, countriesArray[i]);
+      removeByAttr(newCountryArray, 'countryName', countriesArray[i]);   
     }
   };
   removeVisitedcountries();
@@ -249,10 +282,10 @@ const Dashboard = () => {
           {!user && Cookies.get("GuestLoginStatus") == "false" && <Login />}
           {user && (
             <>
-              <div class="grid sm:grid-cols-3  xl:grid-cols-7  gap-4">
-                <div className="bg-background-main/50 rounded p-1 h-[56vh] overflow-auto">
-                  <h3 class="mb-1  font-semibold bg-grey-text/20 p-1 rounded text-gray-900  dark:text-white">
-                    Europe{" "}
+              <div class="grid grid-cols-1  gap-4">
+                <div className="bg-background-main/50 rounded p-1 sm:h-auto px-5 py-10  overflow-auto">
+                  <h3 class="mb-1 w-[20%] text-center font-semibold bg-purple-main/20 p-1 rounded text-gray-900  dark:text-white">
+                    Europe
                     {countryBtnShow && (
                       <button
                         onClick={() =>
@@ -270,9 +303,9 @@ const Dashboard = () => {
                   </h3>
 
                   <ul class="w-full mt-10 mx-auto text-sm font-medium text-gray-900 bg-white   rounded-lg dark:bg-background-main/10 shadow-sm   dark:text-white">
-                    {countryList.map((country) => (
+                    {/* {countryList.map((country) => (
                       // <li key={country.id}>{country}</li>
-                      <li class="w-[50%] inline-block border-gray-200 rounded-t-lg dark:border-gray-600">
+                      <li class="lg:w-[10%] md:w-[30%] sm:w-[50%] xs:w-[100%] inline-block border-gray-200 rounded-t-lg dark:border-gray-600">
                         <div class="flex items-center pl-3">
                           <input
                             type="checkbox"
@@ -283,6 +316,23 @@ const Dashboard = () => {
                             for="vue-checkbox"
                             class="w-full py-1 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                             {country}
+                          </label>
+                        </div>
+                      </li>
+                    ))} */}
+          {newCountryArray.map((country) => (
+                      // <li key={country.id}>{country}</li>
+                      <li class="lg:w-[10%] md:w-[30%] sm:w-[50%] xs:w-[100%] inline-block border-gray-200 rounded-t-lg dark:border-gray-600">
+                        <div class="flex items-center pl-3">
+                          <input
+                            type="checkbox"
+                            onChange={() => handleOnChange(country.countryName)}
+                            class="test inputCountry w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                          />
+                          <label
+                            for="vue-checkbox"
+                            class="w-full py-1 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                            {country.countryName}
                           </label>
                         </div>
                       </li>
@@ -351,7 +401,7 @@ const Dashboard = () => {
                     </li>
                   </ul> */}
                 </div>
-                <div className="bg-background-main/10 shadow rounded p-3 min-h-[20vh]">
+                {/* <div className="bg-background-main/10 shadow rounded p-3 min-h-[20vh]">
                   <h1 className="text-white text-lg">Asia</h1>
                   <div></div>
                 </div>
@@ -369,7 +419,7 @@ const Dashboard = () => {
                 </div>
                 <div className="bg-background-main/10 rounded p-3 min-h-[20vh]">
                   <h1 className="text-white text-lg">Africa</h1>
-                </div>
+                </div> */}
               </div>
 
               <div class="grid sm:grid-cols-2 over  xl:grid-cols-3 mt-5 gap-4">
