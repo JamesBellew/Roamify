@@ -17,7 +17,9 @@ import {
   push,
   update,
 } from "firebase/database";
-import MapComponent from '../components/MapComponent'
+import MapComponent from '../components/MapComponent';
+import CountryListComponent  from "../components/CountryListComponent";
+
 // import { getFirestore, setDoc ,doc, updateDoc, addDoc,getDoc, QuerySnapshot} from 'firebase/firestore'
 import StatisticsComponent from "../components/StatisticsComponent";
 const Dashboard = () => {
@@ -237,7 +239,8 @@ const Dashboard = () => {
   const [europeProgress, updateEuropeProgress] = useState(
     countriesArray.length
   );
-  console.log(europeProgress);
+  console.log(countriesArray.length);
+  console.log('above');
   // the below array and function is for when the user clicks on a checkbox of a country it will be added to a temp array(useState array countryArray) awaiting for the user to click on the save button and then this will be added to the firabse databse
   const [countryArray, updateCountryArray] = useState([]);
 
@@ -285,6 +288,9 @@ const Dashboard = () => {
     }
   };
 
+
+
+  // console.log(data.,'haiiii');
   // this function is called when the user adds rthe countries to the visited array and this functions unchecks all the
 
   // this is where I will gather the percentages of europe visited
@@ -300,7 +306,8 @@ const Dashboard = () => {
           {user && (
             <>
            <MapComponent/>
-              <div class="grid grid-cols-1  gap-4">
+<CountryListComponent/>
+              {/* <div class="grid grid-cols-1  gap-4">
                 <div className="bg-background-main/50 rounded p-1 sm:h-auto px-4 py-5  overflow-auto">
                   <h1 className="text-white text-lg mb-5">Europe</h1>
                   {countryBtnShow && (
@@ -340,7 +347,7 @@ const Dashboard = () => {
                  
                 </div>
             
-              </div>
+              </div> */}
 
               <div class="grid sm:grid-cols-2 over  xl:grid-cols-3 mt-5 gap-4">
                 <div className="bg-background-main/50 overflow-auto rounded p-3 h-auto">
@@ -348,9 +355,11 @@ const Dashboard = () => {
 
                   <ul>
                     {data &&
+                 
                       Object.keys(data).map((key) => (
+                        
                         <li class="w-auto inline-block border-gray-200 rounded-t-lg dark:border-gray-600">
-                          <div class="flex items-center p-1  rounded mr-1">
+                          <div class="flex items-center   rounded px-1">
                             <input
                               type="checkbox"
                               onChange={() =>
@@ -369,8 +378,8 @@ const Dashboard = () => {
                   </ul>
                 </div>
 {/* <here is the statistics componet */}
-<StatisticsComponent/>
-                <div className="bg-background-main/50 rounded p-3 min-h-[20vh]">
+<StatisticsComponent progress={countriesArray.length}/>
+                <div className="bg-background-main/50 rounded p-3 h-auto">
                   <h1 className="text-white text-lg">Awards</h1>
                 </div>
               </div>
