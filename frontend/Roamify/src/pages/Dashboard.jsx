@@ -17,9 +17,9 @@ import {
   push,
   update,
 } from "firebase/database";
-
+import MapComponent from '../components/MapComponent'
 // import { getFirestore, setDoc ,doc, updateDoc, addDoc,getDoc, QuerySnapshot} from 'firebase/firestore'
-
+import StatisticsComponent from "../components/StatisticsComponent";
 const Dashboard = () => {
   const firebaseConfig = {
     apiKey: "AIzaSyDKL_4B3j2OmIKPppgT0xrLjIQGv2Ru4Jo",
@@ -299,6 +299,7 @@ const Dashboard = () => {
           {!user && Cookies.get("GuestLoginStatus") == "false" && <Login />}
           {user && (
             <>
+           <MapComponent/>
               <div class="grid grid-cols-1  gap-4">
                 <div className="bg-background-main/50 rounded p-1 sm:h-auto px-4 py-5  overflow-auto">
                   <h1 className="text-white text-lg mb-5">Europe</h1>
@@ -317,23 +318,7 @@ const Dashboard = () => {
                     </button>
                   )}
                   <ul class="w-full mt-5 mx-auto text-sm font-medium text-gray-900 bg-white   rounded-lg dark:bg-background-main/10 shadow-sm   dark:text-white">
-                    {/* {countryList.map((country) => (
-                      // <li key={country.id}>{country}</li>
-                      <li class="lg:w-[10%] md:w-[30%] sm:w-[50%] xs:w-[100%] inline-block border-gray-200 rounded-t-lg dark:border-gray-600">
-                        <div class="flex items-center pl-3">
-                          <input
-                            type="checkbox"
-                            onChange={() => handleOnChange(country)}
-                            class="test inputCountry w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-                          />
-                          <label
-                            for="vue-checkbox"
-                            class="w-full py-1 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                            {country}
-                          </label>
-                        </div>
-                      </li>
-                    ))} */}
+                  
                     {newCountryArray.map((country) => (
                       // <li key={country.id}>{country}</li>
                       <li class="w-auto inline-block border-gray-200 rounded-t-lg dark:border-gray-600">
@@ -352,92 +337,13 @@ const Dashboard = () => {
                       </li>
                     ))}
                   </ul>
-                  {/* <ul class="w-full mx-auto text-sm font-medium text-gray-900 bg-white   rounded-lg dark:bg-background-main/20   dark:text-white">
-                    <li class="w-full  border-gray-200 rounded-t-lg dark:border-gray-600">
-                      <div class="flex items-center pl-3">
-                        <input
-                          type="checkbox"
-                          onChange={() => handleOnChange("Finland")}
-                          class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-                        />
-                        <label
-                          for="vue-checkbox"
-                          class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                          Finland
-                        </label>
-                      </div>
-                    </li>
-                    <li class="w-full  border-gray-200 rounded-t-lg dark:border-gray-600">
-                      <div class="flex items-center pl-3">
-                        <input
-                          id="react-checkbox"
-                          type="checkbox"
-                          value=""
-                          onChange={() => handleOnChange("Austria")}
-                          class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-                        />
-                        <label
-                          for="react-checkbox"
-                          class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                          Austria
-                        </label>
-                      </div>
-                    </li>
-                    <li class="w-full  border-gray-200 rounded-t-lg dark:border-gray-600">
-                      <div class="flex items-center pl-3">
-                        <input
-                          id="angular-checkbox"
-                          type="checkbox"
-                          value=""
-                          class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-                        />
-                        <label
-                          for="angular-checkbox"
-                          class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                          Croatia
-                        </label>
-                      </div>
-                    </li>
-                    <li class="w-full  border-gray-200 rounded-t-lg dark:border-gray-600">
-                      <div class="flex items-center pl-3">
-                        <input
-                          id="laravel-checkbox"
-                          type="checkbox"
-                          value=""
-                          class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-                        />
-                        <label
-                          for="laravel-checkbox"
-                          class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                          Slovenia
-                        </label>
-                      </div>
-                    </li>
-                  </ul> */}
+                 
                 </div>
-                {/* <div className="bg-background-main/10 shadow rounded p-3 min-h-[20vh]">
-                  <h1 className="text-white text-lg">Asia</h1>
-                  <div></div>
-                </div>
-                <div className="bg-background-main/10 rounded p-3 min-h-[20vh]">
-                  <h1 className="text-white text-lg">South America</h1>
-                </div>
-                <div className="bg-background-main/10 rounded p-3 min-h-[20vh]">
-                  <h1 className="text-white text-lg">Antarctica</h1>
-                </div>
-                <div className="bg-background-main/10 rounded p-3 min-h-[20vh]">
-                  <h1 className="text-white text-lg">Australia</h1>
-                </div>
-                <div className="bg-background-main/10 rounded p-3 min-h-[20vh]">
-                  <h1 className="text-white text-lg">North America</h1>
-                </div>
-                <div className="bg-background-main/10 rounded p-3 min-h-[20vh]">
-                  <h1 className="text-white text-lg">Africa</h1>
-                </div> */}
+            
               </div>
 
               <div class="grid sm:grid-cols-2 over  xl:grid-cols-3 mt-5 gap-4">
-                <div className="bg-background-main/50 overflow-auto rounded p-3 h-[40vh]">
+                <div className="bg-background-main/50 overflow-auto rounded p-3 h-auto">
                   <h1 className="text-white text-lg mb-5">Visited Countries</h1>
 
                   <ul>
@@ -462,27 +368,9 @@ const Dashboard = () => {
                       ))}
                   </ul>
                 </div>
-
-                <div className="bg-background-main/10 rounded p-3 min-h-[20vh]">
-                  <h1 className="text-white text-lg">Statistics</h1>
-
-                  <div class="flex justify-between mb-1 my-3">
-                    <span class="text-base font-medium text-blue-700 dark:text-white">
-                      Europe
-                    </span>
-                    <span class="text-sm font-medium text-blue-700 dark:text-white">
-                      {(europeProgress / 10) * 100 + "%"}
-                    </span>
-                  </div>
-                  <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
-                    <div
-                      class="bg-purple-main h-2.5 rounded-full"
-                      style={{
-                        width: (europeProgress / 10) * 100 + "%",
-                      }}></div>
-                  </div>
-                </div>
-                <div className="bg-background-main/10 rounded p-3 min-h-[20vh]">
+{/* <here is the statistics componet */}
+<StatisticsComponent/>
+                <div className="bg-background-main/50 rounded p-3 min-h-[20vh]">
                   <h1 className="text-white text-lg">Awards</h1>
                 </div>
               </div>
