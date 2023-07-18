@@ -44,37 +44,54 @@ const Dashboard = () => {
 
   // const [tableData, setData] = useState([]);
 
-// this is for testing of the new array strcuture for sprint 3 
-const [newCountryArray,updateNewCountryArray] = useState([
+  // this is for testing of the new array strcuture for sprint 3
+  const [newCountryArray, updateNewCountryArray] = useState([
     {
-        "countryName":"Irelandmmm",
-        "countryRegion": "Europe"
-},
-{
-    "countryName":"France",
-    "countryRegion": "Europe"
-},
-{
-    "countryName":"Spain",
-    "countryRegion": "Europe"
-}
-])
+      countryName: "Irelandmmm",
+      countryRegion: "Europe",
+    },
+    {
+      countryName: "France",
+      countryRegion: "Europe",
+    },
+    {
+      countryName: "Spain",
+      countryRegion: "Europe",
+    },
+    {
+      countryName: "Italy",
+      countryRegion: "Europe",
+    },
+    {
+      countryName: "Finland",
+      countryRegion: "Europe",
+    },
+    {
+      countryName: "Poland",
+      countryRegion: "Europe",
+    },
+    {
+      countryName: "Holland",
+      countryRegion: "Europe",
+    },
+  ]);
 
-var removeByAttr = function(arr, attr, value){
+  var removeByAttr = function (arr, attr, value) {
     var i = arr.length;
-    while(i--){
-       if( arr[i] 
-           && arr[i].hasOwnProperty(attr) 
-           && (arguments.length > 2 && arr[i][attr] === value ) ){ 
-
-           arr.splice(i,1);
-
-       }
+    while (i--) {
+      if (
+        arr[i] &&
+        arr[i].hasOwnProperty(attr) &&
+        arguments.length > 2 &&
+        arr[i][attr] === value
+      ) {
+        arr.splice(i, 1);
+      }
     }
     return arr;
-}
+  };
 
-console.log(newCountryArray)
+  console.log(newCountryArray);
 
   // this is just an exmaple array used for the FaList, idealy we would want this coming froma  json file but this will do as a proof of consept
   const [countryList, updateCountryList] = useState([
@@ -176,8 +193,8 @@ console.log(newCountryArray)
     for (let i = 0; i < countriesArray.length; i++) {
       // console.log(countriesArray[i]);
       // countryList.filter((v) => v !== countriesArray[i]);
-    //   remove(newCountryArray, countriesArray[i]);
-      removeByAttr(newCountryArray, 'countryName', countriesArray[i]);   
+      //   remove(newCountryArray, countriesArray[i]);
+      removeByAttr(newCountryArray, "countryName", countriesArray[i]);
     }
   };
   removeVisitedcountries();
@@ -283,26 +300,23 @@ console.log(newCountryArray)
           {user && (
             <>
               <div class="grid grid-cols-1  gap-4">
-                <div className="bg-background-main/50 rounded p-1 sm:h-auto px-5 py-10  overflow-auto">
-                  <h3 class="mb-1 w-[20%] text-center font-semibold bg-purple-main/20 p-1 rounded text-gray-900  dark:text-white">
-                    Europe
-                    {countryBtnShow && (
-                      <button
-                        onClick={() =>
-                          testDataWrite(
-                            user.uid,
-                            user.displayName,
-                            user.email,
-                            user.photoURL
-                          )
-                        }
-                        className="bg-purple-main ml-2 p-1 rounded mx-auto text-center">
-                        Add Visited Countries
-                      </button>
-                    )}
-                  </h3>
-
-                  <ul class="w-full mt-10 mx-auto text-sm font-medium text-gray-900 bg-white   rounded-lg dark:bg-background-main/10 shadow-sm   dark:text-white">
+                <div className="bg-background-main/50 rounded p-1 sm:h-auto px-4 py-5  overflow-auto">
+                  <h1 className="text-white text-lg mb-5">Europe</h1>
+                  {countryBtnShow && (
+                    <button
+                      onClick={() =>
+                        testDataWrite(
+                          user.uid,
+                          user.displayName,
+                          user.email,
+                          user.photoURL
+                        )
+                      }
+                      className="bg-purple-main px-5 w-[20%] xl:w-[10%]  p-1 rounded mx-auto text-center">
+                      Add Countries
+                    </button>
+                  )}
+                  <ul class="w-full mt-5 mx-auto text-sm font-medium text-gray-900 bg-white   rounded-lg dark:bg-background-main/10 shadow-sm   dark:text-white">
                     {/* {countryList.map((country) => (
                       // <li key={country.id}>{country}</li>
                       <li class="lg:w-[10%] md:w-[30%] sm:w-[50%] xs:w-[100%] inline-block border-gray-200 rounded-t-lg dark:border-gray-600">
@@ -320,10 +334,10 @@ console.log(newCountryArray)
                         </div>
                       </li>
                     ))} */}
-          {newCountryArray.map((country) => (
+                    {newCountryArray.map((country) => (
                       // <li key={country.id}>{country}</li>
-                      <li class="lg:w-[10%] md:w-[30%] sm:w-[50%] xs:w-[100%] inline-block border-gray-200 rounded-t-lg dark:border-gray-600">
-                        <div class="flex items-center pl-3">
+                      <li class="w-auto inline-block border-gray-200 rounded-t-lg dark:border-gray-600">
+                        <div class="flex items-center p-1  rounded mr-1">
                           <input
                             type="checkbox"
                             onChange={() => handleOnChange(country.countryName)}
@@ -423,51 +437,30 @@ console.log(newCountryArray)
               </div>
 
               <div class="grid sm:grid-cols-2 over  xl:grid-cols-3 mt-5 gap-4">
-                <div className="bg-background-main/10 overflow-auto rounded p-3 h-[40vh]">
+                <div className="bg-background-main/50 overflow-auto rounded p-3 h-[40vh]">
                   <h1 className="text-white text-lg mb-5">Visited Countries</h1>
 
-                  <div class="relative overflow-x-auto">
-                    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                      <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-background-main/20 dark:text-gray-400">
-                        <tr>
-                          <th scope="col" class="px-6 py-3">
-                            Product name
-                          </th>
-                          <th scope="col" class="px-6 py-3">
-                            Region
-                          </th>
-                          <th scope="col" class="px-6 py-3">
-                            Remove
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {data &&
-                          Object.keys(data).map((key) => (
-                            // <div key={key}>{data[key]}</div>
-                            <tr
-                              key={key}
-                              class="bg-white border-b dark:bg-background-main/40 dark:border-gray-700">
-                              <th
-                                scope="row"
-                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {data[key]}
-                              </th>
-                              <td class="px-6 py-4">Europe</td>
-                              <td class="px-6 py-4 mx-auto">
-                                <input
-                                  type="checkbox"
-                                  onChange={() =>
-                                    removeFromCountryArrayHandler(data[key])
-                                  }
-                                  class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-                                />
-                              </td>
-                            </tr>
-                          ))}
-                      </tbody>
-                    </table>
-                  </div>
+                  <ul>
+                    {data &&
+                      Object.keys(data).map((key) => (
+                        <li class="w-auto inline-block border-gray-200 rounded-t-lg dark:border-gray-600">
+                          <div class="flex items-center p-1  rounded mr-1">
+                            <input
+                              type="checkbox"
+                              onChange={() =>
+                                removeFromCountryArrayHandler(data[key])
+                              }
+                              class="test inputCountry w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                            />
+                            <label
+                              for="vue-checkbox"
+                              class="w-full py-1 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                              {data[key]}
+                            </label>
+                          </div>
+                        </li>
+                      ))}
+                  </ul>
                 </div>
 
                 <div className="bg-background-main/10 rounded p-3 min-h-[20vh]">
