@@ -168,6 +168,7 @@ const Dashboard = () => {
         remove(countriesArray, countriesArray[i]);
         set(countriesRef, countriesArray);
         removeVisitedcountries()
+        removeCheckboxes()
           .then(() => {
             // window.location.reload(false);
           })
@@ -349,9 +350,9 @@ const Dashboard = () => {
             
               </div> */}
 
-              <div class="grid sm:grid-cols-2 over  xl:grid-cols-3 mt-5 gap-4">
-                <div className="bg-background-main/50 overflow-auto rounded p-3 h-auto">
-                  <h1 className="text-white text-lg mb-5">Visited Countries</h1>
+              <div class="grid sm:grid-cols-2 over  xl:grid-cols-4 mt-5 gap-4">
+                <div className="bg-background-main/50 overflow-auto rounded p-3 h-auto col-span-2">
+                  <h1 className="text-white text-lg mb-2">Visited Countries</h1>
 
                   <ul>
                     {data &&

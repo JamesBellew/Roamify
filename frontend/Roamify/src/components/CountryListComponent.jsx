@@ -541,7 +541,7 @@ const CountryListComponent = () => {
   //  This is the return JSX for this file
   return (
     <>
-      <div class="grid grid-cols-1  gap-4">
+     
         <div className="bg-background-main/50 rounded p-1 sm:h-auto px-4 py-4  overflow-auto">
           <button
             onClick={() => countryFilterHandler("Europe")}
@@ -557,6 +557,38 @@ const CountryListComponent = () => {
             className="text-white sm:ml-1  mb-1 bg-white/10 px-2 py-1 rounded">
             South America
           </button>
+          <button
+            onClick={() => countryFilterHandler("South America")}
+            style={
+              countryFilter === "North America" ? { background: "#8C54FB" } : {}
+            }
+            className="text-white sm:ml-1  mb-1 bg-white/10 px-2 py-1 rounded">
+            North America
+          </button>
+          <button
+            onClick={() => countryFilterHandler("South America")}
+            style={
+              countryFilter === "Asia" ? { background: "#8C54FB" } : {}
+            }
+            className="text-white sm:ml-1  mb-1 bg-white/10 px-2 py-1 rounded">
+            Asia
+          </button>
+          <button
+            onClick={() => countryFilterHandler("Australia")}
+            style={
+              countryFilter === "" ? { background: "#8C54FB" } : {}
+            }
+            className="text-white sm:ml-1  mb-1 bg-white/10 px-2 py-1 rounded">
+            Australia
+          </button>
+          <button
+            onClick={() => countryFilterHandler("South America")}
+            style={
+              countryFilter === "Africa" ? { background: "#8C54FB" } : {}
+            }
+            className="text-white sm:ml-1  mb-1 bg-white/10 px-2 py-1 rounded">
+            Africa
+          </button>
           {countryBtnShow && (
             <button
               onClick={() =>
@@ -571,7 +603,7 @@ const CountryListComponent = () => {
               Add Countries
             </button>
           )}
-          <ul class="w-full mt-5 mx-auto text-sm font-medium text-gray-900 bg-white   rounded-lg dark:bg-background-main/10 shadow-sm   dark:text-white">
+          <ul class="w-full mt-2 mx-auto text-sm font-medium text-gray-900 bg-white   rounded-lg dark:bg-background-main/10 shadow-sm   dark:text-white">
             {filteredCountryArray.map((country) => (
               // <li key={country.id}>{country}</li>
               <li class="w-auto inline-block border-gray-200 rounded-t-lg dark:border-gray-600">
@@ -591,7 +623,7 @@ const CountryListComponent = () => {
             ))}
           </ul>
         </div>
-      </div>
+     
     </>
   );
 };
