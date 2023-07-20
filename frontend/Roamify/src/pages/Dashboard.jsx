@@ -22,7 +22,7 @@ import CountryListComponent  from "../components/CountryListComponent";
 
 // import { getFirestore, setDoc ,doc, updateDoc, addDoc,getDoc, QuerySnapshot} from 'firebase/firestore'
 import StatisticsComponent from "../components/StatisticsComponent";
-const Dashboard = () => {
+const Dashboard = (props) => {
   const firebaseConfig = {
     apiKey: "AIzaSyDKL_4B3j2OmIKPppgT0xrLjIQGv2Ru4Jo",
     authDomain: "roamify-9731d.firebaseapp.com",
@@ -260,7 +260,7 @@ const Dashboard = () => {
     //   return confirmationMessage; //Gecko + Webkit, Safari, Chrome etc.
     // });
   }
-
+ 
   useEffect(() => {
     // Create a reference to the desired location in the database
     const reference = ref(db, "users/" + userId + "/countries");
@@ -295,7 +295,10 @@ const Dashboard = () => {
   // this function is called when the user adds rthe countries to the visited array and this functions unchecks all the
 
   // this is where I will gather the percentages of europe visited
-
+  const [filter,updateFilter]= useState('Europe')
+  const pull_data = (EuropeFilter) => {
+    updateFilter(EuropeFilter); // LOGS DATA FROM CHILD (My name is Dean Winchester... &)
+  }
   //  This is the return JSX for this file
   return (
     <>
@@ -309,7 +312,7 @@ const Dashboard = () => {
           {user && (
             <>
            <MapComponent/>
-<CountryListComponent/>
+<CountryListComponent func={pull_data}/>
               {/* <div class="grid grid-cols-1  gap-4">
                 <div className="bg-background-main/50 rounded p-1 sm:h-auto px-4 py-5  overflow-auto">
                   <h1 className="text-white text-lg mb-5">Europe</h1>
@@ -381,7 +384,7 @@ const Dashboard = () => {
                   </ul>
                 </div>
 {/* <here is the statistics componet */}
-<StatisticsComponent progress={countriesArray.length}/>
+<StatisticsComponent progress={countriesArray.length} filter={filter} />
                 <div className="bg-background-main/50 rounded p-3 h-auto">
                   <h1 className="text-white text-lg">Awards</h1>
                 </div>

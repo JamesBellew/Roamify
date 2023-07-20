@@ -19,7 +19,7 @@ import MapComponent from "../components/MapComponent";
 
 // import { getFirestore, setDoc ,doc, updateDoc, addDoc,getDoc, QuerySnapshot} from 'firebase/firestore'
 import StatisticsComponent from "../components/StatisticsComponent";
-const CountryListComponent = () => {
+const CountryListComponent = (props) => {
   const firebaseConfig = {
     apiKey: "AIzaSyDKL_4B3j2OmIKPppgT0xrLjIQGv2Ru4Jo",
     authDomain: "roamify-9731d.firebaseapp.com",
@@ -365,6 +365,99 @@ const CountryListComponent = () => {
       countryName: "United Kingdom",
       countryRegion: "Europe",
     },
+    // north america
+    {
+      countryName: "United Kingdom",
+      countryRegion: "North America",
+    },
+    {
+      countryName: "United Kingdom",
+      countryRegion: "North America",
+    },
+    {
+      countryName: "United Kingdom",
+      countryRegion: "North America",
+    },
+    {
+      countryName: "United Kingdom",
+      countryRegion: "North America",
+    },
+    {
+      countryName: "United Kingdom",
+      countryRegion: "North America",
+    },
+    {
+      countryName: "United Kingdom",
+      countryRegion: "North America",
+    },
+    {
+      countryName: "United Kingdom",
+      countryRegion: "North America",
+    },
+    {
+      countryName: "United Kingdom",
+      countryRegion: "North America",
+    },
+    {
+      countryName: "United Kingdom",
+      countryRegion: "North America",
+    },
+    {
+      countryName: "United Kingdom",
+      countryRegion: "North America",
+    },
+    {
+      countryName: "United Kingdom",
+      countryRegion: "North America",
+    },
+    {
+      countryName: "United Kingdom",
+      countryRegion: "North America",
+    },
+    {
+      countryName: "United Kingdom",
+      countryRegion: "North America",
+    },
+    {
+      countryName: "United Kingdom",
+      countryRegion: "North America",
+    },
+    {
+      countryName: "United Kingdom",
+      countryRegion: "North America",
+    },
+    {
+      countryName: "United Kingdom",
+      countryRegion: "North America",
+    },
+    {
+      countryName: "United Kingdom",
+      countryRegion: "North America",
+    },
+    {
+      countryName: "United Kingdom",
+      countryRegion: "North America",
+    },
+    {
+      countryName: "United Kingdom",
+      countryRegion: "North America",
+    },
+    {
+      countryName: "United Kingdom",
+      countryRegion: "North America",
+    },  
+      {
+      countryName: "United Kingdom",
+      countryRegion: "North America",
+    },   
+     {
+      countryName: "United Kingdom",
+      countryRegion: "North America",
+    },   
+     {
+      countryName: "United Kingdom",
+      countryRegion: "North America",
+    },
   ]);
 
   var removeByAttr = function (arr, attr, value) {
@@ -537,7 +630,8 @@ const CountryListComponent = () => {
   // this function is called when the user adds rthe countries to the visited array and this functions unchecks all the
 
   // this is where I will gather the percentages of europe visited
-
+  props.func(countryFilter);
+  
   //  This is the return JSX for this file
   return (
     <>
