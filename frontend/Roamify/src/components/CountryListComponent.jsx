@@ -546,7 +546,7 @@ const CountryListComponent = () => {
           <button
             onClick={() => countryFilterHandler("Europe")}
             style={countryFilter === "Europe" ? { background: "#8C54FB" } : {}}
-            className="text-white  mb-1 bg-white/10 px-2 py-1 rounded">
+            className="text-white  mb-1 bg-white/10 px-1 text-sm mr-1 py-1 rounded">
             Europe
           </button>
           <button
@@ -554,7 +554,7 @@ const CountryListComponent = () => {
             style={
               countryFilter === "South America" ? { background: "#8C54FB" } : {}
             }
-            className="text-white sm:ml-1  mb-1 bg-white/10 px-2 py-1 rounded">
+            className="text-white  mb-1 bg-white/10 px-1 text-sm mr-1 py-1 rounded">
             South America
           </button>
           <button
@@ -562,7 +562,7 @@ const CountryListComponent = () => {
             style={
               countryFilter === "North America" ? { background: "#8C54FB" } : {}
             }
-            className="text-white sm:ml-1  mb-1 bg-white/10 px-2 py-1 rounded">
+            className="text-white  mb-1 bg-white/10 px-1 text-sm mr-1 py-1 rounded">
             North America
           </button>
           <button
@@ -570,7 +570,7 @@ const CountryListComponent = () => {
             style={
               countryFilter === "Asia" ? { background: "#8C54FB" } : {}
             }
-            className="text-white sm:ml-1  mb-1 bg-white/10 px-2 py-1 rounded">
+            className="text-white  mb-1 bg-white/10 px-1 text-sm mr-1 py-1 rounded">
             Asia
           </button>
           <button
@@ -578,7 +578,7 @@ const CountryListComponent = () => {
             style={
               countryFilter === "" ? { background: "#8C54FB" } : {}
             }
-            className="text-white sm:ml-1  mb-1 bg-white/10 px-2 py-1 rounded">
+            className="text-white  mb-1 bg-white/10 px-1 text-sm mr-1 py-1 rounded">
             Australia
           </button>
           <button
@@ -586,7 +586,7 @@ const CountryListComponent = () => {
             style={
               countryFilter === "Africa" ? { background: "#8C54FB" } : {}
             }
-            className="text-white sm:ml-1  mb-1 bg-white/10 px-2 py-1 rounded">
+            className="text-white  mb-1 bg-white/10 px-1 text-sm mr-1 py-1 rounded">
             Africa
           </button>
           {countryBtnShow && (

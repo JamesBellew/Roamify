@@ -299,7 +299,9 @@ const Dashboard = () => {
   //  This is the return JSX for this file
   return (
     <>
-      <SideBar />
+          <SideBar />
+    <div className="container mx-auto">
+
 
       <div class="p-5 sm:ml-64">
         <div class="p-4  min-h-[90vh] bg-white/5  dark:bg rounded-lg  mt-14">
@@ -390,6 +392,7 @@ const Dashboard = () => {
             <h1>Logged in as a guest</h1>
           )}
         </div>
+      </div>
       </div>
     </>
   );
