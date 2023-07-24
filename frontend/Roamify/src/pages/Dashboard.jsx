@@ -93,7 +93,7 @@ const Dashboard = (props) => {
     return arr;
   };
 
-  console.log(newCountryArray);
+  // console.log(newCountryArray);
 
   // this is just an exmaple array used for the FaList, idealy we would want this coming froma  json file but this will do as a proof of consept
   const [countryList, updateCountryList] = useState([
@@ -311,7 +311,7 @@ const Dashboard = (props) => {
           {!user && Cookies.get("GuestLoginStatus") == "false" && <Login />}
           {user && (
             <>
-           <MapComponent/>
+           <MapComponent />
 <CountryListComponent func={pull_data}/>
               {/* <div class="grid grid-cols-1  gap-4">
                 <div className="bg-background-main/50 rounded p-1 sm:h-auto px-4 py-5  overflow-auto">
@@ -356,7 +356,7 @@ const Dashboard = (props) => {
               </div> */}
 
               <div class="grid sm:grid-cols-2 over  xl:grid-cols-4 mt-5 gap-4">
-                <div className="bg-background-main/50 overflow-auto rounded p-3 h-auto col-span-2">
+                <div className="bg-background-main/50 overflow-auto rounded p-3 h-auto col-span-3">
                   <h1 className="text-white text-lg mb-2">Visited Countries</h1>
 
                   <ul>
@@ -385,9 +385,9 @@ const Dashboard = (props) => {
                 </div>
 {/* <here is the statistics componet */}
 <StatisticsComponent progress={countriesArray.length} filter={filter} />
-                <div className="bg-background-main/50 rounded p-3 h-auto">
+                {/* <div className="bg-background-main/50 rounded p-3 h-auto">
                   <h1 className="text-white text-lg">Awards</h1>
-                </div>
+                </div> */}
               </div>
             </>
           )}

@@ -443,7 +443,7 @@ const CountryListComponent = (props) => {
       countryRegion: "North America",
     },
     {
-      countryName: "United Kingdom",
+      countryName: "United Njjj",
       countryRegion: "North America",
     },  
       {
@@ -652,7 +652,7 @@ const CountryListComponent = (props) => {
             South America
           </button>
           <button
-            onClick={() => countryFilterHandler("South America")}
+            onClick={() => countryFilterHandler("North America")}
             style={
               countryFilter === "North America" ? { background: "#8C54FB" } : {}
             }
@@ -693,8 +693,8 @@ const CountryListComponent = (props) => {
                   user.photoURL
                 )
               }
-              className="bg-purple-main px-5 w-[20%] xl:w-[10%]  p-1 rounded mx-auto text-center">
-              Add Countries
+              className="bg-purple-main px-5 w-[20%] xl:w-[10%] text-white font-medium capitalize  p-1 rounded mx-auto text-center">
+              Add 
             </button>
           )}
           <ul class="w-full mt-2 mx-auto text-sm font-medium text-gray-900 bg-white   rounded-lg dark:bg-background-main/10 shadow-sm   dark:text-white">
