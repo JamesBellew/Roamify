@@ -295,9 +295,14 @@ const Dashboard = (props) => {
   // this function is called when the user adds rthe countries to the visited array and this functions unchecks all the
 
   // this is where I will gather the percentages of europe visited
-  const [filter,updateFilter]= useState('Europe')
+  const [filter,updateFilter]= useState('Europe');
+  const [mapcountryData,updateMapCountryData]= useState([{}]);
   const pull_data = (EuropeFilter) => {
     updateFilter(EuropeFilter); // LOGS DATA FROM CHILD (My name is Dean Winchester... &)
+  }
+  const pulldata2 = (countryList)=>{
+    // console.log('hai');
+    updateMapCountryData(countryList)
   }
   //  This is the return JSX for this file
   return (
@@ -311,8 +316,8 @@ const Dashboard = (props) => {
           {!user && Cookies.get("GuestLoginStatus") == "false" && <Login />}
           {user && (
             <>
-           <MapComponent />
-<CountryListComponent func={pull_data}/>
+           <MapComponent countries={mapcountryData} />
+<CountryListComponent func={pull_data} countryList={pulldata2}/>
               {/* <div class="grid grid-cols-1  gap-4">
                 <div className="bg-background-main/50 rounded p-1 sm:h-auto px-4 py-5  overflow-auto">
                   <h1 className="text-white text-lg mb-5">Europe</h1>

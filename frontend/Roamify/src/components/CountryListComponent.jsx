@@ -631,7 +631,7 @@ const CountryListComponent = (props) => {
 
   // this is where I will gather the percentages of europe visited
   props.func(countryFilter);
-  
+  props.countryList(newCountryArray);
   //  This is the return JSX for this file
   return (
     <>
