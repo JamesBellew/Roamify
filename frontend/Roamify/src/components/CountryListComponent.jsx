@@ -475,7 +475,7 @@ const CountryListComponent = (props) => {
     return arr;
   };
 
-  console.log(newCountryArray);
+  // console.log(newCountryArray);
 
   // this is just an exmaple array used for the FaList, idealy we would want this coming froma  json file but this will do as a proof of consept
 
@@ -572,7 +572,7 @@ const CountryListComponent = (props) => {
   const [europeProgress, updateEuropeProgress] = useState(
     countriesArray.length
   );
-  console.log(europeProgress);
+  // console.log(europeProgress);
   // the below array and function is for when the user clicks on a checkbox of a country it will be added to a temp array(useState array countryArray) awaiting for the user to click on the save button and then this will be added to the firabse databse
   const [countryArray, updateCountryArray] = useState([]);
 
@@ -630,8 +630,8 @@ const CountryListComponent = (props) => {
   // this function is called when the user adds rthe countries to the visited array and this functions unchecks all the
 
   // this is where I will gather the percentages of europe visited
-  props.func(countryFilter);
-  props.countryList(newCountryArray);
+
+
   //  This is the return JSX for this file
   return (
     <>

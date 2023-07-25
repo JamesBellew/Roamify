@@ -240,8 +240,8 @@ const Dashboard = (props) => {
   const [europeProgress, updateEuropeProgress] = useState(
     countriesArray.length
   );
-  console.log(countriesArray.length);
-  console.log('above');
+  // console.log(countriesArray.length);
+  // console.log('above');
   // the below array and function is for when the user clicks on a checkbox of a country it will be added to a temp array(useState array countryArray) awaiting for the user to click on the save button and then this will be added to the firabse databse
   const [countryArray, updateCountryArray] = useState([]);
 
@@ -300,10 +300,15 @@ const Dashboard = (props) => {
   const pull_data = (EuropeFilter) => {
     updateFilter(EuropeFilter); // LOGS DATA FROM CHILD (My name is Dean Winchester... &)
   }
-  const pulldata2 = (countryList)=>{
-    // console.log('hai');
-    updateMapCountryData(countryList)
-  }
+  // const pulldata2 = (countryList)=>{
+  //   // console.log('hai');
+  //   updateMapCountryData(countryList)
+  // }
+
+
+
+console.log('hi');
+
   //  This is the return JSX for this file
   return (
     <>
@@ -316,8 +321,8 @@ const Dashboard = (props) => {
           {!user && Cookies.get("GuestLoginStatus") == "false" && <Login />}
           {user && (
             <>
-           <MapComponent countries={mapcountryData} />
-<CountryListComponent func={pull_data} countryList={pulldata2}/>
+           <MapComponent countries={data}  />
+<CountryListComponent func={pull_data} />
               {/* <div class="grid grid-cols-1  gap-4">
                 <div className="bg-background-main/50 rounded p-1 sm:h-auto px-4 py-5  overflow-auto">
                   <h1 className="text-white text-lg mb-5">Europe</h1>
