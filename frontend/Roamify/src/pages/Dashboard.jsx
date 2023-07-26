@@ -41,6 +41,9 @@ const Dashboard = (props) => {
   const db = getDatabase();
   const reference = ref(db, "users/0123/countries");
   // this will need to be changerd to getb the usert that is logged in, this caused a bug, so entering it in manually for the moment
+
+
+
   const userId = "s2fzRx7aPuWaQpWJqncb006Ilw02";
   const countrriesRef = ref(db, "users/" + userId + "/countries");
 
@@ -308,7 +311,10 @@ const Dashboard = (props) => {
 
 
 console.log('hi');
-
+let guestLoggedIn = false;
+if(Cookies.get("GuestLoginStatus") == 'true'){
+  guestLoggedIn = true;
+}
   //  This is the return JSX for this file
   return (
     <>
@@ -319,7 +325,10 @@ console.log('hi');
       <div class="p-5 sm:ml-64">
         <div class="p-4  min-h-[90vh] bg-white/5  dark:bg rounded-lg  mt-14">
           {!user && Cookies.get("GuestLoginStatus") == "false" && <Login />}
-          {user && (
+          {user 
+          // | Cookies.get("GuestLoginStatus") == 'true'
+          
+          && (
             <>
            <MapComponent countries={data}  />
 <CountryListComponent func={pull_data} />
@@ -401,9 +410,13 @@ console.log('hi');
               </div>
             </>
           )}
-          {Cookies.get("GuestLoginStatus") == "true" && (
+
+{guestLoggedIn &&
+
+<h1>Logged in as guest</h1>}
+          {/* {Cookies.get("GuestLoginStatus") == "true" && (
             <h1>Logged in as a guest</h1>
-          )}
+          )} */}
         </div>
       </div>
       </div>

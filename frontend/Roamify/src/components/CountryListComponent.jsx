@@ -367,97 +367,98 @@ const CountryListComponent = (props) => {
     },
     // north america
     {
-      countryName: "United Kingdom",
+      countryName: "United States",
       countryRegion: "North America",
     },
     {
-      countryName: "United Kingdom",
+      countryName: "Antigua and Barbuda",
       countryRegion: "North America",
     },
     {
-      countryName: "United Kingdom",
+      countryName: "The Bahamas",
       countryRegion: "North America",
     },
     {
-      countryName: "United Kingdom",
+      countryName: "Barbados",
       countryRegion: "North America",
     },
     {
-      countryName: "United Kingdom",
+      countryName: "Belize",
       countryRegion: "North America",
     },
     {
-      countryName: "United Kingdom",
+      countryName: "Canada",
       countryRegion: "North America",
     },
     {
-      countryName: "United Kingdom",
+      countryName: "Costa Rica",
       countryRegion: "North America",
     },
     {
-      countryName: "United Kingdom",
+      countryName: "Cuba",
       countryRegion: "North America",
     },
     {
-      countryName: "United Kingdom",
+      countryName: "Dominica",
       countryRegion: "North America",
     },
     {
-      countryName: "United Kingdom",
+      countryName: "Dominican Republic",
       countryRegion: "North America",
     },
     {
-      countryName: "United Kingdom",
+      countryName: "El Salvador",
       countryRegion: "North America",
     },
     {
-      countryName: "United Kingdom",
+      countryName: "Grenada",
       countryRegion: "North America",
     },
     {
-      countryName: "United Kingdom",
+      countryName: "Guatemala",
       countryRegion: "North America",
     },
     {
-      countryName: "United Kingdom",
+      countryName: "Haiti",
       countryRegion: "North America",
     },
     {
-      countryName: "United Kingdom",
+      countryName: "Honduras",
       countryRegion: "North America",
     },
     {
-      countryName: "United Kingdom",
+      countryName: "Jamaica",
       countryRegion: "North America",
     },
     {
-      countryName: "United Kingdom",
+      countryName: "Mexico",
       countryRegion: "North America",
     },
     {
-      countryName: "United no",
+      countryName: "Nicaragua",
       countryRegion: "North America",
     },
     {
-      countryName: "United Kingdom",
+      countryName: "Panama",
       countryRegion: "North America",
     },
     {
-      countryName: "United Njjj",
+      countryName: "Saint Kitts and Nevis",
+      countryRegion: "North America",
+    },
+    {
+      countryName: "Saint Lucia",
       countryRegion: "North America",
     },  
       {
-      countryName: "United Kingdom",
+      countryName: "Saint Vincent and the Grenadines",
       countryRegion: "North America",
     },   
      {
-      countryName: "United Kingdom",
+      countryName: "Trinidad and Tobago",
       countryRegion: "North America",
     },   
-     {
-      countryName: "United Kingdom",
-      countryRegion: "North America",
-    },
+   
   ]);
 
   var removeByAttr = function (arr, attr, value) {
@@ -701,7 +702,7 @@ const CountryListComponent = (props) => {
             {filteredCountryArray.map((country) => (
               // <li key={country.id}>{country}</li>
               <li class="w-auto inline-block border-gray-200 rounded-t-lg dark:border-gray-600">
-                <div class="flex items-center px-1  rounded mr-1">
+                <div class="flex items-center px-0  rounded mr-1">
                   <input
                     type="checkbox"
                     onChange={() => handleOnChange(country.countryName)}

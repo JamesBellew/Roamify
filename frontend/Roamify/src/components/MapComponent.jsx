@@ -23,7 +23,11 @@ const MapComponent = (props)=>{
 
     Object.keys(p1).forEach(function (key){
       // console.log(p1[key]);
-       document.querySelector('[title="'+p1[key]+'"]').style.fill = '#8C54FB'
+      if( document.querySelector('[title="'+p1[key]+'"]')!=null){
+        document.querySelector('[title="'+p1[key]+'"]').style.fill = '#8C54FB'
+      }
+      console.log(p1[key]+' is not on the SVG Map')
+   
   });
   // testAr.forEach((country, index) => {
   //   console.log(country);

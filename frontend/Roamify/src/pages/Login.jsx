@@ -27,8 +27,9 @@ const Login = () => {
   //   console.log(Cookies.get('GuestLoginStatus')+'boiiii');
   const GuestLoginHandler = () => {
     Cookies.set("GuestLoginStatus", true);
-    location.reload();
+
     navigate("/dashboard");
+    location.reload();
     console.log(Cookies.get("GuestLoginStatus"));
   };
   return (
