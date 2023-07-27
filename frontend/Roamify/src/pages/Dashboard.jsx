@@ -35,7 +35,7 @@ const Dashboard = (props) => {
   };
   const countriesArray = [];
   const [user, loading] = useAuthState(auth);
-  const [data, setData] = useState([]);
+  const [data, setData] = useState({});
   const [countryBtnShow, updateShowBtn] = useState(false);
   const app = initializeApp(firebaseConfig);
   const db = getDatabase();
@@ -264,6 +264,8 @@ const Dashboard = (props) => {
     // });
   }
  
+
+
   useEffect(() => {
     // Create a reference to the desired location in the database
     const reference = ref(db, "users/" + userId + "/countries");
@@ -379,7 +381,31 @@ if(Cookies.get("GuestLoginStatus") == 'true'){
                   <h1 className="text-white text-lg mb-2">Visited Countries</h1>
 
                   <ul>
+
                     {data &&
+                    
+                    Object.keys(data).map((key) => (
+                      <li class="w-auto inline-block border-gray-200 rounded-t-lg dark:border-gray-600">
+                      <div class="flex items-center   rounded px-1">
+                        <input
+                          type="checkbox"
+                          onChange={() =>
+                            removeFromCountryArrayHandler(data[key].name)
+                          }
+                          class="test inputCountry w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                        />
+                        <label
+                          for="vue-checkbox"
+                          class="w-full py-1 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                          {data[key].name}
+                        </label>
+                      </div>
+                    </li>
+                      ))
+                    
+                    
+                    }
+                    {/* {data &&
                  
                       Object.keys(data).map((key) => (
                         
@@ -399,7 +425,7 @@ if(Cookies.get("GuestLoginStatus") == 'true'){
                             </label>
                           </div>
                         </li>
-                      ))}
+                      ))} */}
                   </ul>
                 </div>
 {/* <here is the statistics componet */}

@@ -544,7 +544,8 @@ const CountryListComponent = (props) => {
     } else {
       const countriesRef = ref(db, "users/" + userId + "/countries");
       countryArray.forEach((country) => {
-        push(countriesRef, country);
+        // push(countriesRef, country);
+        push(countriesRef,{"name":country,"Region":"Europeee"});
         updateShowBtn(false);
         updateCountryArray([]);
         removeCheckboxes();
