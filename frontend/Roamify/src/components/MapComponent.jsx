@@ -3,11 +3,12 @@ import mapImg from '../img/map.png'
 import { useEffect } from "react";
 
 const MapComponent = (props)=>{
+
   const visited = {
     fill: '#8C54FB',
   };
   const visitedCountries = props.countries;
- 
+ console.log(visitedCountries);
 
   console.log(visitedCountries);
   

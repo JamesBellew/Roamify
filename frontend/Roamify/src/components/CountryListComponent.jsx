@@ -539,7 +539,8 @@ const CountryListComponent = (props) => {
   // This function is called on the button clicked, all information will be supplied byt he google auth object besides the countries array
   function testDataWrite(userId, name, email, imageUrl, countries) {
     const db = getDatabase();
-
+console.log('i am here');
+console.log(countries);
     if (countryArray.length === 0) {
       alert("you need to select a country");
     } else {

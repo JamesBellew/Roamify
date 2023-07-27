@@ -42,7 +42,7 @@ const divStyles = {
             South America - <span className="text-muted text-xs text-gray-500">{europeProgress} visited</span>
           </span>
           <span class="text-sm font-medium text-blue-700 dark:text-white">
-            {(europeProgress / 50) * 100 + "%"}
+            {(europeProgress / 15) * 100 + "%"}
           </span>
         </div>
         <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
