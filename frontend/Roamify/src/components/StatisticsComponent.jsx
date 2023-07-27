@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 const StatisticsComponent = (props) => {
+
   const europeProgress = props.progress;
 //   const [filterSelected,updateFilterSelected] = useState('Europe');
 // updateFilterSelected(props.filter);

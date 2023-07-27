@@ -44,7 +44,7 @@ const CountryListComponent = (props) => {
 
   // const [tableData, setData] = useState([]);
 
-  // this is for testing of the new array strcuture for sprint 3
+
   const [newCountryArray, updateNewCountryArray] = useState([
     {
       countryName: "Argentina",
@@ -462,13 +462,16 @@ const CountryListComponent = (props) => {
   ]);
 
   var removeByAttr = function (arr, attr, value) {
+    // console.log('in the remove callback')
+    // console.log(attr);
+    // console.log(value.name);
     var i = arr.length;
     while (i--) {
       if (
         arr[i] &&
         arr[i].hasOwnProperty(attr) &&
         arguments.length > 2 &&
-        arr[i][attr] === value
+        arr[i][attr] === value.name
       ) {
         arr.splice(i, 1);
       }
@@ -476,16 +479,13 @@ const CountryListComponent = (props) => {
     return arr;
   };
 
-  // console.log(newCountryArray);
-
-  // this is just an exmaple array used for the FaList, idealy we would want this coming froma  json file but this will do as a proof of consept
 
   {
-    // countries.countries.map((item, i) => countryList.push(item.name));
+
   }
   function remove(arr, what) {
     var found = arr.indexOf(what);
-    // console.log(arr);
+     //console.log(arr);
     // console.log(what);
     // console.log("called");
     while (found !== -1) {
@@ -496,6 +496,7 @@ const CountryListComponent = (props) => {
 
   // this funcrtion is called when the user wants to remove A country from their gvisted countries array
   const removeFromCountryArrayHandler = (countryName) => {
+
     const countriesRef = ref(db, "users/" + userId + "/countries");
     for (let i = 0; i < countriesArray.length; i++) {
       if (countriesArray[i] === countryName) {

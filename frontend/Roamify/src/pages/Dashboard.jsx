@@ -165,9 +165,15 @@ const Dashboard = (props) => {
 
   // this funcrtion is called when the user wants to remove A country from their gvisted countries array
   const removeFromCountryArrayHandler = (countryName) => {
+    // console.log('This remove function was just called');
+    // console.log(countryName+' is the country that wants to be removed');
+    // console.log(countriesArray);
+    // console.log(countryName);
     const countriesRef = ref(db, "users/" + userId + "/countries");
     for (let i = 0; i < countriesArray.length; i++) {
-      if (countriesArray[i] === countryName) {
+      console.log('before if statement');
+      if (countriesArray[i].name === countryName) {
+        console.log('made into the remove loop');
         remove(countriesArray, countriesArray[i]);
         set(countriesRef, countriesArray);
         removeVisitedcountries()
@@ -313,10 +319,7 @@ const Dashboard = (props) => {
 
 
 console.log('hi');
-let guestLoggedIn = false;
-if(Cookies.get("GuestLoginStatus") == 'true'){
-  guestLoggedIn = true;
-}
+
   //  This is the return JSX for this file
   return (
     <>
@@ -327,10 +330,7 @@ if(Cookies.get("GuestLoginStatus") == 'true'){
       <div class="p-5 sm:ml-64">
         <div class="p-4  min-h-[90vh] bg-white/5  dark:bg rounded-lg  mt-14">
           {!user && Cookies.get("GuestLoginStatus") == "false" && <Login />}
-          {user 
-          // | Cookies.get("GuestLoginStatus") == 'true'
-          
-          && (
+          {user   && (
             <>
            <MapComponent countries={data}  />
 <CountryListComponent func={pull_data} />
@@ -437,9 +437,7 @@ if(Cookies.get("GuestLoginStatus") == 'true'){
             </>
           )}
 
-{guestLoggedIn &&
 
-<h1>Logged in as guest</h1>}
           {/* {Cookies.get("GuestLoginStatus") == "true" && (
             <h1>Logged in as a guest</h1>
           )} */}

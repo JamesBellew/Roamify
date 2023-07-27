@@ -7,6 +7,7 @@ const MapComponent = (props)=>{
     fill: '#8C54FB',
   };
   const visitedCountries = props.countries;
+ 
 
   console.log(visitedCountries);
   
@@ -16,15 +17,16 @@ const MapComponent = (props)=>{
 
 
   useEffect(() => {
-
+    console.log(p1);
 //  document.getElementById('main-svg').style.overflow = 'hidden';
 //  document.getElementById('main-svg').style.transform ='scale(4)';
 //  document.getElementsByClassName('ag-canvas_svg').style.display = 'none';
 
     Object.keys(p1).forEach(function (key){
+     
       // console.log(p1[key]);
-      if( document.querySelector('[title="'+p1[key]+'"]')!=null){
-        document.querySelector('[title="'+p1[key]+'"]').style.fill = '#8C54FB'
+      if( document.querySelector('[title="'+p1[key].name+'"]')!=null){
+        document.querySelector('[title="'+p1[key].name+'"]').style.fill = '#8C54FB'
       }
       console.log(p1[key]+' is not on the SVG Map')
    
