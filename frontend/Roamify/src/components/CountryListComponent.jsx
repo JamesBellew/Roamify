@@ -41,7 +41,7 @@ const CountryListComponent = (props) => {
   // this will need to be changerd to getb the usert that is logged in, this caused a bug, so entering it in manually for the moment
   const userId = "s2fzRx7aPuWaQpWJqncb006Ilw02";
   const countrriesRef = ref(db, "users/" + userId + "/countries");
-
+  const [countryArray, updateCountryArray] = useState({});
   // const [tableData, setData] = useState([]);
 
 
@@ -539,19 +539,34 @@ const CountryListComponent = (props) => {
   // This function is called on the button clicked, all information will be supplied byt he google auth object besides the countries array
   function testDataWrite(userId, name, email, imageUrl, countries) {
     const db = getDatabase();
-console.log('i am here');
-console.log(countries);
+// console.log('i am here');
+// console.log();
+// console.log(countryArray[1]);
     if (countryArray.length === 0) {
       alert("you need to select a country");
     } else {
+      const keys = Object.keys(countryArray);
+      console.log('in this bitch');
+      console.log(countryArray);
       const countriesRef = ref(db, "users/" + userId + "/countries");
-      countryArray.forEach((country) => {
-        // push(countriesRef, country);
-        push(countriesRef,{"name":country,"Region":"Europeee"});
-        updateShowBtn(false);
-        updateCountryArray([]);
-        removeCheckboxes();
+      keys.forEach((key, index) => {
+        console.log('in here ya cunt ya');
+        console.log(`${key}: ${countryArray[key]}`);
+        // console.log(countryArray.name);
+       //  push(countriesRef,{"name":countryArray.name,"Region":countryArray.region});
+       
       });
+      updateShowBtn(false);
+      updateCountryArray({});
+      removeCheckboxes();
+      // countryArray.forEach((country) => {
+      //   console.log(countryArray);
+      //   // push(countriesRef, country);
+      //   // console.log(country.val);
+      //   // this neds to be opasted back in, commented out for testing
+       
+       
+      // });
       // the below is neede to remove the selected from the temp rray since it way added to the visited array
 
       // the below commented out is not needed Headers, but will be needed in the signup part to store userts info
@@ -578,10 +593,12 @@ console.log(countries);
   );
   // console.log(europeProgress);
   // the below array and function is for when the user clicks on a checkbox of a country it will be added to a temp array(useState array countryArray) awaiting for the user to click on the save button and then this will be added to the firabse databse
-  const [countryArray, updateCountryArray] = useState([]);
+ 
 
-  function handleOnChange(name) {
-    updateCountryArray((countryArray) => [...countryArray, name]);
+  function handleOnChange(name,region) {
+     updateCountryArray({"name": name, "region": region});
+      // (countryArray) => [...countryArray, {"name":name,"region": region}]);
+    console.log(countriesArray);
     updateShowBtn(true);
 
     // the below code asks the user is they want to reload the page as their changes wont be saved unless they click on the submit button
@@ -708,7 +725,7 @@ console.log(countries);
                 <div class="flex items-center px-0  rounded mr-1">
                   <input
                     type="checkbox"
-                    onChange={() => handleOnChange(country.countryName)}
+                    onChange={() => handleOnChange(country.countryName,country.countryRegion)}
                     class="test inputCountry w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                   />
                   <label

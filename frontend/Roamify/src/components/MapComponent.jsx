@@ -8,9 +8,9 @@ const MapComponent = (props)=>{
     fill: '#8C54FB',
   };
   const visitedCountries = props.countries;
- console.log(visitedCountries);
+//  console.log(visitedCountries);
 
-  console.log(visitedCountries);
+//   console.log(visitedCountries);
   
   let p1 = {
     ...visitedCountries
@@ -18,7 +18,7 @@ const MapComponent = (props)=>{
 
 
   useEffect(() => {
-    console.log(p1);
+    // console.log(p1);
 //  document.getElementById('main-svg').style.overflow = 'hidden';
 //  document.getElementById('main-svg').style.transform ='scale(4)';
 //  document.getElementsByClassName('ag-canvas_svg').style.display = 'none';

@@ -249,6 +249,8 @@ const Dashboard = (props) => {
   const [europeProgress, updateEuropeProgress] = useState(
     countriesArray.length
   );
+
+  
   // console.log(countriesArray.length);
   // console.log('above');
   // the below array and function is for when the user clicks on a checkbox of a country it will be added to a temp array(useState array countryArray) awaiting for the user to click on the save button and then this will be added to the firabse databse
