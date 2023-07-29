@@ -536,47 +536,7 @@ const CountryListComponent = (props) => {
   };
   removeVisitedcountries();
 
-  // This function is called on the button clicked, all information will be supplied byt he google auth object besides the countries array
-  function testDataWrite(userId, name, email, imageUrl, countries) {
-    const db = getDatabase();
-// console.log('i am here');
-// console.log();
-// console.log(countryArray[1]);
-    if (countryArray.length === 0) {
-      alert("you need to select a country");
-    } else {
-      const keys = Object.keys(countryArray);
-      console.log('in this bitch');
-      console.log(countryArray);
-      const countriesRef = ref(db, "users/" + userId + "/countries");
-      keys.forEach((key, index) => {
-        console.log('in here ya cunt ya');
-        console.log(`${key}: ${countryArray[key]}`);
-        // console.log(countryArray.name);
-       //  push(countriesRef,{"name":countryArray.name,"Region":countryArray.region});
-       
-      });
-      updateShowBtn(false);
-      updateCountryArray({});
-      removeCheckboxes();
-      // countryArray.forEach((country) => {
-      //   console.log(countryArray);
-      //   // push(countriesRef, country);
-      //   // console.log(country.val);
-      //   // this neds to be opasted back in, commented out for testing
-       
-       
-      // });
-      // the below is neede to remove the selected from the temp rray since it way added to the visited array
 
-      // the below commented out is not needed Headers, but will be needed in the signup part to store userts info
-      // update(ref(db, "users/" + userId), {
-      //   username: name,
-      //   email: email,
-      //   profile_picture: imageUrl,
-      // });
-    }
-  }
 
   onValue(reference, (snapshot) => {
     const records = [];
@@ -596,21 +556,12 @@ const CountryListComponent = (props) => {
  
 
   function handleOnChange(name,region) {
-     updateCountryArray({"name": name, "region": region});
-      // (countryArray) => [...countryArray, {"name":name,"region": region}]);
-    console.log(countriesArray);
-    updateShowBtn(true);
-
-    // the below code asks the user is they want to reload the page as their changes wont be saved unless they click on the submit button
-
-    // window.addEventListener("beforeunload", function (e) {
-    //   var confirmationMessage =
-    //     "It looks like you have been editing something. " +
-    //     "If you leave before saving, your changes will be lost.";
-
-    //   (e || window.event).returnValue = confirmationMessage; //Gecko + IE
-    //   return confirmationMessage; //Gecko + Webkit, Safari, Chrome etc.
-    // });
+    console.log("I;m here ya queddd");
+    console.log(name+region);
+    const db = getDatabase();
+    const countriesRef = ref(db, "users/" + userId + "/countries");
+    push(countriesRef,{"name":name,"Region":region});
+    removeCheckboxes();
   }
 
   useEffect(() => {

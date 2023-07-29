@@ -23,6 +23,7 @@ import CountryListComponent  from "../components/CountryListComponent";
 // import { getFirestore, setDoc ,doc, updateDoc, addDoc,getDoc, QuerySnapshot} from 'firebase/firestore'
 import StatisticsComponent from "../components/StatisticsComponent";
 const Dashboard = (props) => {
+
   const firebaseConfig = {
     apiKey: "AIzaSyDKL_4B3j2OmIKPppgT0xrLjIQGv2Ru4Jo",
     authDomain: "roamify-9731d.firebaseapp.com",
@@ -165,10 +166,6 @@ const Dashboard = (props) => {
 
   // this funcrtion is called when the user wants to remove A country from their gvisted countries array
   const removeFromCountryArrayHandler = (countryName) => {
-    // console.log('This remove function was just called');
-    // console.log(countryName+' is the country that wants to be removed');
-    // console.log(countriesArray);
-    // console.log(countryName);
     const countriesRef = ref(db, "users/" + userId + "/countries");
     for (let i = 0; i < countriesArray.length; i++) {
       console.log('before if statement');
@@ -185,9 +182,6 @@ const Dashboard = (props) => {
             console.error("Error updating countries in the database:", error);
           });
       }
-      // console.log(countriesArray[i]);
-      // // countryList.filter((v) => v !== countriesArray[i]);
-      // remove(countryList, countriesArray[i]);
     }
   };
   // now we want to check has the user been to any of the example array countries
@@ -203,9 +197,6 @@ const Dashboard = (props) => {
   const removeVisitedcountries = () => {
     // console.log("User Database countries", countriesArray);
     for (let i = 0; i < countriesArray.length; i++) {
-      // console.log(countriesArray[i]);
-      // countryList.filter((v) => v !== countriesArray[i]);
-      //   remove(newCountryArray, countriesArray[i]);
       removeByAttr(newCountryArray, "countryName", countriesArray[i]);
     }
   };
@@ -220,19 +211,11 @@ const Dashboard = (props) => {
     } else {
       const countriesRef = ref(db, "users/" + userId + "/countries");
       countryArray.forEach((country) => {
-        push(countriesRef, country);
+        // push(countriesRef, country);
         updateShowBtn(false);
         updateCountryArray([]);
         removeCheckboxes();
       });
-      // the below is neede to remove the selected from the temp rray since it way added to the visited array
-
-      // the below commented out is not needed Headers, but will be needed in the signup part to store userts info
-      // update(ref(db, "users/" + userId), {
-      //   username: name,
-      //   email: email,
-      //   profile_picture: imageUrl,
-      // });
     }
   }
 
@@ -250,26 +233,11 @@ const Dashboard = (props) => {
     countriesArray.length
   );
 
-  
-  // console.log(countriesArray.length);
-  // console.log('above');
-  // the below array and function is for when the user clicks on a checkbox of a country it will be added to a temp array(useState array countryArray) awaiting for the user to click on the save button and then this will be added to the firabse databse
   const [countryArray, updateCountryArray] = useState([]);
 
   function handleOnChange(name) {
     updateCountryArray((countryArray) => [...countryArray, name]);
     updateShowBtn(true);
-
-    // the below code asks the user is they want to reload the page as their changes wont be saved unless they click on the submit button
-
-    // window.addEventListener("beforeunload", function (e) {
-    //   var confirmationMessage =
-    //     "It looks like you have been editing something. " +
-    //     "If you leave before saving, your changes will be lost.";
-
-    //   (e || window.event).returnValue = confirmationMessage; //Gecko + IE
-    //   return confirmationMessage; //Gecko + Webkit, Safari, Chrome etc.
-    // });
   }
  
 
@@ -283,10 +251,6 @@ const Dashboard = (props) => {
       const dataFromDb = snapshot.val();
       // Update the state with the retrieved data
       setData(dataFromDb);
-      // console.log(data);
-      // console.log("above baiiiii");
-      // console.log(Object.values(data));
-      // tempArray = Object.values(data);
     });
 
     // Clean up the event listener when the component is unmounted
@@ -304,7 +268,7 @@ const Dashboard = (props) => {
 
 
 
-  // console.log(data.,'haiiii');
+
   // this function is called when the user adds rthe countries to the visited array and this functions unchecks all the
 
   // this is where I will gather the percentages of europe visited
@@ -313,14 +277,10 @@ const Dashboard = (props) => {
   const pull_data = (EuropeFilter) => {
     updateFilter(EuropeFilter); // LOGS DATA FROM CHILD (My name is Dean Winchester... &)
   }
-  // const pulldata2 = (countryList)=>{
-  //   // console.log('hai');
-  //   updateMapCountryData(countryList)
-  // }
 
 
 
-console.log('hi');
+
 
   //  This is the return JSX for this file
   return (
@@ -382,12 +342,12 @@ console.log('hi');
                 <div className="bg-background-main/50 overflow-auto rounded p-3 h-auto col-span-3">
                   <h1 className="text-white text-lg mb-2">Visited Countries</h1>
 
-                  <ul>
+                  <ul key={1}>
 
                     {data &&
                     
                     Object.keys(data).map((key) => (
-                      <li class="w-auto inline-block border-gray-200 rounded-t-lg dark:border-gray-600">
+                      <li key={key} class="w-auto inline-block border-gray-200 rounded-t-lg dark:border-gray-600">
                       <div class="flex items-center   rounded px-1">
                         <input
                           type="checkbox"
@@ -431,7 +391,7 @@ console.log('hi');
                   </ul>
                 </div>
 {/* <here is the statistics componet */}
-<StatisticsComponent progress={countriesArray.length} filter={filter} />
+<StatisticsComponent progress={countriesArray.length} filter={filter} visitedArray={data}/>
                 {/* <div className="bg-background-main/50 rounded p-3 h-auto">
                   <h1 className="text-white text-lg">Awards</h1>
                 </div> */}

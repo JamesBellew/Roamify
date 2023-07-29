@@ -29,7 +29,7 @@ const MapComponent = (props)=>{
       if( document.querySelector('[title="'+p1[key].name+'"]')!=null){
         document.querySelector('[title="'+p1[key].name+'"]').style.fill = '#8C54FB'
       }
-      console.log(p1[key]+' is not on the SVG Map')
+     
    
   });
   // testAr.forEach((country, index) => {

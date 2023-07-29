@@ -10,10 +10,11 @@ import Dashbaord from './pages/Dashboard';
 import { CookiesProvider } from "react-cookie";
 
 function App() {
-  const [count, setCount] = useState(0)
+
 
   return (
     <>
+    
      <main class="min-h-screen dark:bg-background-main">
   <BrowserRouter>
   <CookiesProvider>
@@ -26,6 +27,7 @@ function App() {
       </CookiesProvider>
     </BrowserRouter>
 </main>
+
     </>
   )
 }
