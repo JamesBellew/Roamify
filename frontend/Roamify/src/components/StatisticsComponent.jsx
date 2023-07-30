@@ -56,14 +56,35 @@ const divStyles = {
             South America - <span className="text-muted text-xs text-gray-500">{regionVisitedCount('South America')} visited</span>
           </span>
           <span class="text-sm font-medium text-blue-700 dark:text-white">
-            {Math.round((regionVisitedCount('South America') / 15) * 100 )+ "%"}
+            {Math.round((regionVisitedCount('South America') / 14) * 100 )+ "%"}
           </span>
         </div>
         <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
           <div
             class="bg-purple-main h-2.5 rounded-full"
             style={{
-              width: (regionVisitedCount('South America') / 15) * 100 + "%",
+              width: (regionVisitedCount('South America') / 14) * 100 + "%",
+            }}></div>
+        </div>
+      </div>
+      <div className="  rounded  p-2"
+          style={props.filter === "South America" ? divStyles: {}}>
+        <div class="flex justify-between mb-1 mt-1">
+          <span 
+          class="text-base font-medium text-blue-700 dark:text-white"
+        
+          >
+            North America - <span className="text-muted text-xs text-gray-500">{regionVisitedCount('North America')} visited</span>
+          </span>
+          <span class="text-sm font-medium text-blue-700 dark:text-white">
+            {Math.round((regionVisitedCount('North America') / 23) * 100 )+ "%"}
+          </span>
+        </div>
+        <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+          <div
+            class="bg-purple-main h-2.5 rounded-full"
+            style={{
+              width: (regionVisitedCount('North America') / 23) * 100 + "%",
             }}></div>
         </div>
       </div>
