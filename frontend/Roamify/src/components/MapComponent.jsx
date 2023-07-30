@@ -1,6 +1,8 @@
 import React, { useState } from "react"
 import mapImg from '../img/map.png'
 import { useEffect } from "react";
+import { Height } from "@material-ui/icons";
+import { FaExpand } from 'react-icons/fa';
 
 const MapComponent = (props)=>{
 
@@ -8,49 +10,39 @@ const MapComponent = (props)=>{
     fill: '#8C54FB',
   };
   const visitedCountries = props.countries;
-//  console.log(visitedCountries);
-
-//   console.log(visitedCountries);
   
   let p1 = {
     ...visitedCountries
 };
 
+const [mapHeight,updateMapHeight]= useState('55vh');
+
 
   useEffect(() => {
-    // console.log(p1);
-//  document.getElementById('main-svg').style.overflow = 'hidden';
-//  document.getElementById('main-svg').style.transform ='scale(4)';
-//  document.getElementsByClassName('ag-canvas_svg').style.display = 'none';
-
     Object.keys(p1).forEach(function (key){
-     
-      // console.log(p1[key]);
+
       if( document.querySelector('[title="'+p1[key].name+'"]')!=null){
         document.querySelector('[title="'+p1[key].name+'"]').style.fill = '#8C54FB'
       }
      
    
   });
-  // testAr.forEach((country, index) => {
-  //   console.log(country);
-  //   // seasonsList.push(<li key={index}>{season}</li>);
-  //   document.querySelector('[title="'+country+'"]').style.fill = '#8C54FB'
 
-  // });
+
 });
-  //  document.getElementById('IE').style.fill = "#8C54FB";
-  // document.getElementById('GB').style.fill = "#8C54FB";
-  
-  // document.getElementById('FR').classList.add(visited);
-    // Update the document title using the browser API
-  //   useEffect(() => {
-  //   document.getElementById('FR').style.fill = '#8C54FB'
-  // });
+
+  const mapViewHandleOnChange=()=>{
+    if(mapHeight == '55vh'){
+updateMapHeight('85vh');
+    }else{
+      updateMapHeight('55vh');
+    }
+  }
     return(
         <>
        <div class="grid grid-cols-1  gap-4">
-              <div className="bg-background-main/50 rounded p-1  px-4 py-5  overflow-auto mb-5 h-[55vh]">
+              <div className="bg-background-main/50 rounded p-1  px-4 py-5  overflow-auto mb-5 " style={{"height" : mapHeight}}>
+                <div className=" absolute z-50 text-white "><FaExpand className="cursor-pointer hover:scale-110" onClick={() => mapViewHandleOnChange(mapHeight)}/></div>
               <section class="ag-canvas overflow-hidden" id="main-canvas">
   <svg class="ag-canvas_svg mx-auto " id="main-svg"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 1008 651">
     

@@ -627,7 +627,7 @@ const CountryListComponent = (props) => {
             onClick={() => countryFilterHandler("North America")}
             style={
               countryFilter === "North America" ? { background: "#8C54FB" } : {}
-            }
+            } 
             className="text-white  mb-1 bg-white/10 px-1 text-sm mr-1 py-1 rounded">
             North America
           </button>

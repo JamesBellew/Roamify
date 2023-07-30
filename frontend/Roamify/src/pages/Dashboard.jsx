@@ -280,7 +280,7 @@ const Dashboard = (props) => {
 
 
 
-
+console.log(filter);
 
   //  This is the return JSX for this file
   return (
