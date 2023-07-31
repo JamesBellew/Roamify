@@ -99,14 +99,14 @@ const divStyles = {
             Asia - <span className="text-muted text-xs text-gray-500">{regionVisitedCount('Asia')} visited</span>
           </span>
           <span class="text-sm font-medium text-blue-700 dark:text-white">
-            {Math.round((regionVisitedCount('Asia') / 48) * 100 )+ "%"}
+            {Math.round((regionVisitedCount('Asia') / 44) * 100 )+ "%"}
           </span>
         </div>
         <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
           <div
             class="bg-purple-main h-2.5 rounded-full"
             style={{
-              width: (regionVisitedCount('Asia') / 48) * 100 + "%",
+              width: (regionVisitedCount('Asia') / 44) * 100 + "%",
             }}></div>
         </div>
       </div>
@@ -120,14 +120,14 @@ const divStyles = {
             Africa - <span className="text-muted text-xs text-gray-500">{regionVisitedCount('Africa')} visited</span>
           </span>
           <span class="text-sm font-medium text-blue-700 dark:text-white">
-            {Math.round((regionVisitedCount('Africa') / 48) * 100 )+ "%"}
+            {Math.round((regionVisitedCount('Africa') / 54) * 100 )+ "%"}
           </span>
         </div>
         <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
           <div
             class="bg-purple-main h-2.5 rounded-full"
             style={{
-              width: (regionVisitedCount('Africa') / 48) * 100 + "%",
+              width: (regionVisitedCount('Africa') / 54) * 100 + "%",
             }}></div>
         </div>
       </div>

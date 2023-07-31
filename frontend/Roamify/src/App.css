@@ -99,10 +99,11 @@ color:#8C54FB;
 }
 .ag-canvas_svg {
   display: block;
-  width: auto;
-  height: auto;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
   max-height: 100%;
-  margin-left: 1rem;
+
 }
 .ag-canvas_svg path {
   fill: #383d46;
