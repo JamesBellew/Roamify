@@ -15,11 +15,12 @@ import {
   push,
   update,
 } from "firebase/database";
-import MapComponent from "../components/MapComponent";
-
+import MapComponent from "./MapComponent";
+ import  {countryData} from './CountriesArray';
 // import { getFirestore, setDoc ,doc, updateDoc, addDoc,getDoc, QuerySnapshot} from 'firebase/firestore'
-import StatisticsComponent from "../components/StatisticsComponent";
+import StatisticsComponent from "./StatisticsComponent";
 const CountryListComponent = (props) => {
+
   const firebaseConfig = {
     apiKey: "AIzaSyDKL_4B3j2OmIKPppgT0xrLjIQGv2Ru4Jo",
     authDomain: "roamify-9731d.firebaseapp.com",
@@ -43,428 +44,13 @@ const CountryListComponent = (props) => {
   const countrriesRef = ref(db, "users/" + userId + "/countries");
   const [countryArray, updateCountryArray] = useState({});
   // const [tableData, setData] = useState([]);
+  
 
-
-  const [newCountryArray, updateNewCountryArray] = useState([
-    {
-      countryName: "Argentina",
-      countryRegion: "South America",
-    },
-    {
-      countryName: "Bolivia",
-      countryRegion: "South America",
-    },
-    {
-      countryName: "Sucre",
-      countryRegion: "South America",
-    },
-    {
-      countryName: "Brazil",
-      countryRegion: "South America",
-    },
-    {
-      countryName: "Chile",
-      countryRegion: "South America",
-    },
-    {
-      countryName: "Colombia",
-      countryRegion: "South America",
-    },
-    {
-      countryName: "Ecuador",
-      countryRegion: "South America",
-    },
-    {
-      countryName: "France(French Guiana)",
-      countryRegion: "South America",
-    },
-    {
-      countryName: "Guyana",
-      countryRegion: "South America",
-    },
-    {
-      countryName: "Paraguay",
-      countryRegion: "South America",
-    },
-    {
-      countryName: "Peru",
-      countryRegion: "South America",
-    },
-    {
-      countryName: "Suriname",
-      countryRegion: "South America",
-    },
-    {
-      countryName: "Uruguay",
-      countryRegion: "South America",
-    },
-    {
-      countryName: "Venezuela",
-      countryRegion: "South America",
-    },
-
-    {
-      countryName: "Ireland",
-      countryRegion: "Europe",
-    },
-    {
-      countryName: "Mexico",
-      countryRegion: "South America",
-    },
-    {
-      countryName: "France",
-      countryRegion: "Europe",
-    },
-    {
-      countryName: "Spain",
-      countryRegion: "Europe",
-    },
-    {
-      countryName: "Italy",
-      countryRegion: "Europe",
-    },
-    {
-      countryName: "Finland",
-      countryRegion: "Europe",
-    },
-    {
-      countryName: "Poland",
-      countryRegion: "Europe",
-    },
-    {
-      countryName: "Holland",
-      countryRegion: "Europe",
-    },
-    {
-      countryName: "Croatia",
-      countryRegion: "Europe",
-    },
-    {
-      countryName: "Sweden",
-      countryRegion: "Europe",
-    },
-    {
-      countryName: "Ukraine",
-      countryRegion: "Europe",
-    },
-    {
-      countryName: "Serbia",
-      countryRegion: "Europe",
-    },
-    {
-      countryName: "Slovakia",
-      countryRegion: "Europe",
-    },
-    {
-      countryName: "Portugal",
-      countryRegion: "Europe",
-    },
-    {
-      countryName: "Switzerland",
-      countryRegion: "Europe",
-    },
-
-    {
-      countryName: "Albania",
-      countryRegion: "Europe",
-    },
-    {
-      countryName: "Latvia",
-      countryRegion: "Europe",
-    },
-    {
-      countryName: "Andorra",
-      countryRegion: "Europe",
-    },
-    {
-      countryName: "Liechtenstein",
-      countryRegion: "Europe",
-    },
-    {
-      countryName: "Armenia",
-      countryRegion: "Europe",
-    },
-    {
-      countryName: "Lithuania",
-      countryRegion: "Europe",
-    },
-    {
-      countryName: "Austria",
-      countryRegion: "Europe",
-    },
-    {
-      countryName: "Luxembourg",
-      countryRegion: "Europe",
-    },
-    {
-      countryName: "Azerbaijan",
-      countryRegion: "Europe",
-    },
-    {
-      countryName: "Malta",
-      countryRegion: "Europe",
-    },
-    {
-      countryName: "Belarus",
-      countryRegion: "Europe",
-    },
-    {
-      countryName: "Moldova",
-      countryRegion: "Europe",
-    },
-    {
-      countryName: "Belgium",
-      countryRegion: "Europe",
-    },
-    {
-      countryName: "Monaco",
-      countryRegion: "Europe",
-    },
-    {
-      countryName: "Bosnia and Herzegovina",
-      countryRegion: "Europe",
-    },
-    {
-      countryName: "Montenegro",
-      countryRegion: "Europe",
-    },
-    {
-      countryName: "Bulgaria",
-      countryRegion: "Europe",
-    },
-    {
-      countryName: "Netherlands",
-      countryRegion: "Europe",
-    },
-    {
-      countryName: "Croatia",
-      countryRegion: "Europe",
-    },
-    {
-      countryName: "Norway",
-      countryRegion: "Europe",
-    },
-    {
-      countryName: "Cyprus",
-      countryRegion: "Europe",
-    },
-    {
-      countryName: "Poland",
-      countryRegion: "Europe",
-    },
-    {
-      countryName: "Czech Republic",
-      countryRegion: "Europe",
-    },
-    {
-      countryName: "Portugal",
-      countryRegion: "Europe",
-    },
-    {
-      countryName: "Denmark",
-      countryRegion: "Europe",
-    },
-    {
-      countryName: "Romania",
-      countryRegion: "Europe",
-    },
-    {
-      countryName: "Estonia",
-      countryRegion: "Europe",
-    },
-    {
-      countryName: "Russia",
-      countryRegion: "Europe",
-    },
-    {
-      countryName: "Finland",
-      countryRegion: "Europe",
-    },
-    {
-      countryName: "San Marino",
-      countryRegion: "Europe",
-    },
-    {
-      countryName: "Former Yugoslav",
-      countryRegion: "Europe",
-    },
-    {
-      countryName: "Republic ofMacedonia",
-      countryRegion: "Europe",
-    },
-    {
-      countryName: "Serbia",
-      countryRegion: "Europe",
-    },
-    {
-      countryName: "France",
-      countryRegion: "Europe",
-    },
-    {
-      countryName: "Slovakia",
-      countryRegion: "Europe",
-    },
-    {
-      countryName: "Georgia",
-      countryRegion: "Europe",
-    },
-    {
-      countryName: "Slovenia",
-      countryRegion: "Europe",
-    },
-    {
-      countryName: "Germany",
-      countryRegion: "Europe",
-    },
-    {
-      countryName: "Spain",
-      countryRegion: "Europe",
-    },
-    {
-      countryName: "Greece",
-      countryRegion: "Europe",
-    },
-    {
-      countryName: "Sweden",
-      countryRegion: "Europe",
-    },
-    {
-      countryName: "Hungary",
-      countryRegion: "Europe",
-    },
-
-    {
-      countryName: "Iceland",
-      countryRegion: "Europe",
-    },
-    {
-      countryName: "Switzerland",
-      countryRegion: "Europe",
-    },
-    {
-      countryName: "Ireland",
-      countryRegion: "Europe",
-    },
-    {
-      countryName: "Turkey",
-      countryRegion: "Europe",
-    },
-    {
-      countryName: "Italy",
-      countryRegion: "Europe",
-    },
-    {
-      countryName: "Ukraine",
-      countryRegion: "Europe",
-    },
-    {
-      countryName: "Kosovo",
-      countryRegion: "Europe",
-    },
-    {
-      countryName: "United Kingdom",
-      countryRegion: "Europe",
-    },
-    // north america
-    {
-      countryName: "United States",
-      countryRegion: "North America",
-    },
-    {
-      countryName: "Antigua and Barbuda",
-      countryRegion: "North America",
-    },
-    {
-      countryName: "The Bahamas",
-      countryRegion: "North America",
-    },
-    {
-      countryName: "Barbados",
-      countryRegion: "North America",
-    },
-    {
-      countryName: "Belize",
-      countryRegion: "North America",
-    },
-    {
-      countryName: "Canada",
-      countryRegion: "North America",
-    },
-    {
-      countryName: "Costa Rica",
-      countryRegion: "North America",
-    },
-    {
-      countryName: "Cuba",
-      countryRegion: "North America",
-    },
-    {
-      countryName: "Dominica",
-      countryRegion: "North America",
-    },
-    {
-      countryName: "Dominican Republic",
-      countryRegion: "North America",
-    },
-    {
-      countryName: "El Salvador",
-      countryRegion: "North America",
-    },
-    {
-      countryName: "Grenada",
-      countryRegion: "North America",
-    },
-    {
-      countryName: "Guatemala",
-      countryRegion: "North America",
-    },
-    {
-      countryName: "Haiti",
-      countryRegion: "North America",
-    },
-    {
-      countryName: "Honduras",
-      countryRegion: "North America",
-    },
-    {
-      countryName: "Jamaica",
-      countryRegion: "North America",
-    },
-    {
-      countryName: "Mexico",
-      countryRegion: "North America",
-    },
-    {
-      countryName: "Nicaragua",
-      countryRegion: "North America",
-    },
-    {
-      countryName: "Panama",
-      countryRegion: "North America",
-    },
-    {
-      countryName: "Saint Kitts and Nevis",
-      countryRegion: "North America",
-    },
-    {
-      countryName: "Saint Lucia",
-      countryRegion: "North America",
-    },  
-      {
-      countryName: "Saint Vincent and the Grenadines",
-      countryRegion: "North America",
-    },   
-     {
-      countryName: "Trinidad and Tobago",
-      countryRegion: "North America",
-    },   
-   
-  ]);
+console.log(countryFilter+' from the list comp');
+  const [newCountryArray, updateNewCountryArray] 
+  = useState(countryData);
 
   var removeByAttr = function (arr, attr, value) {
-    // console.log('in the remove callback')
-    // console.log(attr);
-    // console.log(value.name);
     var i = arr.length;
     while (i--) {
       if (
@@ -485,9 +71,6 @@ const CountryListComponent = (props) => {
   }
   function remove(arr, what) {
     var found = arr.indexOf(what);
-     //console.log(arr);
-    // console.log(what);
-    // console.log("called");
     while (found !== -1) {
       arr.splice(found, 1);
       found = arr.indexOf(what);
@@ -573,10 +156,6 @@ const CountryListComponent = (props) => {
       const dataFromDb = snapshot.val();
       // Update the state with the retrieved data
       setData(dataFromDb);
-      // console.log(data);
-      // console.log("above baiiiii");
-      // console.log(Object.values(data));
-      // tempArray = Object.values(data);
     });
 
     // Clean up the event listener when the component is unmounted
@@ -603,7 +182,7 @@ const CountryListComponent = (props) => {
 
   // this is where I will gather the percentages of europe visited
 
-
+  props.func(countryFilter);
   //  This is the return JSX for this file
   return (
     <>
@@ -632,7 +211,7 @@ const CountryListComponent = (props) => {
             North America
           </button>
           <button
-            onClick={() => countryFilterHandler("South America")}
+            onClick={() => countryFilterHandler("Asia")}
             style={
               countryFilter === "Asia" ? { background: "#8C54FB" } : {}
             }
@@ -648,7 +227,7 @@ const CountryListComponent = (props) => {
             Australia
           </button>
           <button
-            onClick={() => countryFilterHandler("South America")}
+            onClick={() => countryFilterHandler("Africa")}
             style={
               countryFilter === "Africa" ? { background: "#8C54FB" } : {}
             }

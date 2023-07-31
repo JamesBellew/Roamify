@@ -4,8 +4,6 @@ import Login from "./Login";
 import Cookies from "js-cookie";
 import { auth } from "../utils/firebase";
 import { initializeApp } from "firebase/app";
-// import { db } from '../utils/firebase';
-// import { collection } from "firebase/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
 import countries from "../utils/countries.json";
 import {
@@ -19,8 +17,6 @@ import {
 } from "firebase/database";
 import MapComponent from '../components/MapComponent';
 import CountryListComponent  from "../components/CountryListComponent";
-
-// import { getFirestore, setDoc ,doc, updateDoc, addDoc,getDoc, QuerySnapshot} from 'firebase/firestore'
 import StatisticsComponent from "../components/StatisticsComponent";
 const Dashboard = (props) => {
 
@@ -41,16 +37,9 @@ const Dashboard = (props) => {
   const app = initializeApp(firebaseConfig);
   const db = getDatabase();
   const reference = ref(db, "users/0123/countries");
-  // this will need to be changerd to getb the usert that is logged in, this caused a bug, so entering it in manually for the moment
-
-
-
   const userId = "s2fzRx7aPuWaQpWJqncb006Ilw02";
   const countrriesRef = ref(db, "users/" + userId + "/countries");
 
-  // const [tableData, setData] = useState([]);
-
-  // this is for testing of the new array strcuture for sprint 3
   const [newCountryArray, updateNewCountryArray] = useState([
     {
       countryName: "Irelandmmm",
@@ -97,59 +86,6 @@ const Dashboard = (props) => {
     return arr;
   };
 
-  // console.log(newCountryArray);
-
-  // this is just an exmaple array used for the FaList, idealy we would want this coming froma  json file but this will do as a proof of consept
-  const [countryList, updateCountryList] = useState([
-    "Finland",
-    "Ireland",
-    "Sweden",
-    "Spain",
-    "Austria",
-    "Latvia",
-    "Slovenia",
-    "England",
-    "Holland",
-    "France",
-    "Austria",
-    "Belgium",
-    "Bulgaria",
-    "Croatia",
-    "Cyprus",
-    "Czech Republic",
-    "Denmark",
-    "Estonia",
-    "Finland",
-    "France",
-    "Germany",
-    "Greece",
-    "Hungary",
-    "Ireland",
-    "Italy",
-    "Latvia",
-    "Lithuania",
-    "Luxembourg",
-    "Malta",
-    "Netherlands",
-    "Poland",
-    "Portugal",
-    "Romania",
-    "Slovakia",
-    "Slovenia",
-    "Spain",
-    "Sweden",
-    "Åland Islands",
-    "the Azores",
-    "Canary Islands",
-    "French Guiana",
-    "Gibraltar",
-    "Guadeloupe",
-    "Madeira",
-    "Martinique",
-    "Mayotte",
-    "Réunion",
-    "Saint Martin",
-  ]);
   {
     // countries.countries.map((item, i) => countryList.push(item.name));
   }
@@ -274,8 +210,11 @@ const Dashboard = (props) => {
   // this is where I will gather the percentages of europe visited
   const [filter,updateFilter]= useState('Europe');
   const [mapcountryData,updateMapCountryData]= useState([{}]);
+
+
+
   const pull_data = (EuropeFilter) => {
-    updateFilter(EuropeFilter); // LOGS DATA FROM CHILD (My name is Dean Winchester... &)
+    updateFilter(EuropeFilter); 
   }
 
 
@@ -296,47 +235,6 @@ console.log(filter);
             <>
            <MapComponent countries={data}  />
 <CountryListComponent func={pull_data} />
-              {/* <div class="grid grid-cols-1  gap-4">
-                <div className="bg-background-main/50 rounded p-1 sm:h-auto px-4 py-5  overflow-auto">
-                  <h1 className="text-white text-lg mb-5">Europe</h1>
-                  {countryBtnShow && (
-                    <button
-                      onClick={() =>
-                        testDataWrite(
-                          user.uid,
-                          user.displayName,
-                          user.email,
-                          user.photoURL
-                        )
-                      }
-                      className="bg-purple-main px-5 w-[20%] xl:w-[10%]  p-1 rounded mx-auto text-center">
-                      Add Countries
-                    </button>
-                  )}
-                  <ul class="w-full mt-5 mx-auto text-sm font-medium text-gray-900 bg-white   rounded-lg dark:bg-background-main/10 shadow-sm   dark:text-white">
-                  
-                    {newCountryArray.map((country) => (
-                      // <li key={country.id}>{country}</li>
-                      <li class="w-auto inline-block border-gray-200 rounded-t-lg dark:border-gray-600">
-                        <div class="flex items-center p-1  rounded mr-1">
-                          <input
-                            type="checkbox"
-                            onChange={() => handleOnChange(country.countryName)}
-                            class="test inputCountry w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-                          />
-                          <label
-                            for="vue-checkbox"
-                            class="w-full py-1 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                            {country.countryName}
-                          </label>
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                 
-                </div>
-            
-              </div> */}
 
               <div class="grid sm:grid-cols-2 over  xl:grid-cols-4 mt-5 gap-4">
                 <div className="bg-background-main/50 overflow-auto rounded p-3 h-auto col-span-3">
@@ -367,42 +265,15 @@ console.log(filter);
                     
                     
                     }
-                    {/* {data &&
-                 
-                      Object.keys(data).map((key) => (
-                        
-                        <li class="w-auto inline-block border-gray-200 rounded-t-lg dark:border-gray-600">
-                          <div class="flex items-center   rounded px-1">
-                            <input
-                              type="checkbox"
-                              onChange={() =>
-                                removeFromCountryArrayHandler(data[key])
-                              }
-                              class="test inputCountry w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-                            />
-                            <label
-                              for="vue-checkbox"
-                              class="w-full py-1 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                              {data[key]}
-                            </label>
-                          </div>
-                        </li>
-                      ))} */}
+
                   </ul>
                 </div>
 {/* <here is the statistics componet */}
 <StatisticsComponent progress={countriesArray.length} filter={filter} visitedArray={data}/>
-                {/* <div className="bg-background-main/50 rounded p-3 h-auto">
-                  <h1 className="text-white text-lg">Awards</h1>
-                </div> */}
               </div>
             </>
           )}
 
-
-          {/* {Cookies.get("GuestLoginStatus") == "true" && (
-            <h1>Logged in as a guest</h1>
-          )} */}
         </div>
       </div>
       </div>
