@@ -221,7 +221,7 @@ console.log(countryFilter+' from the list comp');
           <button
             onClick={() => countryFilterHandler("Australia")}
             style={
-              countryFilter === "" ? { background: "#8C54FB" } : {}
+              countryFilter === "Australia" ? { background: "#8C54FB" } : {}
             }
             className="text-white  mb-1 bg-white/10 px-1 text-sm mr-1 py-1 rounded">
             Australia

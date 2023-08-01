@@ -376,6 +376,10 @@ export const countryData=[
         countryRegion: "North America",
       },
       {
+        countryName: "Greenland",
+        countryRegion: "North America",
+      },
+      {
         countryName: "Honduras",
         countryRegion: "North America",
       },
@@ -659,4 +663,5 @@ export const countryData=[
 {countryName:'Uganda',countryRegion: 'Africa',},
 {countryName:'Zambia',countryRegion: 'Africa',},
 {countryName:'Zimbabwe',countryRegion: 'Africa',},
+{countryName:'Australia',countryRegion: 'Australia',},
 ]
