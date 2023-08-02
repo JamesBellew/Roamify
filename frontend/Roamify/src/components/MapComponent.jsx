@@ -45,7 +45,7 @@ updateMapHeight('85vh');
         <>
        <div class="grid grid-cols-1  gap-4">
               <div className="bg-background-main/50 rounded p-1  px-4 py-5  overflow-auto mb-5 " style={{"height" : mapHeight}}>
-                <div className=" absolute z-50 text-white "><FaExpand className="cursor-pointer hover:scale-110" onClick={() => mapViewHandleOnChange(mapHeight)}/></div>
+                <div className=" absolute z-10 text-white "><FaExpand className="cursor-pointer hover:scale-110" onClick={() => mapViewHandleOnChange(mapHeight)}/></div>
               <section class="ag-canvas overflow-hidden" id="main-canvas">
   <svg class="ag-canvas_svg mx-auto  "  id="main-svg"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1"
    viewBox="0 0 1008 651">

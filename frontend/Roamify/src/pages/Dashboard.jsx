@@ -226,6 +226,7 @@ const Dashboard = (props) => {
       let data = childrenSnapshot.val();
       records.push({ key: keyName, data: data });
     });
+    console.log(data);
     // here is where we need to clear the temp array as the items were pushed to rtdb
   });
   // this usestate is used to track the statistics of europe visited
@@ -291,53 +292,17 @@ console.log(filter);
 
       <div class="p-5 sm:ml-64">
         <div class="p-4  min-h-[90vh] bg-white/5  dark:bg rounded-lg  mt-14">
-          {!user && Cookies.get("GuestLoginStatus") == "false" && <Login />}
-          {user   && (
+        
+        
+          {/* {!user && Cookies.get("GuestLoginStatus") == "false" && <Login />} */}
+
+
+          {
+          // user   && (
             <>
            <MapComponent countries={data}  />
 <CountryListComponent func={pull_data} />
-              {/* <div class="grid grid-cols-1  gap-4">
-                <div className="bg-background-main/50 rounded p-1 sm:h-auto px-4 py-5  overflow-auto">
-                  <h1 className="text-white text-lg mb-5">Europe</h1>
-                  {countryBtnShow && (
-                    <button
-                      onClick={() =>
-                        testDataWrite(
-                          user.uid,
-                          user.displayName,
-                          user.email,
-                          user.photoURL
-                        )
-                      }
-                      className="bg-purple-main px-5 w-[20%] xl:w-[10%]  p-1 rounded mx-auto text-center">
-                      Add Countries
-                    </button>
-                  )}
-                  <ul class="w-full mt-5 mx-auto text-sm font-medium text-gray-900 bg-white   rounded-lg dark:bg-background-main/10 shadow-sm   dark:text-white">
-                  
-                    {newCountryArray.map((country) => (
-                      // <li key={country.id}>{country}</li>
-                      <li class="w-auto inline-block border-gray-200 rounded-t-lg dark:border-gray-600">
-                        <div class="flex items-center p-1  rounded mr-1">
-                          <input
-                            type="checkbox"
-                            onChange={() => handleOnChange(country.countryName)}
-                            class="test inputCountry w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-                          />
-                          <label
-                            for="vue-checkbox"
-                            class="w-full py-1 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                            {country.countryName}
-                          </label>
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                 
-                </div>
-            
-              </div> */}
-
+          
               <div class="grid sm:grid-cols-2 over  xl:grid-cols-4 mt-5 gap-4">
                 <div className="bg-background-main/50 overflow-auto rounded p-3 h-auto col-span-3">
                   <h1 className="text-white text-lg mb-2">Visited Countries</h1>
@@ -367,42 +332,19 @@ console.log(filter);
                     
                     
                     }
-                    {/* {data &&
-                 
-                      Object.keys(data).map((key) => (
-                        
-                        <li class="w-auto inline-block border-gray-200 rounded-t-lg dark:border-gray-600">
-                          <div class="flex items-center   rounded px-1">
-                            <input
-                              type="checkbox"
-                              onChange={() =>
-                                removeFromCountryArrayHandler(data[key])
-                              }
-                              class="test inputCountry w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-                            />
-                            <label
-                              for="vue-checkbox"
-                              class="w-full py-1 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                              {data[key]}
-                            </label>
-                          </div>
-                        </li>
-                      ))} */}
+  
                   </ul>
                 </div>
 {/* <here is the statistics componet */}
 <StatisticsComponent progress={countriesArray.length} filter={filter} visitedArray={data}/>
-                {/* <div className="bg-background-main/50 rounded p-3 h-auto">
-                  <h1 className="text-white text-lg">Awards</h1>
-                </div> */}
+    
               </div>
             </>
-          )}
+          // )
+          
+          }
 
 
-          {/* {Cookies.get("GuestLoginStatus") == "true" && (
-            <h1>Logged in as a guest</h1>
-          )} */}
         </div>
       </div>
   
