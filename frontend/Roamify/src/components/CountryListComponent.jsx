@@ -41,6 +41,12 @@ const CountryListComponent = (props) => {
   const [countryFilter, updateCountryFilter] = useState("Europe");
   // this will need to be changerd to getb the usert that is logged in, this caused a bug, so entering it in manually for the moment
   const userId = "s2fzRx7aPuWaQpWJqncb006Ilw02";
+  //  let userId = "" ;
+  // if(user){
+  //    userId = "s2fzRx7aPuWaQpWJqncb006Ilw02";
+  // }else{
+  //    userId = "s2fzRx7aPuWaQpWJqncb006Ilw03"
+  // }
   const countrriesRef = ref(db, "users/" + userId + "/countries");
   const [countryArray, updateCountryArray] = useState({});
   // const [tableData, setData] = useState([]);
@@ -249,7 +255,11 @@ console.log(countryFilter+' from the list comp');
             </button>
           )}
           <ul class="w-full mt-2 mx-auto text-sm font-medium text-gray-900 bg-white   rounded-lg dark:bg-background-main/10 shadow-sm   dark:text-white">
-            {filteredCountryArray.map((country) => (
+            {filteredCountryArray.map((country) => 
+          
+            (
+
+      
               // <li key={country.id}>{country}</li>
               <li class="w-auto inline-block border-gray-200 rounded-t-lg dark:border-gray-600">
                 <div class="flex items-center px-0  rounded mr-1">

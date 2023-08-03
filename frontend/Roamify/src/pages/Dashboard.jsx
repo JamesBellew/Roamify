@@ -46,6 +46,14 @@ const Dashboard = (props) => {
 
 
   const userId = "s2fzRx7aPuWaQpWJqncb006Ilw02";
+  // const userId = "s2fzRx7aPuWaQpWJqncb006Ilw03";
+  // let userId = "" ;
+  // if(user ==true){
+  //    userId = "s2fzRx7aPuWaQpWJqncb006Ilw02";
+  // }else{
+  //    userId = "s2fzRx7aPuWaQpWJqncb006Ilw03"
+  // }
+  console.log(userId);
   const countrriesRef = ref(db, "users/" + userId + "/countries");
 
   // const [tableData, setData] = useState([]);
@@ -304,7 +312,7 @@ console.log(filter);
 <CountryListComponent func={pull_data} />
           
               <div class="grid sm:grid-cols-2 over  xl:grid-cols-4 mt-5 gap-4">
-                <div className="bg-background-main/50 overflow-auto rounded p-3 h-auto col-span-3">
+                <div className="bg-background-main/50 overflow-auto rounded p-3 sm:h-auto h-96 col-span-3 ">
                   <h1 className="text-white text-lg mb-2">Visited Countries</h1>
 
                   <ul key={1}>

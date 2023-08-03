@@ -27,7 +27,7 @@ const divStyles = {
 };
   return (
     <>
-      <div className="bg-background-main/50 rounded px-3 h-auto">
+      <div className="bg-background-main/50 rounded px-3 h-auto sm:w-auto w-[84vw]">
         <h1 className="text-white text-lg mt-2">Statistics</h1>
 <div className="  rounded  p-2 "
   >
