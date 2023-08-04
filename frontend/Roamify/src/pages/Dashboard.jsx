@@ -19,11 +19,15 @@ import {
 } from "firebase/database";
 import MapComponent from '../components/MapComponent';
 import CountryListComponent  from "../components/CountryListComponent";
-
+import { v4 as uuidv4 } from 'uuid';
 // import { getFirestore, setDoc ,doc, updateDoc, addDoc,getDoc, QuerySnapshot} from 'firebase/firestore'
 import StatisticsComponent from "../components/StatisticsComponent";
 const Dashboard = (props) => {
-
+  const v4options = {
+    random: [
+      0x10, 0x91, 0x56, 0xbe, 0xc4, 0xfb, 0xc1, 0xea, 0x71, 0xb4, 0xef, 0xe1, 0x67, 0x1c, 0x58, 0x36,
+    ],
+  };
   const firebaseConfig = {
     apiKey: "AIzaSyDKL_4B3j2OmIKPppgT0xrLjIQGv2Ru4Jo",
     authDomain: "roamify-9731d.firebaseapp.com",
@@ -45,7 +49,7 @@ const Dashboard = (props) => {
 
 
 
-  const userId = "s2fzRx7aPuWaQpWJqncb006Ilw02";
+  let userId = "s2fzRx7aPuWaQpWJqncb006Ilw02";
   // const userId = "s2fzRx7aPuWaQpWJqncb006Ilw03";
   // let userId = "" ;
   // if(user ==true){
@@ -287,10 +291,18 @@ const Dashboard = (props) => {
     updateFilter(EuropeFilter); // LOGS DATA FROM CHILD (My name is Dean Winchester... &)
   }
 
-
-
-console.log(filter);
-
+if(!user){
+  console.log('user is not logged in via google auth');
+  //has the user been to the site before, check the local storage of the users machine
+  if(localStorage.getItem("userID")===null){
+    //user has not been here before
+    //need to set him a new ID
+    console.log(uuidv4(v4options));
+    userId = "uuidv4(v4options)"
+  }
+}else{
+  console.log("signed in as user");
+}
   //  This is the return JSX for this file
   return (
     <>
@@ -301,7 +313,10 @@ console.log(filter);
       <div class="p-5 sm:ml-64">
         <div class="p-4  min-h-[90vh] bg-white/5  dark:bg rounded-lg  mt-14">
         
-        
+        {user ?
+
+<h1>Logged in as user</h1> : <p>Not logged in </p>
+}
           {/* {!user && Cookies.get("GuestLoginStatus") == "false" && <Login />} */}
 
 

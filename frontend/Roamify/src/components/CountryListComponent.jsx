@@ -6,6 +6,7 @@ import { initializeApp } from "firebase/app";
 // import { collection } from "firebase/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
 import countries from "../utils/countries.json";
+import { v4 as uuidv4 } from 'uuid';
 import {
   getDatabase,
   onValue,
@@ -31,6 +32,11 @@ const CountryListComponent = (props) => {
     appId: "1:431369203090:web:d380c8bfb258a10640e54b",
     measurementId: "G-TB8BJ8CGGS",
   };
+  const v4options = {
+    random: [
+      0x10, 0x91, 0x56, 0xbe, 0xc4, 0xfb, 0xc1, 0xea, 0x71, 0xb4, 0xef, 0xe1, 0x67, 0x1c, 0x58, 0x36,
+    ],
+  };
   const countriesArray = [];
   const [user, loading] = useAuthState(auth);
   const [data, setData] = useState([]);
@@ -40,7 +46,7 @@ const CountryListComponent = (props) => {
   const reference = ref(db, "users/0123/countries");
   const [countryFilter, updateCountryFilter] = useState("Europe");
   // this will need to be changerd to getb the usert that is logged in, this caused a bug, so entering it in manually for the moment
-  const userId = "s2fzRx7aPuWaQpWJqncb006Ilw02";
+  let userId = "s2fzRx7aPuWaQpWJqncb006Ilw02";
   //  let userId = "" ;
   // if(user){
   //    userId = "s2fzRx7aPuWaQpWJqncb006Ilw02";
@@ -189,6 +195,19 @@ console.log(countryFilter+' from the list comp');
   // this is where I will gather the percentages of europe visited
 
   props.func(countryFilter);
+
+  if(!user){
+    console.log('user is not logged in via google auth');
+    //has the user been to the site before, check the local storage of the users machine
+    if(localStorage.getItem("userID")===null){
+      //user has not been here before
+      //need to set him a new ID
+      console.log(uuidv4(v4options));
+      userId = "uuidv4(v4options)"
+    }
+  }else{
+    console.log("signed in as user");
+  }
   //  This is the return JSX for this file
   return (
     <>
