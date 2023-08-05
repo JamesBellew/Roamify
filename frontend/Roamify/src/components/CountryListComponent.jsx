@@ -37,22 +37,34 @@ const CountryListComponent = (props) => {
       0x10, 0x91, 0x56, 0xbe, 0xc4, 0xfb, 0xc1, 0xea, 0x71, 0xb4, 0xef, 0xe1, 0x67, 0x1c, 0x58, 0x36,
     ],
   };
+  
   const countriesArray = [];
   const [user, loading] = useAuthState(auth);
+  const [userId,updateUserID] =useState("s2fzRx7aPuWaQpWJqncb006Ilw02");
+  useEffect(() => {
+
+  if(!user){
+    console.log('user is not logged in via google auth');
+    //has the user been to the site before, check the local storage of the users machine
+    if(localStorage.getItem("userID")===null){
+      //user has not been here before
+      //need to set him a new ID
+      console.log(uuidv4(v4options));
+      updateUserID("uuidv4(v4options)");
+    }
+  }else{
+    console.log("signed in as user");
+    updateUserID("s2fzRx7aPuWaQpWJqncb006Ilw02");
+  }
+})
   const [data, setData] = useState([]);
   const [countryBtnShow, updateShowBtn] = useState(false);
   const app = initializeApp(firebaseConfig);
   const db = getDatabase();
-  const reference = ref(db, "users/0123/countries");
+  const reference = ref(db, "users/",userId,"/countries");
   const [countryFilter, updateCountryFilter] = useState("Europe");
   // this will need to be changerd to getb the usert that is logged in, this caused a bug, so entering it in manually for the moment
-  let userId = "s2fzRx7aPuWaQpWJqncb006Ilw02";
-  //  let userId = "" ;
-  // if(user){
-  //    userId = "s2fzRx7aPuWaQpWJqncb006Ilw02";
-  // }else{
-  //    userId = "s2fzRx7aPuWaQpWJqncb006Ilw03"
-  // }
+ console.log('we are usign this id'+ userId);
   const countrriesRef = ref(db, "users/" + userId + "/countries");
   const [countryArray, updateCountryArray] = useState({});
   // const [tableData, setData] = useState([]);
@@ -196,23 +208,15 @@ console.log(countryFilter+' from the list comp');
 
   props.func(countryFilter);
 
-  if(!user){
-    console.log('user is not logged in via google auth');
-    //has the user been to the site before, check the local storage of the users machine
-    if(localStorage.getItem("userID")===null){
-      //user has not been here before
-      //need to set him a new ID
-      console.log(uuidv4(v4options));
-      userId = "uuidv4(v4options)"
-    }
-  }else{
-    console.log("signed in as user");
-  }
   //  This is the return JSX for this file
   return (
     <>
      
         <div className="bg-background-main/50 rounded p-1 sm:h-auto px-4 py-4  overflow-auto">
+        {user ?
+
+<h1>Logged in as user {userId}</h1> : <p>Not logged in supplyin {userId}</p>
+}
           <button
             onClick={() => countryFilterHandler("Europe")}
             style={countryFilter === "Europe" ? { background: "#8C54FB" } : {}}

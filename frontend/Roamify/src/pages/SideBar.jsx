@@ -17,7 +17,7 @@ const SideBar = () => {
    const GuestLogoutHandler=()=>{
       Cookies.set('GuestLoginStatus',false);
       navigate('/');
-      location.reload();
+      // location.reload();
       console.log(Cookies.get('GuestLoginStatus'));
    }
    const navigate = useNavigate();
@@ -31,6 +31,7 @@ function reset(){
   const signedOutHandler=()=>{
    auth.signOut();
    navigate('/');
+   location.reload();
   }
   useEffect(()=>{
    if(theme === "dark"){

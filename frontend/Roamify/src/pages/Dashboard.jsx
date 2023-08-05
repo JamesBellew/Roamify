@@ -44,23 +44,53 @@ const Dashboard = (props) => {
   const [countryBtnShow, updateShowBtn] = useState(false);
   const app = initializeApp(firebaseConfig);
   const db = getDatabase();
-  const reference = ref(db, "users/0123/countries");
+
   // this will need to be changerd to getb the usert that is logged in, this caused a bug, so entering it in manually for the moment
 
 
+  const [userId,updateUserID] =useState("s2fzRx7aPuWaQpWJqncb006Ilw03");
+  const [countrriesRef,updateCountryRef] = useState(ref(db, "users/" + userId + "/countries"));
 
-  let userId = "s2fzRx7aPuWaQpWJqncb006Ilw02";
-  // const userId = "s2fzRx7aPuWaQpWJqncb006Ilw03";
-  // let userId = "" ;
-  // if(user ==true){
-  //    userId = "s2fzRx7aPuWaQpWJqncb006Ilw02";
-  // }else{
-  //    userId = "s2fzRx7aPuWaQpWJqncb006Ilw03"
-  // }
-  console.log(userId);
-  const countrriesRef = ref(db, "users/" + userId + "/countries");
+  useEffect(() => {
+      if(user){
+    // console.log("signed in as user");
+    updateUserID("s2fzRx7aPuWaQpWJqncb006Ilw02");
+    updateCountryRef(ref(db, "users/s2fzRx7aPuWaQpWJqncb006Ilw09999/countries"))
+    //has the user been to the site before, check the local storage of the users machine
+    // if(localStorage.getItem("userID")===null){
+    //   //user has not been here before
+    //   //need to set him a new ID
+    //   console.log(uuidv4(v4options));
+    //   updateUserID("uuidv4(v4options)");
+    // }
+  }else{
+    // console.log('user is not logged in via google auth');
+    updateUserID("s2fzRx7aPuWaQpWJqncb006Ilw02");
+    updateCountryRef(ref(db, "users/s2fzRx7aPuWaQpWJqncb006Ilw02/countries"))
 
-  // const [tableData, setData] = useState([]);
+  }
+
+    onValue(countrriesRef, (snapshot) => {
+      // Iterate over each child snapshot within the "countries" list
+      snapshot.forEach((childSnapshot) => {
+        // Get the data from the child snapshot and push it to the array
+        const countryData = childSnapshot.val();
+        countriesArray.push(countryData);
+      });
+    });
+  
+  });
+  // console.log(reference);
+ 
+
+
+// const reference = ref(db, "users/",userId,"/countries");
+const [reference,updateRef] = useState(ref(db, "users/",userId,"/countries"));
+
+
+
+
+
 
   // this is for testing of the new array strcuture for sprint 3
   const [newCountryArray, updateNewCountryArray] = useState([
@@ -197,14 +227,8 @@ const Dashboard = (props) => {
     }
   };
   // now we want to check has the user been to any of the example array countries
-  onValue(countrriesRef, (snapshot) => {
-    // Iterate over each child snapshot within the "countries" list
-    snapshot.forEach((childSnapshot) => {
-      // Get the data from the child snapshot and push it to the array
-      const countryData = childSnapshot.val();
-      countriesArray.push(countryData);
-    });
-  });
+
+
 
   const removeVisitedcountries = () => {
     // console.log("User Database countries", countriesArray);
@@ -231,16 +255,7 @@ const Dashboard = (props) => {
     }
   }
 
-  onValue(reference, (snapshot) => {
-    const records = [];
-    snapshot.forEach((childrenSnapshot) => {
-      let keyName = childrenSnapshot.key;
-      let data = childrenSnapshot.val();
-      records.push({ key: keyName, data: data });
-    });
-    console.log(data);
-    // here is where we need to clear the temp array as the items were pushed to rtdb
-  });
+
   // this usestate is used to track the statistics of europe visited
   const [europeProgress, updateEuropeProgress] = useState(
     countriesArray.length
@@ -290,19 +305,16 @@ const Dashboard = (props) => {
   const pull_data = (EuropeFilter) => {
     updateFilter(EuropeFilter); // LOGS DATA FROM CHILD (My name is Dean Winchester... &)
   }
+  // onValue(reference, (snapshot) => {
+  //   const records = [];
+  //   snapshot.forEach((childrenSnapshot) => {
+  //     let keyName = childrenSnapshot.key;
+  //     let data = childrenSnapshot.val();
+  //     records.push({ key: keyName, data: data });
+  //   });
+  //   console.log(data);
+  // });
 
-if(!user){
-  console.log('user is not logged in via google auth');
-  //has the user been to the site before, check the local storage of the users machine
-  if(localStorage.getItem("userID")===null){
-    //user has not been here before
-    //need to set him a new ID
-    console.log(uuidv4(v4options));
-    userId = "uuidv4(v4options)"
-  }
-}else{
-  console.log("signed in as user");
-}
   //  This is the return JSX for this file
   return (
     <>
@@ -315,7 +327,7 @@ if(!user){
         
         {user ?
 
-<h1>Logged in as user</h1> : <p>Not logged in </p>
+<h1>Logged in as user {userId}</h1> : <p>Not logged in supplyin {userId}</p>
 }
           {/* {!user && Cookies.get("GuestLoginStatus") == "false" && <Login />} */}
 
@@ -323,8 +335,8 @@ if(!user){
           {
           // user   && (
             <>
-           <MapComponent countries={data}  />
-<CountryListComponent func={pull_data} />
+           {/* <MapComponent countries={data}  /> */}
+{/* <CountryListComponent func={pull_data}  /> */}
           
               <div class="grid sm:grid-cols-2 over  xl:grid-cols-4 mt-5 gap-4">
                 <div className="bg-background-main/50 overflow-auto rounded p-3 sm:h-auto h-96 col-span-3 ">
@@ -358,8 +370,8 @@ if(!user){
   
                   </ul>
                 </div>
-{/* <here is the statistics componet */}
-<StatisticsComponent progress={countriesArray.length} filter={filter} visitedArray={data}/>
+
+{/* <StatisticsComponent progress={countriesArray.length} filter={filter} visitedArray={data}/> */}
     
               </div>
             </>

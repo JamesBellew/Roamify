@@ -15,10 +15,12 @@ const Login = (props) => {
     try {
       const result = await signInWithPopup(auth, GoogleProvider);
       navigate("/dashboard");
+      
     } catch (error) {
       console.log(result.user);
       // navigate("/dashboard");
     }
+    // location.reload();
   };
   // const [guestStatus, setGuestStatus] = useState('not logged in');
 
