@@ -6,7 +6,7 @@ import { initializeApp } from "firebase/app";
 // import { collection } from "firebase/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
 import countries from "../utils/countries.json";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 import {
   getDatabase,
   onValue,
@@ -17,11 +17,10 @@ import {
   update,
 } from "firebase/database";
 import MapComponent from "./MapComponent";
- import  {countryData} from './CountriesArray';
+import { countryData } from "./CountriesArray";
 // import { getFirestore, setDoc ,doc, updateDoc, addDoc,getDoc, QuerySnapshot} from 'firebase/firestore'
 import StatisticsComponent from "./StatisticsComponent";
 const CountryListComponent = (props) => {
-
   const firebaseConfig = {
     apiKey: "AIzaSyDKL_4B3j2OmIKPppgT0xrLjIQGv2Ru4Jo",
     authDomain: "roamify-9731d.firebaseapp.com",
@@ -34,45 +33,29 @@ const CountryListComponent = (props) => {
   };
   const v4options = {
     random: [
-      0x10, 0x91, 0x56, 0xbe, 0xc4, 0xfb, 0xc1, 0xea, 0x71, 0xb4, 0xef, 0xe1, 0x67, 0x1c, 0x58, 0x36,
+      0x10, 0x91, 0x56, 0xbe, 0xc4, 0xfb, 0xc1, 0xea, 0x71, 0xb4, 0xef, 0xe1,
+      0x67, 0x1c, 0x58, 0x36,
     ],
   };
-  
-  const countriesArray = [];
-  const [user, loading] = useAuthState(auth);
-  const [userId,updateUserID] =useState("s2fzRx7aPuWaQpWJqncb006Ilw02");
-  useEffect(() => {
 
-  if(!user){
-    console.log('user is not logged in via google auth');
-    //has the user been to the site before, check the local storage of the users machine
-    if(localStorage.getItem("userID")===null){
-      //user has not been here before
-      //need to set him a new ID
-      console.log(uuidv4(v4options));
-      updateUserID("uuidv4(v4options)");
-    }
-  }else{
-    console.log("signed in as user");
-    updateUserID("s2fzRx7aPuWaQpWJqncb006Ilw02");
-  }
-})
+  const countriesArray = [];
+  // const [user, loading] = useAuthState(auth);
+  const [userId, updateUserID] = useState(props.userID);
+
   const [data, setData] = useState([]);
   const [countryBtnShow, updateShowBtn] = useState(false);
   const app = initializeApp(firebaseConfig);
   const db = getDatabase();
-  const reference = ref(db, "users/",userId,"/countries");
+  const reference = ref(db, "users/", userId, "/countries");
   const [countryFilter, updateCountryFilter] = useState("Europe");
   // this will need to be changerd to getb the usert that is logged in, this caused a bug, so entering it in manually for the moment
- console.log('we are usign this id'+ userId);
+  //  console.log('we are usign this id'+ userId);
   const countrriesRef = ref(db, "users/" + userId + "/countries");
   const [countryArray, updateCountryArray] = useState({});
   // const [tableData, setData] = useState([]);
-  
 
-console.log(countryFilter+' from the list comp');
-  const [newCountryArray, updateNewCountryArray] 
-  = useState(countryData);
+  // console.log(countryFilter + " from the list comp");
+  const [newCountryArray, updateNewCountryArray] = useState(countryData);
 
   var removeByAttr = function (arr, attr, value) {
     var i = arr.length;
@@ -89,9 +72,7 @@ console.log(countryFilter+' from the list comp');
     return arr;
   };
 
-
   {
-
   }
   function remove(arr, what) {
     var found = arr.indexOf(what);
@@ -103,7 +84,6 @@ console.log(countryFilter+' from the list comp');
 
   // this funcrtion is called when the user wants to remove A country from their gvisted countries array
   const removeFromCountryArrayHandler = (countryName) => {
-
     const countriesRef = ref(db, "users/" + userId + "/countries");
     for (let i = 0; i < countriesArray.length; i++) {
       if (countriesArray[i] === countryName) {
@@ -143,8 +123,6 @@ console.log(countryFilter+' from the list comp');
   };
   removeVisitedcountries();
 
-
-
   onValue(reference, (snapshot) => {
     const records = [];
     snapshot.forEach((childrenSnapshot) => {
@@ -160,14 +138,13 @@ console.log(countryFilter+' from the list comp');
   );
   // console.log(europeProgress);
   // the below array and function is for when the user clicks on a checkbox of a country it will be added to a temp array(useState array countryArray) awaiting for the user to click on the save button and then this will be added to the firabse databse
- 
 
-  function handleOnChange(name,region) {
+  function handleOnChange(name, region) {
     console.log("I;m here ya queddd");
-    console.log(name+region);
+    console.log(name + region);
     const db = getDatabase();
     const countriesRef = ref(db, "users/" + userId + "/countries");
-    push(countriesRef,{"name":name,"Region":region});
+    push(countriesRef, { name: name, Region: region });
     removeCheckboxes();
   }
 
@@ -211,97 +188,88 @@ console.log(countryFilter+' from the list comp');
   //  This is the return JSX for this file
   return (
     <>
-     
-        <div className="bg-background-main/50 rounded p-1 sm:h-auto px-4 py-4  overflow-auto">
-        {user ?
-
-<h1>Logged in as user {userId}</h1> : <p>Not logged in supplyin {userId}</p>
-}
+      <div className="bg-background-main/50 rounded p-1 sm:h-auto px-4 py-4  overflow-auto">
+        {userId ? (
+          <h1>Logged in as user {userId}</h1>
+        ) : (
+          <p>Not logged in supplyin {userId}</p>
+        )}
+        <button
+          onClick={() => countryFilterHandler("Europe")}
+          style={countryFilter === "Europe" ? { background: "#8C54FB" } : {}}
+          className="text-white  mb-1 bg-white/10 px-1 text-sm mr-1 py-1 rounded">
+          Europe
+        </button>
+        <button
+          onClick={() => countryFilterHandler("South America")}
+          style={
+            countryFilter === "South America" ? { background: "#8C54FB" } : {}
+          }
+          className="text-white  mb-1 bg-white/10 px-1 text-sm mr-1 py-1 rounded">
+          South America
+        </button>
+        <button
+          onClick={() => countryFilterHandler("North America")}
+          style={
+            countryFilter === "North America" ? { background: "#8C54FB" } : {}
+          }
+          className="text-white  mb-1 bg-white/10 px-1 text-sm mr-1 py-1 rounded">
+          North America
+        </button>
+        <button
+          onClick={() => countryFilterHandler("Asia")}
+          style={countryFilter === "Asia" ? { background: "#8C54FB" } : {}}
+          className="text-white  mb-1 bg-white/10 px-1 text-sm mr-1 py-1 rounded">
+          Asia
+        </button>
+        <button
+          onClick={() => countryFilterHandler("Australia")}
+          style={countryFilter === "Australia" ? { background: "#8C54FB" } : {}}
+          className="text-white  mb-1 bg-white/10 px-1 text-sm mr-1 py-1 rounded">
+          Australia
+        </button>
+        <button
+          onClick={() => countryFilterHandler("Africa")}
+          style={countryFilter === "Africa" ? { background: "#8C54FB" } : {}}
+          className="text-white  mb-1 bg-white/10 px-1 text-sm mr-1 py-1 rounded">
+          Africa
+        </button>
+        {countryBtnShow && (
           <button
-            onClick={() => countryFilterHandler("Europe")}
-            style={countryFilter === "Europe" ? { background: "#8C54FB" } : {}}
-            className="text-white  mb-1 bg-white/10 px-1 text-sm mr-1 py-1 rounded">
-            Europe
-          </button>
-          <button
-            onClick={() => countryFilterHandler("South America")}
-            style={
-              countryFilter === "South America" ? { background: "#8C54FB" } : {}
+            onClick={() =>
+              testDataWrite(
+                user.uid,
+                user.displayName,
+                user.email,
+                user.photoURL
+              )
             }
-            className="text-white  mb-1 bg-white/10 px-1 text-sm mr-1 py-1 rounded">
-            South America
+            className="bg-purple-main px-5 w-[20%] xl:w-[10%] text-white font-medium capitalize  p-1 rounded mx-auto text-center">
+            Add
           </button>
-          <button
-            onClick={() => countryFilterHandler("North America")}
-            style={
-              countryFilter === "North America" ? { background: "#8C54FB" } : {}
-            } 
-            className="text-white  mb-1 bg-white/10 px-1 text-sm mr-1 py-1 rounded">
-            North America
-          </button>
-          <button
-            onClick={() => countryFilterHandler("Asia")}
-            style={
-              countryFilter === "Asia" ? { background: "#8C54FB" } : {}
-            }
-            className="text-white  mb-1 bg-white/10 px-1 text-sm mr-1 py-1 rounded">
-            Asia
-          </button>
-          <button
-            onClick={() => countryFilterHandler("Australia")}
-            style={
-              countryFilter === "Australia" ? { background: "#8C54FB" } : {}
-            }
-            className="text-white  mb-1 bg-white/10 px-1 text-sm mr-1 py-1 rounded">
-            Australia
-          </button>
-          <button
-            onClick={() => countryFilterHandler("Africa")}
-            style={
-              countryFilter === "Africa" ? { background: "#8C54FB" } : {}
-            }
-            className="text-white  mb-1 bg-white/10 px-1 text-sm mr-1 py-1 rounded">
-            Africa
-          </button>
-          {countryBtnShow && (
-            <button
-              onClick={() =>
-                testDataWrite(
-                  user.uid,
-                  user.displayName,
-                  user.email,
-                  user.photoURL
-                )
-              }
-              className="bg-purple-main px-5 w-[20%] xl:w-[10%] text-white font-medium capitalize  p-1 rounded mx-auto text-center">
-              Add 
-            </button>
-          )}
-          <ul class="w-full mt-2 mx-auto text-sm font-medium text-gray-900 bg-white   rounded-lg dark:bg-background-main/10 shadow-sm   dark:text-white">
-            {filteredCountryArray.map((country) => 
-          
-            (
-
-      
-              // <li key={country.id}>{country}</li>
-              <li class="w-auto inline-block border-gray-200 rounded-t-lg dark:border-gray-600">
-                <div class="flex items-center px-0  rounded mr-1">
-                  <input
-                    type="checkbox"
-                    onChange={() => handleOnChange(country.countryName,country.countryRegion)}
-                    class="test inputCountry w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-                  />
-                  <label
-                    for="vue-checkbox"
-                    class="w-full py-1 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                    {country.countryName}
-                  </label>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </div>
-     
+        )}
+        <ul class="w-full mt-2 mx-auto text-sm font-medium text-gray-900 bg-white   rounded-lg dark:bg-background-main/10 shadow-sm   dark:text-white">
+          {filteredCountryArray.map((country) => (
+            // <li key={country.id}>{country}</li>
+            <li class="w-auto inline-block border-gray-200 rounded-t-lg dark:border-gray-600">
+              <div class="flex items-center px-0  rounded mr-1">
+                <input
+                  type="checkbox"
+                  onChange={() =>
+                    handleOnChange(country.countryName, country.countryRegion)
+                  }
+                  class="test inputCountry w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                />
+                <label
+                  for="vue-checkbox"
+                  class="w-full py-1 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                  {country.countryName}
+                </label>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
     </>
   );
 };

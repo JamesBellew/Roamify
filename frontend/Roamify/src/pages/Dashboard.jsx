@@ -17,15 +17,16 @@ import {
   push,
   update,
 } from "firebase/database";
-import MapComponent from '../components/MapComponent';
-import CountryListComponent  from "../components/CountryListComponent";
-import { v4 as uuidv4 } from 'uuid';
+import MapComponent from "../components/MapComponent";
+import CountryListComponent from "../components/CountryListComponent";
+import { v4 as uuidv4 } from "uuid";
 // import { getFirestore, setDoc ,doc, updateDoc, addDoc,getDoc, QuerySnapshot} from 'firebase/firestore'
 import StatisticsComponent from "../components/StatisticsComponent";
 const Dashboard = (props) => {
   const v4options = {
     random: [
-      0x10, 0x91, 0x56, 0xbe, 0xc4, 0xfb, 0xc1, 0xea, 0x71, 0xb4, 0xef, 0xe1, 0x67, 0x1c, 0x58, 0x36,
+      0x10, 0x91, 0x56, 0xbe, 0xc4, 0xfb, 0xc1, 0xea, 0x71, 0xb4, 0xef, 0xe1,
+      0x67, 0x1c, 0x58, 0x36,
     ],
   };
   const firebaseConfig = {
@@ -47,28 +48,35 @@ const Dashboard = (props) => {
 
   // this will need to be changerd to getb the usert that is logged in, this caused a bug, so entering it in manually for the moment
 
-
-  const [userId,updateUserID] =useState("s2fzRx7aPuWaQpWJqncb006Ilw03");
-  const [countrriesRef,updateCountryRef] = useState(ref(db, "users/" + userId + "/countries"));
+  const [userId, updateUserID] = useState("s2fzRx7aPuWaQpWJqncb006Ilw03");
+  const [countrriesRef, updateCountryRef] = useState(
+    ref(db, "users/" + userId + "/countries")
+  );
 
   useEffect(() => {
-      if(user){
-    // console.log("signed in as user");
-    updateUserID("s2fzRx7aPuWaQpWJqncb006Ilw02");
-    updateCountryRef(ref(db, "users/s2fzRx7aPuWaQpWJqncb006Ilw09999/countries"))
-    //has the user been to the site before, check the local storage of the users machine
-    // if(localStorage.getItem("userID")===null){
-    //   //user has not been here before
-    //   //need to set him a new ID
-    //   console.log(uuidv4(v4options));
-    //   updateUserID("uuidv4(v4options)");
-    // }
-  }else{
-    // console.log('user is not logged in via google auth');
-    updateUserID("s2fzRx7aPuWaQpWJqncb006Ilw02");
-    updateCountryRef(ref(db, "users/s2fzRx7aPuWaQpWJqncb006Ilw02/countries"))
-
-  }
+    //if there is a user then we can asing the user id variable with the google uid value. this will be conistant with the users data
+    if (user) {
+      // console.log("signed in as user");
+      updateUserID(user.uid);
+      updateCountryRef(ref(db, "users/", user.uid, "/countries"));
+    } else {
+      //there is no user logged in via the google auth. We now need to see if the user has been to the site before and logged data as a guest using the local storage.
+      if (localStorage.getItem("userID") === null) {
+        //the user has never been here before
+        console.log("the user has never been here before");
+        //now we need to supply the user with a UID.
+        localStorage.setItem("userID", "uuidv4(v4options)");
+        //now update the variabe for user ID
+        //   //user has not been here before
+        //   //need to set him a new ID
+        //   console.log(uuidv4(v4options));
+        //   updateUserID("uuidv4(v4options)");
+      }
+      //the user has been here before, we do not need to do anything with the id, can use the local storage one
+      updateUserID(localStorage.getItem("userID"));
+      updateCountryRef(ref(db, "users/uuidv4(v4options)/countries"));
+      // console.log('user is not logged in via google auth');
+    }
 
     onValue(countrriesRef, (snapshot) => {
       // Iterate over each child snapshot within the "countries" list
@@ -78,19 +86,13 @@ const Dashboard = (props) => {
         countriesArray.push(countryData);
       });
     });
-  
   });
   // console.log(reference);
- 
 
-
-// const reference = ref(db, "users/",userId,"/countries");
-const [reference,updateRef] = useState(ref(db, "users/",userId,"/countries"));
-
-
-
-
-
+  // const reference = ref(db, "users/",userId,"/countries");
+  const [reference, updateRef] = useState(
+    ref(db, "users/", userId, "/countries")
+  );
 
   // this is for testing of the new array strcuture for sprint 3
   const [newCountryArray, updateNewCountryArray] = useState([
@@ -210,12 +212,12 @@ const [reference,updateRef] = useState(ref(db, "users/",userId,"/countries"));
   const removeFromCountryArrayHandler = (countryName) => {
     const countriesRef = ref(db, "users/" + userId + "/countries");
     for (let i = 0; i < countriesArray.length; i++) {
-      console.log('before if statement');
+      console.log("before if statement");
       if (countriesArray[i].name === countryName) {
-        console.log('made into the remove loop');
+        console.log("made into the remove loop");
         remove(countriesArray, countriesArray[i]);
         set(countriesRef, countriesArray);
-        removeVisitedcountries()
+        removeVisitedcountries();
         removeCheckboxes()
           .then(() => {
             // window.location.reload(false);
@@ -227,8 +229,6 @@ const [reference,updateRef] = useState(ref(db, "users/",userId,"/countries"));
     }
   };
   // now we want to check has the user been to any of the example array countries
-
-
 
   const removeVisitedcountries = () => {
     // console.log("User Database countries", countriesArray);
@@ -255,7 +255,6 @@ const [reference,updateRef] = useState(ref(db, "users/",userId,"/countries"));
     }
   }
 
-
   // this usestate is used to track the statistics of europe visited
   const [europeProgress, updateEuropeProgress] = useState(
     countriesArray.length
@@ -267,9 +266,6 @@ const [reference,updateRef] = useState(ref(db, "users/",userId,"/countries"));
     updateCountryArray((countryArray) => [...countryArray, name]);
     updateShowBtn(true);
   }
- 
-
-
   useEffect(() => {
     // Create a reference to the desired location in the database
     const reference = ref(db, "users/" + userId + "/countries");
@@ -281,11 +277,11 @@ const [reference,updateRef] = useState(ref(db, "users/",userId,"/countries"));
       setData(dataFromDb);
     });
 
-    // Clean up the event listener when the component is unmounted
+    // Clean up the event listener when the component unmounts or when userId changes
     return () => {
       unsubscribe();
     };
-  }, []);
+  }, [userId]); // Add userId to the dependency array
 
   const removeCheckboxes = () => {
     const clist = document.getElementsByClassName("inputCountry");
@@ -294,17 +290,14 @@ const [reference,updateRef] = useState(ref(db, "users/",userId,"/countries"));
     }
   };
 
-
-
-
   // this function is called when the user adds rthe countries to the visited array and this functions unchecks all the
 
   // this is where I will gather the percentages of europe visited
-  const [filter,updateFilter]= useState('Europe');
-  const [mapcountryData,updateMapCountryData]= useState([{}]);
+  const [filter, updateFilter] = useState("Europe");
+  const [mapcountryData, updateMapCountryData] = useState([{}]);
   const pull_data = (EuropeFilter) => {
     updateFilter(EuropeFilter); // LOGS DATA FROM CHILD (My name is Dean Winchester... &)
-  }
+  };
   // onValue(reference, (snapshot) => {
   //   const records = [];
   //   snapshot.forEach((childrenSnapshot) => {
@@ -318,71 +311,65 @@ const [reference,updateRef] = useState(ref(db, "users/",userId,"/countries"));
   //  This is the return JSX for this file
   return (
     <>
-          <SideBar />
-
-
+      <SideBar />
 
       <div class="p-5 sm:ml-64">
         <div class="p-4  min-h-[90vh] bg-white/5  dark:bg rounded-lg  mt-14">
-        
-        {user ?
-
-<h1>Logged in as user {userId}</h1> : <p>Not logged in supplyin {userId}</p>
-}
+          {user ? (
+            <h1>
+              Logged in as user {userId} // {user.uid}
+            </h1>
+          ) : (
+            <p>Not logged in supplyin {userId}</p>
+          )}
           {/* {!user && Cookies.get("GuestLoginStatus") == "false" && <Login />} */}
 
-
           {
-          // user   && (
+            // user   && (
             <>
-           {/* <MapComponent countries={data}  /> */}
-{/* <CountryListComponent func={pull_data}  /> */}
-          
+              <MapComponent countries={data} />
+              <CountryListComponent func={pull_data} userID={userId} />
+
               <div class="grid sm:grid-cols-2 over  xl:grid-cols-4 mt-5 gap-4">
                 <div className="bg-background-main/50 overflow-auto rounded p-3 sm:h-auto h-96 col-span-3 ">
                   <h1 className="text-white text-lg mb-2">Visited Countries</h1>
 
                   <ul key={1}>
-
                     {data &&
-                    
-                    Object.keys(data).map((key) => (
-                      <li key={key} class="w-auto inline-block border-gray-200 rounded-t-lg dark:border-gray-600">
-                      <div class="flex items-center   rounded px-1">
-                        <input
-                          type="checkbox"
-                          onChange={() =>
-                            removeFromCountryArrayHandler(data[key].name)
-                          }
-                          class="test inputCountry w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-                        />
-                        <label
-                          for="vue-checkbox"
-                          class="w-full py-1 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                          {data[key].name}
-                        </label>
-                      </div>
-                    </li>
-                      ))
-                    
-                    
-                    }
-  
+                      Object.keys(data).map((key) => (
+                        <li
+                          key={key}
+                          class="w-auto inline-block border-gray-200 rounded-t-lg dark:border-gray-600">
+                          <div class="flex items-center   rounded px-1">
+                            <input
+                              type="checkbox"
+                              onChange={() =>
+                                removeFromCountryArrayHandler(data[key].name)
+                              }
+                              class="test inputCountry w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                            />
+                            <label
+                              for="vue-checkbox"
+                              class="w-full py-1 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                              {data[key].name}
+                            </label>
+                          </div>
+                        </li>
+                      ))}
                   </ul>
                 </div>
 
-{/* <StatisticsComponent progress={countriesArray.length} filter={filter} visitedArray={data}/> */}
-    
+                <StatisticsComponent
+                  progress={countriesArray.length}
+                  filter={filter}
+                  visitedArray={data}
+                />
               </div>
             </>
-          // )
-          
+            // )
           }
-
-
         </div>
       </div>
-  
     </>
   );
 };
