@@ -40,7 +40,7 @@ const CountryListComponent = (props) => {
 
   const countriesArray = [];
   // const [user, loading] = useAuthState(auth);
-  const [userId, updateUserID] = useState(props.userID);
+  const userId = props.userId;
 
   const [data, setData] = useState([]);
   const [countryBtnShow, updateShowBtn] = useState(false);
