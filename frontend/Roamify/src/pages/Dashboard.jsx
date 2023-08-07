@@ -258,7 +258,7 @@ const Dashboard = (props) => {
             // window.location.reload(false);
           })
           .catch((error) => {
-            console.error("Error updating countries in the database:", error);
+            console.error("Error updating countriesb in the database:", error);
           });
       }
     }
