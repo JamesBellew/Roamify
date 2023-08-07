@@ -46,38 +46,30 @@ const Dashboard = (props) => {
   const app = initializeApp(firebaseConfig);
   const db = getDatabase();
 
-  // this will need to be changerd to getb the usert that is logged in, this caused a bug, so entering it in manually for the moment
-
   const [userId, updateUserID] = useState("s2fzRx7aPuWaQpWJqncb006Ilw03");
   const [countrriesRef, updateCountryRef] = useState(
     ref(db, "users/" + userId + "/countries")
   );
 
   useEffect(() => {
-    //if there is a user then we can asing the user id variable with the google uid value. this will be conistant with the users data
+    //if there is a user then we can assign the user id variable with the google uid value. this will be consistent with the user's data
     if (user) {
-      // console.log("signed in as user");
-      updateUserID(user.uid);
-      updateCountryRef(ref(db, "users/", user.uid, "/countries"));
+      updateUserID("s2fzRx7aPuWaQpWJqncb006Ilw02");
     } else {
-      //there is no user logged in via the google auth. We now need to see if the user has been to the site before and logged data as a guest using the local storage.
+      //there is no user logged in via google auth.
       if (localStorage.getItem("userID") === null) {
         //the user has never been here before
         console.log("the user has never been here before");
         //now we need to supply the user with a UID.
-        localStorage.setItem("userID", "uuidv4(v4options)");
-        //now update the variabe for user ID
-        //   //user has not been here before
-        //   //need to set him a new ID
-        //   console.log(uuidv4(v4options));
-        //   updateUserID("uuidv4(v4options)");
+        const newUserId = "uuidv4(v4options)"; // You need to generate a valid UID here
+        localStorage.setItem("userID", newUserId);
+        //now update the variable for user ID
+        updateUserID(newUserId);
       }
-      //the user has been here before, we do not need to do anything with the id, can use the local storage one
-      updateUserID(localStorage.getItem("userID"));
-      updateCountryRef(ref(db, "users/uuidv4(v4options)/countries"));
-      // console.log('user is not logged in via google auth');
     }
+  }, []); // Empty dependency array, so this useEffect runs only once on mount
 
+  useEffect(() => {
     onValue(countrriesRef, (snapshot) => {
       // Iterate over each child snapshot within the "countries" list
       snapshot.forEach((childSnapshot) => {
@@ -86,7 +78,53 @@ const Dashboard = (props) => {
         countriesArray.push(countryData);
       });
     });
-  });
+  }, [countrriesRef]); // Add countrriesRef as a dependency to this useEffect to re-run it when countrriesRef changes
+  useEffect(() => {
+    updateCountryRef(ref(db, "users/" + userId + "/countries"));
+  }, [userId]);
+  // ...rest of your component code
+
+  // this will need to be changerd to getb the usert that is logged in, this caused a bug, so entering it in manually for the moment
+
+  // const [userId, updateUserID] = useState("s2fzRx7aPuWaQpWJqncb006Ilw03");
+  // const [countrriesRef, updateCountryRef] = useState(
+  //   ref(db, "users/" + userId + "/countries")
+  // );
+
+  // useEffect(() => {
+  //   //if there is a user then we can asing the user id variable with the google uid value. this will be conistant with the users data
+  //   if (user) {
+  //     // console.log("signed in as user");
+  //     updateUserID(user.uid);
+  //     updateCountryRef(ref(db, "users/", user.uid, "/countries"));
+  //   } else {
+  //     //there is no user logged in via the google auth. We now need to see if the user has been to the site before and logged data as a guest using the local storage.
+  //     if (localStorage.getItem("userID") === null) {
+  //       //the user has never been here before
+  //       console.log("the user has never been here before");
+  //       //now we need to supply the user with a UID.
+  //       localStorage.setItem("userID", "uuidv4(v4options)");
+  //       //now update the variabe for user ID
+  //       //   //user has not been here before
+  //       //   //need to set him a new ID
+  //       //   console.log(uuidv4(v4options));
+  //       //   updateUserID("uuidv4(v4options)");
+  //     }
+  //     //the user has been here before, we do not need to do anything with the id, can use the local storage one
+  //     updateUserID(localStorage.getItem("userID"));
+  //     updateCountryRef(ref(db, "users/uuidv4(v4options)/countries"));
+  //     // console.log('user is not logged in via google auth');
+  //   }
+
+  //   onValue(countrriesRef, (snapshot) => {
+  //     // Iterate over each child snapshot within the "countries" list
+  //     snapshot.forEach((childSnapshot) => {
+  //       // Get the data from the child snapshot and push it to the array
+  //       const countryData = childSnapshot.val();
+  //       countriesArray.push(countryData);
+  //     });
+  //   });
+  // });
   // console.log(reference);
 
   // const reference = ref(db, "users/",userId,"/countries");
@@ -210,13 +248,17 @@ const Dashboard = (props) => {
 
   // this funcrtion is called when the user wants to remove A country from their gvisted countries array
   const removeFromCountryArrayHandler = (countryName) => {
-    const countriesRef = ref(db, "users/" + userId + "/countries");
+    console.log("clicked");
+    console.log(countryName);
+    console.log(countriesArray);
+    console.log(countriesArray);
+    // const countriesRef = ref(db, "users/" + userId + "/countries");
     for (let i = 0; i < countriesArray.length; i++) {
       console.log("before if statement");
       if (countriesArray[i].name === countryName) {
         console.log("made into the remove loop");
         remove(countriesArray, countriesArray[i]);
-        set(countriesRef, countriesArray);
+        set(countrriesRef, countriesArray);
         removeVisitedcountries();
         removeCheckboxes()
           .then(() => {
@@ -296,7 +338,7 @@ const Dashboard = (props) => {
   const [filter, updateFilter] = useState("Europe");
   const [mapcountryData, updateMapCountryData] = useState([{}]);
   const pull_data = (EuropeFilter) => {
-    updateFilter(EuropeFilter); // LOGS DATA FROM CHILD (My name is Dean Winchester... &)
+    //  updateFilter(EuropeFilter); // LOGS DATA FROM CHILD (My name is Dean Winchester... &)
   };
   // onValue(reference, (snapshot) => {
   //   const records = [];
@@ -327,8 +369,8 @@ const Dashboard = (props) => {
           {
             // user   && (
             <>
-              <MapComponent countries={data} />
-              <CountryListComponent func={pull_data} userID={userId} />
+              <MapComponent c={data} userId={userId} />
+              {/* <CountryListComponent func={pull_data} userID={userId} /> */}
 
               <div class="grid sm:grid-cols-2 over  xl:grid-cols-4 mt-5 gap-4">
                 <div className="bg-background-main/50 overflow-auto rounded p-3 sm:h-auto h-96 col-span-3 ">

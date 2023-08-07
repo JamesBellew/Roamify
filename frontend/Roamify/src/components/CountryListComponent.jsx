@@ -39,23 +39,60 @@ const CountryListComponent = (props) => {
   };
 
   const countriesArray = [];
-  // const [user, loading] = useAuthState(auth);
-  const userId = props.userId;
+  const [user, loading] = useAuthState(auth);
+  // const userId = props.userId;
 
   const [data, setData] = useState([]);
   const [countryBtnShow, updateShowBtn] = useState(false);
   const app = initializeApp(firebaseConfig);
   const db = getDatabase();
-  const reference = ref(db, "users/", userId, "/countries");
+  // const reference = ref(db, "users/", userId, "/countries");
   const [countryFilter, updateCountryFilter] = useState("Europe");
   // this will need to be changerd to getb the usert that is logged in, this caused a bug, so entering it in manually for the moment
   //  console.log('we are usign this id'+ userId);
-  const countrriesRef = ref(db, "users/" + userId + "/countries");
+
   const [countryArray, updateCountryArray] = useState({});
   // const [tableData, setData] = useState([]);
-
   // console.log(countryFilter + " from the list comp");
   const [newCountryArray, updateNewCountryArray] = useState(countryData);
+  const [userID, setLocalUserID] = useState(props.userID);
+
+  // useEffect to update the localUserID when the userID prop changes
+  useEffect(() => {
+    setLocalUserID(props.userID);
+  }, [props.userID]);
+
+  const countrriesRef = ref(db, "users/" + userID + "/countries");
+  // const [userId, updateUserID] = useState("s2fzRx7aPuWaQpWJqncb006Ilw03");
+  // const [countrriesRef, updateCountryRef] = useState(
+  //   ref(db, "users/" + userId + "/countries")
+  // );
+
+  // useEffect(() => {
+  //   //if there is a user then we can asing the user id variable with the google uid value. this will be conistant with the users data
+  //   if (user) {
+  //     // console.log("signed in as user");
+  //     updateUserID(user.uid);
+  //     updateCountryRef(ref(db, "users/", user.uid, "/countries"));
+  //   } else {
+  //     //there is no user logged in via the google auth. We now need to see if the user has been to the site before and logged data as a guest using the local storage.
+  //     if (localStorage.getItem("userID") === null) {
+  //       //the user has never been here before
+  //       console.log("the user has never been here before");
+  //       //now we need to supply the user with a UID.
+  //       localStorage.setItem("userID", "uuidv4(v4options)");
+  //       //now update the variabe for user ID
+  //       //   //user has not been here before
+  //       //   //need to set him a new ID
+  //       //   console.log(uuidv4(v4options));
+  //       //   updateUserID("uuidv4(v4options)");
+  //     }
+  //     //the user has been here before, we do not need to do anything with the id, can use the local storage one
+  //     // updateUserID(localStorage.getItem("userID"));
+  //     // updateCountryRef(ref(db, "users/uuidv4(v4options)/countries"));
+  //     // console.log('user is not logged in via google auth');
+  //   }
+  // });
 
   var removeByAttr = function (arr, attr, value) {
     var i = arr.length;
@@ -123,7 +160,7 @@ const CountryListComponent = (props) => {
   };
   removeVisitedcountries();
 
-  onValue(reference, (snapshot) => {
+  onValue(countrriesRef, (snapshot) => {
     const records = [];
     snapshot.forEach((childrenSnapshot) => {
       let keyName = childrenSnapshot.key;
@@ -143,14 +180,14 @@ const CountryListComponent = (props) => {
     console.log("I;m here ya queddd");
     console.log(name + region);
     const db = getDatabase();
-    const countriesRef = ref(db, "users/" + userId + "/countries");
+    const countriesRef = ref(db, "users/" + userID + "/countries");
     push(countriesRef, { name: name, Region: region });
     removeCheckboxes();
   }
 
   useEffect(() => {
     // Create a reference to the desired location in the database
-    const reference = ref(db, "users/" + userId + "/countries");
+    const reference = ref(db, "users/" + userID + "/countries");
 
     // Attach an event listener to listen for changes in the data
     const unsubscribe = onValue(reference, (snapshot) => {
@@ -189,10 +226,10 @@ const CountryListComponent = (props) => {
   return (
     <>
       <div className="bg-background-main/50 rounded p-1 sm:h-auto px-4 py-4  overflow-auto">
-        {userId ? (
-          <h1>Logged in as user {userId}</h1>
+        {user ? (
+          <h1>Logged in as user {userID}</h1>
         ) : (
-          <p>Not logged in supplyin {userId}</p>
+          <p>Not logged in supplyin {userID}</p>
         )}
         <button
           onClick={() => countryFilterHandler("Europe")}

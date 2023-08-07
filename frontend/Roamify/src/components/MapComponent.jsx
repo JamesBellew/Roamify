@@ -4,11 +4,11 @@ import { useEffect } from "react";
 // import { Height } from "@material-ui/icons";
 import { FaExpand } from "react-icons/fa";
 
-const MapComponent = (props) => {
+const MapComponent = ({ countries, userId }) => {
   const visited = {
     fill: "#8C54FB",
   };
-  const visitedCountries = props.countries;
+  const visitedCountries = countries;
 
   let p1 = {
     ...visitedCountries,
