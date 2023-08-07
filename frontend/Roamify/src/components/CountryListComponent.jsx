@@ -57,10 +57,10 @@ const CountryListComponent = (props) => {
   const [newCountryArray, updateNewCountryArray] = useState(countryData);
   const [userID, setLocalUserID] = useState(props.userID);
 
-  // useEffect to update the localUserID when the userID prop changes
   useEffect(() => {
+    // Update localUserID when userID prop changes
     setLocalUserID(props.userID);
-  }, [props.userID]);
+  }, [props.userID]); // Use props.userID in the dependency array
 
   const countrriesRef = ref(db, "users/" + userID + "/countries");
   // const [userId, updateUserID] = useState("s2fzRx7aPuWaQpWJqncb006Ilw03");

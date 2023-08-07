@@ -52,22 +52,16 @@ const Dashboard = (props) => {
   );
 
   useEffect(() => {
+    console.log("in here");
     //if there is a user then we can assign the user id variable with the google uid value. this will be consistent with the user's data
     if (user) {
+      console.log("user is here");
       updateUserID("s2fzRx7aPuWaQpWJqncb006Ilw02");
-    } else {
-      //there is no user logged in via google auth.
-      if (localStorage.getItem("userID") === null) {
-        //the user has never been here before
-        console.log("the user has never been here before");
-        //now we need to supply the user with a UID.
-        const newUserId = "uuidv4(v4options)"; // You need to generate a valid UID here
-        localStorage.setItem("userID", newUserId);
-        //now update the variable for user ID
-        updateUserID(newUserId);
-      }
+    } else if (!user) {
+      updateUserID("uuidv4(v4options)");
     }
-  }, []); // Empty dependency array, so this useEffect runs only once on mount
+    console.log(userId + "Boii");
+  }, [user]); // Empty dependency array, so this useEffect runs only once on mount
 
   useEffect(() => {
     onValue(countrriesRef, (snapshot) => {
@@ -76,6 +70,7 @@ const Dashboard = (props) => {
         // Get the data from the child snapshot and push it to the array
         const countryData = childSnapshot.val();
         countriesArray.push(countryData);
+        console.log(countriesArray);
       });
     });
   }, [countrriesRef]); // Add countrriesRef as a dependency to this useEffect to re-run it when countrriesRef changes
@@ -232,9 +227,7 @@ const Dashboard = (props) => {
     "Réunion",
     "Saint Martin",
   ]);
-  {
-    // countries.countries.map((item, i) => countryList.push(item.name));
-  }
+
   function remove(arr, what) {
     var found = arr.indexOf(what);
     // console.log(arr);
@@ -247,11 +240,11 @@ const Dashboard = (props) => {
   }
 
   // this funcrtion is called when the user wants to remove A country from their gvisted countries array
+
   const removeFromCountryArrayHandler = (countryName) => {
     console.log("clicked");
     console.log(countryName);
-    console.log(countriesArray);
-    console.log(countriesArray);
+
     // const countriesRef = ref(db, "users/" + userId + "/countries");
     for (let i = 0; i < countriesArray.length; i++) {
       console.log("before if statement");
@@ -273,6 +266,7 @@ const Dashboard = (props) => {
   // now we want to check has the user been to any of the example array countries
 
   const removeVisitedcountries = () => {
+    console.log(countriesArray + "fuckkkkk");
     // console.log("User Database countries", countriesArray);
     for (let i = 0; i < countriesArray.length; i++) {
       removeByAttr(newCountryArray, "countryName", countriesArray[i]);
@@ -369,8 +363,8 @@ const Dashboard = (props) => {
           {
             // user   && (
             <>
-              <MapComponent c={data} userId={userId} />
-              {/* <CountryListComponent func={pull_data} userID={userId} /> */}
+              <MapComponent countries={data} userId={userId} />
+              <CountryListComponent func={pull_data} userID={userId} />
 
               <div class="grid sm:grid-cols-2 over  xl:grid-cols-4 mt-5 gap-4">
                 <div className="bg-background-main/50 overflow-auto rounded p-3 sm:h-auto h-96 col-span-3 ">
