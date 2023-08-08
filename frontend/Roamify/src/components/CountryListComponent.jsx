@@ -119,7 +119,7 @@ const CountryListComponent = (props) => {
     }
   }
 
-  // this funcrtion is called when the user wants to remove A country from their gvisted countries array
+  // TODO : this funcrtion is called when the user wants to remove A country from their gvisted countries array
   const removeFromCountryArrayHandler = (countryName) => {
     const countriesRef = ref(db, "users/" + userId + "/countries");
     for (let i = 0; i < countriesArray.length; i++) {
@@ -139,9 +139,9 @@ const CountryListComponent = (props) => {
       // remove(countryList, countriesArray[i]);
     }
   };
-  // now we want to check has the user been to any of the example array countries
+  // * now we want to check has the user been to any of the example array countries
   onValue(countrriesRef, (snapshot) => {
-    // Iterate over each child snapshot within the "countries" list
+    // * Iterate over each child snapshot within the "countries" list
     snapshot.forEach((childSnapshot) => {
       // Get the data from the child snapshot and push it to the array
       const countryData = childSnapshot.val();
@@ -152,9 +152,9 @@ const CountryListComponent = (props) => {
   const removeVisitedcountries = () => {
     // console.log("User Database countries", countriesArray);
     for (let i = 0; i < countriesArray.length; i++) {
-      // console.log(countriesArray[i]);
-      // countryList.filter((v) => v !== countriesArray[i]);
-      //   remove(newCountryArray, countriesArray[i]);
+      // ! console.log(countriesArray[i]);
+      //! countryList.filter((v) => v !== countriesArray[i]);
+      //!   remove(newCountryArray, countriesArray[i]);
       removeByAttr(newCountryArray, "countryName", countriesArray[i]);
     }
   };
@@ -167,7 +167,7 @@ const CountryListComponent = (props) => {
       let data = childrenSnapshot.val();
       records.push({ key: keyName, data: data });
     });
-    // here is where we need to clear the temp array as the items were pushed to rtdb
+    // ? here is where we need to clear the temp array as the items were pushed to rtdb
   });
   // this usestate is used to track the statistics of europe visited
   const [europeProgress, updateEuropeProgress] = useState(
@@ -225,7 +225,7 @@ const CountryListComponent = (props) => {
   //  This is the return JSX for this file
   return (
     <>
-      <div className="bg-background-main/50 rounded p-1 sm:h-auto px-4 py-4  overflow-auto">
+      <div className="dark:bg-background-main/50 bg-background-main/10 rounded p-1 sm:h-auto px-4 py-4  overflow-auto">
         {user ? (
           <h1>Logged in as user {userID}</h1>
         ) : (
@@ -285,7 +285,7 @@ const CountryListComponent = (props) => {
             Add
           </button>
         )}
-        <ul class="w-full mt-2 mx-auto text-sm font-medium text-gray-900 bg-white   rounded-lg dark:bg-background-main/10 shadow-sm   dark:text-white">
+        <ul class="w-full mt-2 mx-auto text-sm font-medium text-gray-900  bg-background-main/10Pref1   rounded-lg dark:bg-background-main/10 shadow-sm   dark:text-white">
           {filteredCountryArray.map((country) => (
             // <li key={country.id}>{country}</li>
             <li class="w-auto inline-block border-gray-200 rounded-t-lg dark:border-gray-600">

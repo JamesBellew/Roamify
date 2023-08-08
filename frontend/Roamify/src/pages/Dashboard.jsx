@@ -51,18 +51,43 @@ const Dashboard = (props) => {
     ref(db, "users/" + userId + "/countries")
   );
 
+  //? This is the check to see if the user is logged in.
+  //Todo - If the user is logged in Via Google Auth
+  //* Then we assign it the Google Auth UUID.
+  //* Keep the saved countries list using the databse retreival and pushing
+
+  //Todo - If the user is not signed in Via Google
+  //* Check if the user has an array of countries in the localstorage
+  //* If not array exists, this is their first time visiting the site
+  //* Create blank array for the countries visited
+  //* Function for ticking off countries must now be calling the local storage array, not the database array(only for Logged in users)
+  //* Function for Removal of visited countreies to be calling the localstorage array instead of the database array
+
+  //! the below lines of code is for testing and will need to be deleted
+  const TestData = [
+    { name: "Australia", region: "Australia" },
+    { name: "England", region: "Europe" },
+  ];
+  const jsonData = JSON.stringify(TestData);
   useEffect(() => {
     console.log("in here");
-    //if there is a user then we can assign the user id variable with the google uid value. this will be consistent with the user's data
+    //* if there is a user then we can assign the user id variable with the google uid value.
     if (user) {
-      console.log("user is here");
       updateUserID("s2fzRx7aPuWaQpWJqncb006Ilw02");
     } else if (!user) {
+      //! this will need to be removed, as this is using the old database storage for a guest user
       updateUserID("uuidv4(v4options)");
-    }
-    console.log(userId + "Boii");
-  }, [user]); // Empty dependency array, so this useEffect runs only once on mount
+      //! The below is for testing only, this will need to be deleted
 
+      if (localStorage.getItem("countries") === null) {
+        localStorage.setItem("countries", jsonData);
+      }
+      localStorage.setItem("countries", jsonData);
+    }
+  }, [user]); //* Empty dependency array, so this useEffect runs only once on mount
+  const storedData = localStorage.getItem("countries");
+  const parsedData = JSON.parse(storedData);
+  console.log(parsedData);
   useEffect(() => {
     onValue(countrriesRef, (snapshot) => {
       // Iterate over each child snapshot within the "countries" list
@@ -70,7 +95,6 @@ const Dashboard = (props) => {
         // Get the data from the child snapshot and push it to the array
         const countryData = childSnapshot.val();
         countriesArray.push(countryData);
-        console.log(countriesArray);
       });
     });
   }, [countrriesRef]); // Add countrriesRef as a dependency to this useEffect to re-run it when countrriesRef changes
@@ -79,7 +103,7 @@ const Dashboard = (props) => {
   }, [userId]);
   // ...rest of your component code
 
-  // this will need to be changerd to getb the usert that is logged in, this caused a bug, so entering it in manually for the moment
+  //? this will need to be changerd to getb the usert that is logged in, this caused a bug, so entering it in manually for the moment
 
   // const [userId, updateUserID] = useState("s2fzRx7aPuWaQpWJqncb006Ilw03");
   // const [countrriesRef, updateCountryRef] = useState(
@@ -90,11 +114,11 @@ const Dashboard = (props) => {
   //   //if there is a user then we can asing the user id variable with the google uid value. this will be conistant with the users data
   //   if (user) {
   //     // console.log("signed in as user");
-  //     updateUserID(user.uid);
-  //     updateCountryRef(ref(db, "users/", user.uid, "/countries"));
-  //   } else {
+  //    // updateUserID(user.uid);
+  //     //updateCountryRef(ref(db, "users/", user.uid, "/countries"));
+  //   //} else {
   //     //there is no user logged in via the google auth. We now need to see if the user has been to the site before and logged data as a guest using the local storage.
-  //     if (localStorage.getItem("userID") === null) {
+  //    // if (localStorage.getItem("userID") === null) {
   //       //the user has never been here before
   //       console.log("the user has never been here before");
   //       //now we need to supply the user with a UID.
@@ -371,7 +395,7 @@ const Dashboard = (props) => {
                   <h1 className="text-white text-lg mb-2">Visited Countries</h1>
 
                   <ul key={1}>
-                    {data &&
+                    {user &&
                       Object.keys(data).map((key) => (
                         <li
                           key={key}
@@ -388,6 +412,30 @@ const Dashboard = (props) => {
                               for="vue-checkbox"
                               class="w-full py-1 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                               {data[key].name}
+                            </label>
+                          </div>
+                        </li>
+                      ))}
+
+                    {!user &&
+                      Object.keys(parsedData).map((key) => (
+                        <li
+                          key={key}
+                          class="w-auto inline-block border-gray-200 rounded-t-lg dark:border-gray-600">
+                          <div class="flex items-center   rounded px-1">
+                            <input
+                              type="checkbox"
+                              onChange={() =>
+                                removeFromCountryArrayHandler(
+                                  parsedData[key].name
+                                )
+                              }
+                              class="test inputCountry w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                            />
+                            <label
+                              for="vue-checkbox"
+                              class="w-full py-1 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                              {parsedData[key].name}
                             </label>
                           </div>
                         </li>

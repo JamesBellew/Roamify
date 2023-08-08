@@ -39,7 +39,7 @@ const MapComponent = ({ countries, userId }) => {
     <>
       <div class="grid grid-cols-1  gap-4">
         <div
-          className="bg-background-main/50 rounded p-1  px-4 py-5  overflow-auto mb-5 "
+          className="dark:bg-background-main/50 bg-background-main/10 rounded p-1  px-4 py-5  overflow-auto mb-5 "
           style={{ height: mapHeight }}>
           <div className=" absolute z-10 text-white ">
             <FaExpand
