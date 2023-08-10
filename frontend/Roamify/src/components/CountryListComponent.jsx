@@ -144,6 +144,10 @@ const CountryListComponent = (props) => {
     // * Iterate over each child snapshot within the "countries" list
     snapshot.forEach((childSnapshot) => {
       // Get the data from the child snapshot and push it to the array
+      //? here is where we get the visted countries from the user
+      //* We need to conditionally do this depending on if the user is logged in or not
+      //* Checking if logged in with Google Auth
+
       const countryData = childSnapshot.val();
       countriesArray.push(countryData);
     });
@@ -155,7 +159,8 @@ const CountryListComponent = (props) => {
       // ! console.log(countriesArray[i]);
       //! countryList.filter((v) => v !== countriesArray[i]);
       //!   remove(newCountryArray, countriesArray[i]);
-      removeByAttr(newCountryArray, "countryName", countriesArray[i]);
+      // removeByAttr(newCountryArray, "countryName", countriesArray[i]);
+      removeByAttr(props.countries, "countryName", countriesArray[i]);
     }
   };
   removeVisitedcountries();

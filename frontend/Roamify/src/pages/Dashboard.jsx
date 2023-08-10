@@ -358,6 +358,14 @@ const Dashboard = (props) => {
   const pull_data = (EuropeFilter) => {
     //  updateFilter(EuropeFilter); // LOGS DATA FROM CHILD (My name is Dean Winchester... &)
   };
+
+  let countryConditional = [{}];
+  if (user) {
+    countryConditional = data;
+  } else if (!user) {
+    countryConditional = parsedData;
+  }
+
   // onValue(reference, (snapshot) => {
   //   const records = [];
   //   snapshot.forEach((childrenSnapshot) => {
@@ -387,8 +395,12 @@ const Dashboard = (props) => {
           {
             // user   && (
             <>
-              <MapComponent countries={data} userId={userId} />
-              <CountryListComponent func={pull_data} userID={userId} />
+              <MapComponent countries={countryConditional} userId={userId} />
+              <CountryListComponent
+                func={pull_data}
+                countries={countryConditional}
+                userID={userId}
+              />
 
               <div class="grid sm:grid-cols-2 over  xl:grid-cols-4 mt-5 gap-4">
                 <div className="bg-background-main/50 overflow-auto rounded p-3 sm:h-auto h-96 col-span-3 ">
