@@ -161,7 +161,7 @@ const CountryListComponent = (props) => {
       //!   remove(newCountryArray, countriesArray[i]);
       // removeByAttr(newCountryArray, "countryName", countriesArray[i]);
       //! attempting to add the conditional props to the country list to supply the removal function
-      removeByAttr(props.countries, "countryName", countriesArray[i]);
+      removeByAttr(props.countries, "countryName", props.countries[i]);
     }
   };
   removeVisitedcountries();
