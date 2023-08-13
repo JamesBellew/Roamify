@@ -119,7 +119,7 @@ const CountryListComponent = (props) => {
     }
   }
 
-  // TODO : this funcrtion is called when the user wants to remove A country from their gvisted countries array
+  // TODO : this funcrtion is called when the user wants to remove a country from their gvisted countries array
   const removeFromCountryArrayHandler = (countryName) => {
     const countriesRef = ref(db, "users/" + userId + "/countries");
     for (let i = 0; i < countriesArray.length; i++) {
