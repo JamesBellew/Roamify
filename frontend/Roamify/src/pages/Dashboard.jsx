@@ -66,9 +66,9 @@ const Dashboard = (props) => {
   //! the below lines of code is for testing and will need to be deleted
   const TestData = [
     { name: "Australia", Region: "Australia" },
-    { name: "United Kingdom", Region: "Europe" },
-    { name: "Ireland", Region: "Europe" },
-    { name: "France", Region: "Europe" },
+  // { name: "United Kingdom", Region: "Europe" },
+    // { name: "Ireland", Region: "Europe" },
+    // { name: "France", Region: "Europe" },
   ];
   const jsonData = JSON.stringify(TestData);
   useEffect(() => {
@@ -84,12 +84,22 @@ const Dashboard = (props) => {
       if (localStorage.getItem("countries") === null) {
         localStorage.setItem("countries", jsonData);
       }
-      localStorage.setItem("countries", jsonData);
+
+
+      // localStorage.setItem("countries", jsonData);
     }
   }, [user]); //* Empty dependency array, so this useEffect runs only once on mount
   const storedData = localStorage.getItem("countries");
   const parsedData = JSON.parse(storedData);
   console.log(parsedData);
+
+  const newCountry = { name: "Canada", Region: "North America" };
+
+const addLocalStorageCountryVisited = (countryName,countryRegion)=>{
+  const newCountry = { name: countryName, Region: countryRegion };
+  TestData.concat(newCountry);
+  localStorage.setItem("countries",jsonData)
+}
   useEffect(() => {
     onValue(countrriesRef, (snapshot) => {
       // Iterate over each child snapshot within the "countries" list
