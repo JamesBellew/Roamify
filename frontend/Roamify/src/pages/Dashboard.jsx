@@ -63,6 +63,14 @@ const Dashboard = (props) => {
   //* Function for ticking off countries must now be calling the local storage array, not the database array(only for Logged in users)
   //* Function for Removal of visited countreies to be calling the localstorage array instead of the database array
 
+  //! the below lines of code is for testing and will need to be deleted
+  const TestData = [
+    { name: "Australia", Region: "Australia" },
+    { name: "United Kingdom", Region: "Europe" },
+    { name: "Ireland", Region: "Europe" },
+    { name: "France", Region: "Europe" },
+  ];
+  const jsonData = JSON.stringify(TestData);
   useEffect(() => {
     console.log("in here");
     //* if there is a user then we can assign the user id variable with the google uid value.
@@ -73,8 +81,16 @@ const Dashboard = (props) => {
       updateUserID("uuidv4(v4options)");
       //! The below is for testing only, this will need to be deleted
 
-  }
-
+      if (localStorage.getItem("countries") === null) {
+        localStorage.setItem("countries", jsonData);
+      }
+      localStorage.setItem("countries", jsonData);
+    }
+  }, [user]); //* Empty dependency array, so this useEffect runs only once on mount
+  const storedData = localStorage.getItem("countries");
+  const parsedData = JSON.parse(storedData);
+  console.log(parsedData);
+  useEffect(() => {
     onValue(countrriesRef, (snapshot) => {
       // Iterate over each child snapshot within the "countries" list
       snapshot.forEach((childSnapshot) => {
@@ -441,8 +457,11 @@ const Dashboard = (props) => {
                   </ul>
                 </div>
 
-{/* <StatisticsComponent progress={countriesArray.length} filter={filter} visitedArray={data}/> */}
-    
+                <StatisticsComponent
+                  progress={countryConditional.length}
+                  filter={filter}
+                  visitedArray={countryConditional}
+                />
               </div>
             </>
             // )

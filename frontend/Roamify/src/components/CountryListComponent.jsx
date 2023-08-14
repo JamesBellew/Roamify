@@ -155,16 +155,18 @@ const CountryListComponent = (props) => {
 
   const removeVisitedcountries = () => {
     // console.log("User Database countries", countriesArray);
-    for (let i = 0; i < countriesArray.length; i++) {
+    for (let i = 0; i < props.countries.length; i++) {
       // ! console.log(countriesArray[i]);
       //! countryList.filter((v) => v !== countriesArray[i]);
       //!   remove(newCountryArray, countriesArray[i]);
       // removeByAttr(newCountryArray, "countryName", countriesArray[i]);
       //! attempting to add the conditional props to the country list to supply the removal function
-      removeByAttr(props.countries, "countryName", props.countries[i]);
+      removeByAttr(newCountryArray, "countryName", props.countries[i]);
     }
   };
-  removeVisitedcountries();
+  useEffect(() => {
+    removeVisitedcountries();
+  }, [props.countries]);
 
   onValue(countrriesRef, (snapshot) => {
     const records = [];
