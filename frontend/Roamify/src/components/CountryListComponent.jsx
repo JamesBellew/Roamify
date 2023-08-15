@@ -187,9 +187,15 @@ const CountryListComponent = (props) => {
   function handleOnChange(name, region) {
     console.log("I;m here ya queddd");
     console.log(name + region);
-    const db = getDatabase();
-    const countriesRef = ref(db, "users/" + userID + "/countries");
-    push(countriesRef, { name: name, Region: region });
+    //* Here is where we need to decide is the user is logged in and if we are saving to the database or the local storage
+    if (user) {
+      const db = getDatabase();
+      const countriesRef = ref(db, "users/" + userID + "/countries");
+      push(countriesRef, { name: name, Region: region });
+    } else {
+      alert("user not logged in");
+    }
+
     removeCheckboxes();
   }
 
