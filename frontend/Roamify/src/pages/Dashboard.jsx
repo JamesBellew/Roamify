@@ -45,7 +45,7 @@ const Dashboard = (props) => {
   const [countryBtnShow, updateShowBtn] = useState(false);
   const app = initializeApp(firebaseConfig);
   const db = getDatabase();
-
+  const [countryData, setCountryData] = useState([]);
   const [userId, updateUserID] = useState("s2fzRx7aPuWaQpWJqncb006Ilw03");
   const [countrriesRef, updateCountryRef] = useState(
     ref(db, "users/" + userId + "/countries")
@@ -63,18 +63,55 @@ const Dashboard = (props) => {
   //* Function for ticking off countries must now be calling the local storage array, not the database array(only for Logged in users)
   //* Function for Removal of visited countreies to be calling the localstorage array instead of the database array
 
+  //! the below lines of code is for testing and will need to be deleted
+  const TestData = [];
+
+  const jsonData = JSON.stringify(TestData);
+  useEffect(
+    () => {
+      console.log("in here");
+      //* if there is a user then we can assign the user id variable with the google uid value.
+      if (user) {
+        updateUserID("s2fzRx7aPuWaQpWJqncb006Ilw02");
+      } else if (!user) {
+        //! this will need to be removed, as this is using the old database storage for a guest user
+        updateUserID("uuidv4(v4options)");
+        //! The below is for testing only, this will need to be deleted
+
+        if (localStorage.getItem("countries") === null) {
+          localStorage.setItem("countries", jsonData);
+        }
+        // localStorage.setItem("countries", jsonData);
+      }
+    },
+    [user],
+    [localStorage.getItem("countries")]
+  ); //* Empty dependency array, so this useEffect runs only once on mount
+
+  // const storedData = localStorage.getItem("countries");
+  // const parsedData = JSON.parse(storedData);
+  // console.log(parsedData);
   useEffect(() => {
-    console.log("in here");
-    //* if there is a user then we can assign the user id variable with the google uid value.
-    if (user) {
-      updateUserID("s2fzRx7aPuWaQpWJqncb006Ilw02");
-    } else if (!user) {
-      //! this will need to be removed, as this is using the old database storage for a guest user
-      updateUserID("uuidv4(v4options)");
-      //! The below is for testing only, this will need to be deleted
+    // Retrieve data from local storage
+    const storedData = localStorage.getItem("countries");
+    const parsedData = JSON.parse(storedData) || [];
+    setCountryData(parsedData);
 
-  }
+    // Listen for changes in local storage
+    const handleStorageChange = (e) => {
+      if (e.key === "countries") {
+        const updatedData = JSON.parse(e.newValue) || [];
+        setCountryData(updatedData);
+      }
+    };
 
+    window.addEventListener("storage", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, [localStorage.getItem("countries")]); // Run this effect only on mount
+  useEffect(() => {
     onValue(countrriesRef, (snapshot) => {
       // Iterate over each child snapshot within the "countries" list
       snapshot.forEach((childSnapshot) => {
@@ -84,9 +121,13 @@ const Dashboard = (props) => {
       });
     });
   }, [countrriesRef]); // Add countrriesRef as a dependency to this useEffect to re-run it when countrriesRef changes
-  useEffect(() => {
-    updateCountryRef(ref(db, "users/" + userId + "/countries"));
-  }, [userId]);
+  useEffect(
+    () => {
+      updateCountryRef(ref(db, "users/" + userId + "/countries"));
+    },
+    [userId],
+    [localStorage.getItem("countries")]
+  );
   // ...rest of your component code
 
   //? this will need to be changerd to getb the usert that is logged in, this caused a bug, so entering it in manually for the moment
@@ -349,7 +390,7 @@ const Dashboard = (props) => {
   if (user) {
     countryConditional = data;
   } else if (!user) {
-    countryConditional = parsedData;
+    countryConditional = countryData;
   }
 
   // onValue(reference, (snapshot) => {
@@ -416,7 +457,7 @@ const Dashboard = (props) => {
                       ))}
 
                     {!user &&
-                      Object.keys(parsedData).map((key) => (
+                      Object.keys(countryData).map((key) => (
                         <li
                           key={key}
                           class="w-auto inline-block border-gray-200 rounded-t-lg dark:border-gray-600">
@@ -425,7 +466,7 @@ const Dashboard = (props) => {
                               type="checkbox"
                               onChange={() =>
                                 removeFromCountryArrayHandler(
-                                  parsedData[key].name
+                                  countryData[key].name
                                 )
                               }
                               class="test inputCountry w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
@@ -433,7 +474,7 @@ const Dashboard = (props) => {
                             <label
                               for="vue-checkbox"
                               class="w-full py-1 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                              {parsedData[key].name}
+                              {countryData[key].name}
                             </label>
                           </div>
                         </li>
@@ -441,8 +482,11 @@ const Dashboard = (props) => {
                   </ul>
                 </div>
 
-{/* <StatisticsComponent progress={countriesArray.length} filter={filter} visitedArray={data}/> */}
-    
+                <StatisticsComponent
+                  progress={countryConditional.length}
+                  filter={filter}
+                  visitedArray={countryConditional}
+                />
               </div>
             </>
             // )

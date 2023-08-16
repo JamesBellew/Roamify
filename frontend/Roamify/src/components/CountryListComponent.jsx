@@ -155,16 +155,18 @@ const CountryListComponent = (props) => {
 
   const removeVisitedcountries = () => {
     // console.log("User Database countries", countriesArray);
-    for (let i = 0; i < countriesArray.length; i++) {
+    for (let i = 0; i < props.countries.length; i++) {
       // ! console.log(countriesArray[i]);
       //! countryList.filter((v) => v !== countriesArray[i]);
       //!   remove(newCountryArray, countriesArray[i]);
       // removeByAttr(newCountryArray, "countryName", countriesArray[i]);
       //! attempting to add the conditional props to the country list to supply the removal function
-      removeByAttr(props.countries, "countryName", props.countries[i]);
+      removeByAttr(newCountryArray, "countryName", props.countries[i]);
     }
   };
-  removeVisitedcountries();
+  useEffect(() => {
+    removeVisitedcountries();
+  }, [props.countries]);
 
   onValue(countrriesRef, (snapshot) => {
     const records = [];
@@ -183,11 +185,23 @@ const CountryListComponent = (props) => {
   // the below array and function is for when the user clicks on a checkbox of a country it will be added to a temp array(useState array countryArray) awaiting for the user to click on the save button and then this will be added to the firabse databse
 
   function handleOnChange(name, region) {
-    console.log("I;m here ya queddd");
-    console.log(name + region);
-    const db = getDatabase();
-    const countriesRef = ref(db, "users/" + userID + "/countries");
-    push(countriesRef, { name: name, Region: region });
+    //* Here is where we need to decide is the user is logged in and if we are saving to the database or the local storage
+    if (user) {
+      const db = getDatabase();
+      const countriesRef = ref(db, "users/" + userID + "/countries");
+      push(countriesRef, { name: name, Region: region });
+    } else {
+      // Retrieve existing data from local storage
+      const storedTestData =
+        JSON.parse(localStorage.getItem("countries")) || [];
+
+      // Push the new country to the retrieved array
+      storedTestData.push({ name: name, Region: region });
+
+      // Store the updated array back into local storage
+      localStorage.setItem("countries", JSON.stringify(storedTestData));
+    }
+
     removeCheckboxes();
   }
 
