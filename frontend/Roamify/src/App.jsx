@@ -14,7 +14,7 @@ function App() {
 
   return (
     <>
-    
+    {/* //main router */}
      <main class="min-h-screen dark:bg-background-main">
   <BrowserRouter>
   <CookiesProvider>
